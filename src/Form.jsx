@@ -351,15 +351,18 @@ const Form = () => {
         console.log("reaspo9nse", response);
 
         if (!response.ok) {
+          alert("form data not submmitted");
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const result = await response.json();
         console.log('Saved Customer Data:', result);
-
+        alert("An error occurred while submitting the form: Please try again later.");
       } catch (error) {
+        alert("form data not submmitted");
         console.error('Error ', error);
       }
+
 
       // try {
       //   console.log("Trying to save data...");
