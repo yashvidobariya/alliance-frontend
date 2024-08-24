@@ -94,7 +94,7 @@ const Form = () => {
 
 
   const onRemove = (selectedList, removedItem) => {
-    console.log('Remaining Items:', selectedList);
+    //console.log('Remaining Items:', selectedList);
   };
 
   const validation = () => {
@@ -336,10 +336,10 @@ const Form = () => {
         instruction_notes: specialInstructions
       };
 
-      console.log("data", data);
+      //  console.log("data", data);
 
       try {
-        console.log("try")
+        //  console.log("try")
         const response = await fetch(Formdata, {
           method: 'POST',
           headers: {
@@ -348,7 +348,7 @@ const Form = () => {
           body: JSON.stringify(data),
         });
 
-        console.log("reaspo9nse", response);
+        // console.log("reaspo9nse", response);
 
         if (!response.ok) {
           alert("form data not submmitted");
@@ -357,7 +357,7 @@ const Form = () => {
 
         const result = await response.json();
         console.log('Saved Customer Data:', result);
-        alert("An error occurred while submitting the form: Please try again later.");
+        alert("form data submmitted");
       } catch (error) {
         alert("form data not submmitted");
         console.error('Error ', error);
