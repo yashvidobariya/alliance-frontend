@@ -99,25 +99,25 @@ const Form = () => {
 
   const validation = () => {
     let newErrors = {};
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const tenDigitPattern = /^\d{10}$/;
+    // const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // const tenDigitPattern = /^\d{10}$/;
 
-    if (!estimator) newErrors.estimator = 'estimator is required';
-    if (!proposal) newErrors.proposal = 'proposal is required';
+    //  if (!estimator) newErrors.estimator = 'estimator is required';
+    // if (!proposal) newErrors.proposal = 'proposal is required';
     if (!jobName) newErrors.jobName = 'Job Name is required';
-    if (!selectedDate) newErrors.selectedDate = 'Job walk date is required';
-    if (!time) newErrors.time = 'Job walk time is required';
+    // if (!selectedDate) newErrors.selectedDate = 'Job walk date is required';
+    //  if (!time) newErrors.time = 'Job walk time is required';
     // if (!address) newErrors.address = 'Address is required';
     // if (!city) newErrors.city = 'City is required';
     // if (!state) newErrors.state = 'State is required';
     // if (!zip) newErrors.zip = 'Zip is required';
-    if (!customerName) newErrors.customerName = 'Customer Name is required';
-    if (!claimNumber) newErrors.claimNumber = 'Claim Number is required';
-    if (!poNumber) newErrors.poNumber = 'PO Number is required';
-    if (!customerAddress) newErrors.customerAddress = 'Customer Address is required';
-    if (!customerCity) newErrors.customerCity = 'Customer City is required';
-    if (!customerState) newErrors.customerState = 'Customer State is required';
-    if (!customerZip) newErrors.customerZip = 'Customer Zip is required';
+    // if (!customerName) newErrors.customerName = 'Customer Name is required';
+    //if (!claimNumber) newErrors.claimNumber = 'Claim Number is required';
+    //if (!poNumber) newErrors.poNumber = 'PO Number is required';
+    // if (!customerAddress) newErrors.customerAddress = 'Customer Address is required';
+    // if (!customerCity) newErrors.customerCity = 'Customer City is required';
+    //if (!customerState) newErrors.customerState = 'Customer State is required';
+    //  if (!customerZip) newErrors.customerZip = 'Customer Zip is required';
     // // =======owner
     // if (!ownername) newErrors.ownername = 'ownername is required';
     // if (!owneraddress) newErrors.owneraddress = 'owner Address is required';
@@ -154,7 +154,7 @@ const Form = () => {
     // if (!customerState) newErrors.customerState = 'Customer State is required';
     // if (!customerZip) newErrors.customerZip = 'Customer Zip is required';
     // // // ======scopework
-    if (!scopework) newErrors.scopework = 'scopework is required';
+    //if (!scopework) newErrors.scopework = 'scopework is required';
     // // // ===========customertype
     // if (customerTypes.length === 0) newErrors.customerTypes = 'At least one customer type must be selected';
     // console.log("custmoretype", customerTypes)
@@ -174,7 +174,7 @@ const Form = () => {
     // if (!procedure) newErrors.procedure = 'Procedure is required';
     // if (!survey) { newErrors.survey = 'Survey is required'; }
     // // // =======amount
-    if (!contractAmount) newErrors.contractAmount = 'Contract Amount is required';
+    // if (!contractAmount) newErrors.contractAmount = 'Contract Amount is required';
     // else if (isNaN(contractAmount)) newErrors.contractAmount = 'Contract Amount must be a number';
     // if (!lockBoxCombo) newErrors.lockBoxCombo = 'Lock Box Combo is required';
     // if (!specialInstructions) newErrors.specialInstructions = 'Special Instructions are required';
@@ -194,22 +194,22 @@ const Form = () => {
     // } else if (!tenDigitPattern.test(phone)) {
     //   newErrors.phone = 'Phone number must be 10 digits';
     // }
-    if (!customerEmail) {
-      newErrors.customerEmail = 'E-mail is required';
-    } else if (!emailPattern.test(customerEmail)) {
-      newErrors.customerEmail = 'Invalid email pattern';
-    }
-    if (!customerPhone) {
-      newErrors.customerPhone = 'Phone is required';
-    } else if (!tenDigitPattern.test(customerPhone)) {
-      newErrors.customerPhone = 'Phone number must be 10 digits';
-    }
-    if (!customerContact) {
-      newErrors.customerContact = 'Contact is required';
-    }
-    if (!customerCell) {
-      newErrors.customerCell = 'Cell is required';
-    }
+    // if (!customerEmail) {
+    //   newErrors.customerEmail = 'E-mail is required';
+    // } else if (!emailPattern.test(customerEmail)) {
+    //   newErrors.customerEmail = 'Invalid email pattern';
+    // }
+    // if (!customerPhone) {
+    //   newErrors.customerPhone = 'Phone is required';
+    // } else if (!tenDigitPattern.test(customerPhone)) {
+    //   newErrors.customerPhone = 'Phone number must be 10 digits';
+    // }
+    // if (!customerContact) {
+    //   newErrors.customerContact = 'Contact is required';
+    // }
+    // if (!customerCell) {
+    //   newErrors.customerCell = 'Cell is required';
+    // }
     // if (!ownerphone) {
     //   newErrors.ownerphone = 'Phone is required';
     // } else if (!tenDigitPattern.test(ownerphone)) {
@@ -427,10 +427,12 @@ const Form = () => {
 
   return (
     <>
-      <div className='text-right border-b-2 border-black'>
-        <h1 className='text-3xl'>TICK SHEET</h1>
+      <div className='flex items-center justify-between border-b-2 border-black'>
+        <img src="/image/logo.png" className='w-[120px]' alt="Logo" />
+        <h1 className='text-4xl font-bold text-black'>TICK SHEET</h1>
       </div>
-      <div className='flex justify-between mt-4'>
+
+      <div className='flex flex-col justify-between mt-4 md:flex-row'>
         <div>
           <div>
             <label className='font-bold'>Estimator: </label>
@@ -491,7 +493,7 @@ const Form = () => {
           </div>
           {errors.address && <p className='text-red-500'>{errors.address}</p>}
 
-          <div className='flex items-center flex-grow space-x-2'>
+          <div className='flex items-center flex-grow space-x-2 responsive-flex'>
             <div className='flex'>
               <label className='font-bold'>City : </label>
               <input
@@ -512,7 +514,7 @@ const Form = () => {
                 onSelect={projectonSelect}
                 singleSelect={true}
                 placeholder="Select a State"
-                className="w-full p-2 outline-none cursor-pointer"
+                className="p-2 outline-none cursor-pointer custom-width"
               />
             </div>
             {errors.state && <p className='text-red-500'>{errors.state}</p>}
@@ -596,7 +598,7 @@ const Form = () => {
           </div>
           {errors.customerAddress && <p className='text-red-500'>{errors.customerAddress}</p>}
 
-          <div className='flex items-center flex-grow space-x-2'>
+          <div className='flex items-center flex-grow space-x-2 responsive-flex'>
             <div className='flex'>
               <label className='font-bold'>City : </label>
               <input className='w-full border-b-2 border-black outline-none' type="text" value={customerCity}
@@ -663,7 +665,8 @@ const Form = () => {
               onChange={(e) => setOwneraddress(e.target.value)} />
           </div>
           {errors.owneraddress && <span className="text-red-500">{errors.owneraddress}</span>}
-          <div className='flex items-center flex-grow space-x-2'>
+
+          <div className='flex items-center flex-grow space-x-2 responsive-flex'>
             <div className='flex'>
               <label className='font-bold'>City : </label>
               <input className='w-full border-b-2 border-black outline-none' type="text" value={ownercity}
@@ -737,7 +740,7 @@ const Form = () => {
           </div>
           {errors.referraladdress && <div className="text-red-500">{errors.referraladdress}</div>}
 
-          <div className='flex items-center space-x-2'>
+          <div className='flex items-center flex-grow space-x-2 responsive-flex'>
             <div className='flex'>
               <label className='font-bold'>City: </label>
               <input
@@ -757,8 +760,9 @@ const Form = () => {
                 singleSelect={true}
                 onSelect={refferralselect}
                 placeholder="Select a State"
-                className='w-full p-2 outline-none'
+                className='p-2 outline-none responsive-select'
               />
+
             </div>
             {errors.referralstate && <div className="text-red-500">{errors.referralstate}</div>}
 
@@ -897,8 +901,8 @@ const Form = () => {
         </div>
       </section>
 
-      <section className='flex mt-5 '>
-        <div className="md:w-[25%] sm:w-[50%] mx-3 p-3 border-2 rounded-md">
+      <section className="flex mt-5 wrap">
+        <div className="w-full p-3 mx-1 border-2 rounded-md sm:w-1/4 md:w-1/4">
           <h1 className='mb-2 font-extrabold border-b-2'>CUSTOMER TYPE</h1>
           <Multiselect
             options={CustTypeOptions.options}
@@ -911,7 +915,7 @@ const Form = () => {
           {errors.customerTypes && <div className="text-red-500">{errors.customerTypes}</div>}
         </div>
 
-        <div className="w-full md:w-[25%] mr-3 p-3 border-2 rounded-md">
+        <div className="w-full p-3 mx-1 border-2 rounded-md sm:w-1/4 md:w-1/4">
           <h1 className='mb-2 font-extrabold border-b-2'>JOB AND WORK TYPE</h1>
           <Multiselect
             options={JobAndWorkType.options}
@@ -924,166 +928,12 @@ const Form = () => {
           {errors.jobAndWorkTypes && <div className="text-red-500">{errors.jobAndWorkTypes}</div>}
         </div>
 
-        <div className="md:w-[25%] sm:w-[50%] mx-3 p-3 border-2 rounded-md">
+        <div className="w-full p-3 mx-1 border-2 rounded-md sm:w-1/4 md:w-1/4">
           <h1 className='mb-2 font-extrabold border-b-2'>AGENCY INFORMATION</h1>
-
-          <div className='flex'>
-            <label className='font-bold'>EPA ID #</label>
-            <input
-              className='w-full border-b-2 border-black outline-none'
-              type="text"
-              value={epaId}
-              onChange={(e) => setEpaId(e.target.value)}
-            />
-          </div>
-          {errors.epaId && <div className="text-red-500">{errors.epaId}</div>}
-
-          <div className='flex'>
-            <label className='font-bold'>Haz.Manifest:</label>
-            <input
-              className='w-full border-b-2 border-black outline-none'
-              type="text"
-              value={hazManifest}
-              onChange={(e) => setHazManifest(e.target.value)}
-            />
-          </div>
-          {errors.hazManifest && <div className="text-red-500">{errors.hazManifest}</div>}
-
-          <div className='flex'>
-            <label className='font-bold'>Non-Haz. Man.:</label>
-            <input
-              className='w-full border-b-2 border-black outline-none'
-              type="text"
-              value={nonHazManifest}
-              onChange={(e) => setNonHazManifest(e.target.value)}
-            />
-          </div>
-          {errors.nonHazManifest && <div className="text-red-500">{errors.nonHazManifest}</div>}
-
-
-          <div className='flex'>
-            <label className='font-bold'>Non-Haz. Man.&lt;1%:</label>
-            <input
-              className='w-full border-b-2 border-black outline-none'
-              type="text"
-              value={nonHazManLT1}
-              onChange={(e) => setNonHazManLT1(e.target.value)}
-            />
-          </div>
-          {errors.nonHazManLT1 && <div className="text-red-500">{errors.nonHazManLT1}</div>}
-
-
-          <div className='flex'>
-            <label className='font-bold'>Trash:</label>
-            <input
-              className='w-full border-b-2 border-black outline-none'
-              type="text"
-              value={trash}
-              onChange={(e) => setTrash(e.target.value)}
-            />
-          </div>
-          {errors.trash && <div className="text-red-500">{errors.trash}</div>}
-
-
-          <div className='flex'>
-            <label className='font-bold'>Project type:</label>
-            <input
-              className='w-full border-b-2 border-black outline-none'
-              type="text"
-              value={projectType}
-              onChange={(e) => setProjectType(e.target.value)}
-            />
-          </div>
-          {errors.projectType && <div className="text-red-500">{errors.projectType}</div>}
-
-
-          <div className='flex'>
-            <label className='font-bold'>Building size:</label>
-            <input
-              className='w-full border-b-2 border-black outline-none'
-              type="text"
-              value={buildingSize}
-              onChange={(e) => setBuildingSize(e.target.value)}
-            />
-          </div>
-          {errors.buildingSize && <div className="text-red-500">{errors.buildingSize}</div>}
-
-
-          <div className='flex'>
-            <label className='font-bold'>Number of floors:</label>
-            <input
-              className='w-full border-b-2 border-black outline-none'
-              type="text"
-              value={numberOfFloors}
-              onChange={(e) => setNumberOfFloors(e.target.value)}
-            />
-          </div>
-          {errors.numberOfFloors && <div className="text-red-500">{errors.numberOfFloors}</div>}
-
-
-          <div className='flex'>
-            <label className='font-bold'>Building age:</label>
-            <input
-              className='w-full border-b-2 border-black outline-none'
-              type="text"
-              value={buildingAge}
-              onChange={(e) => setBuildingAge(e.target.value)}
-            />
-          </div>
-          {errors.buildingAge && <div className="text-red-500">{errors.buildingAge}</div>}
-
-
-          <div className='flex'>
-            <label className='font-bold'>No. of dwelling units:</label>
-            <input
-              className='w-full border-b-2 border-black outline-none'
-              type="text"
-              value={numDwellingUnits}
-              onChange={(e) => setNumDwellingUnits(e.target.value)}
-            />
-          </div>
-          {errors.numDwellingUnits && <div className="text-red-500">{errors.numDwellingUnits}</div>}
-
-
-          <div className='flex'>
-            <label className='font-bold'>Present/Prior use:</label>
-            <input
-              className='w-full border-b-2 border-black outline-none'
-              type="text"
-              value={priorUse}
-              onChange={(e) => setPriorUse(e.target.value)}
-            />
-          </div>
-          {errors.priorUse && <div className="text-red-500">{errors.priorUse}</div>}
-
-
-          <div className='flex'>
-            <label className='p-2 font-bold'>Procedure:</label>
-            <div>
-              <Multiselect
-                options={UsProcedure.options}
-                displayValue="name"
-                singleSelect={true}
-                placeholder="Select a Procedure"
-                className='w-full p-2 outline-none cursor-pointer'
-                onSelect={agencyinfoselect}
-              />
-
-            </div>
-            {errors.procedure && <div className="text-red-500">{errors.procedure}</div>}
-          </div>
-
-          <div className='flex'>
-            <label className='font-bold'>Survey : </label>
-            <div>
-              <input className='ml-4' type="radio" name="survey" id="yes" value="Yes" onChange={(e) => setSurvey(e.target.value)} /> <label className='font-bold'>Yes</label>
-              <input className='ml-4' type="radio" name="survey" id="no" value="No" onChange={(e) => setSurvey(e.target.value)} /> <label className='font-bold'>NO</label>
-            </div>
-          </div>
+          {/* <!-- AGENCY INFORMATION FORM FIELDS HERE --> */}
         </div>
 
-
-        <div className="md:w-[25%] sm:w-[50%] ml-3 p-3 border-2 rounded-md">
+        <div className="w-full p-3 mx-1 border-2 rounded-md sm:w-1/4 md:w-1/4">
           <div className='flex flex-col p-3 border-2 rounded-md'>
             <label className='font-bold'>Contract Amount:</label>
             <div className='flex'>
@@ -1123,8 +973,9 @@ const Form = () => {
             {errors.specialInstructions && <div className="text-red-500">{errors.specialInstructions}</div>}
           </div>
         </div>
-
       </section>
+
+
       <button
         onClick={handleSave}
         className='float-right px-5 py-2 m-6 text-white bg-blue-500 rounded-lg hover:bg-gray-800 active:bg-gray-900 focus:outline-none'
