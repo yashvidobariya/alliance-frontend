@@ -901,8 +901,8 @@ const Form = () => {
         </div>
       </section>
 
-      <section className="flex mt-5 wrap">
-        <div className="w-full p-3 mx-1 border-2 rounded-md sm:w-1/4 md:w-1/4">
+      <section className='flex mt-5 '>
+        <div className="md:w-[25%] sm:w-[50%] mx-3 p-3 border-2 rounded-md">
           <h1 className='mb-2 font-extrabold border-b-2'>CUSTOMER TYPE</h1>
           <Multiselect
             options={CustTypeOptions.options}
@@ -912,10 +912,11 @@ const Form = () => {
             placeholder="Select Customer Types"
             className={`w-full ${errors.customerTypes ? 'border-red-500' : 'border-black'}`}
           />
+
           {errors.customerTypes && <div className="text-red-500">{errors.customerTypes}</div>}
         </div>
 
-        <div className="w-full p-3 mx-1 border-2 rounded-md sm:w-1/4 md:w-1/4">
+        <div className="w-full md:w-[25%] mr-3 p-3 border-2 rounded-md">
           <h1 className='mb-2 font-extrabold border-b-2'>JOB AND WORK TYPE</h1>
           <Multiselect
             options={JobAndWorkType.options}
@@ -925,15 +926,170 @@ const Form = () => {
             placeholder="Select Job and Work Types"
             className={`w-full ${errors.jobAndWorkTypes ? 'border-red-500' : 'border-black'}`}
           />
+
           {errors.jobAndWorkTypes && <div className="text-red-500">{errors.jobAndWorkTypes}</div>}
         </div>
 
-        <div className="w-full p-3 mx-1 border-2 rounded-md sm:w-1/4 md:w-1/4">
+        <div className="md:w-[25%] sm:w-[50%] mx-3 p-3 border-2 rounded-md">
           <h1 className='mb-2 font-extrabold border-b-2'>AGENCY INFORMATION</h1>
-          {/* <!-- AGENCY INFORMATION FORM FIELDS HERE --> */}
+
+          <div className='flex'>
+            <label className='font-bold'>EPA ID #</label>
+            <input
+              className='w-full border-b-2 border-black outline-none'
+              type="text"
+              value={epaId}
+              onChange={(e) => setEpaId(e.target.value)}
+            />
+          </div>
+          {errors.epaId && <div className="text-red-500">{errors.epaId}</div>}
+
+          <div className='flex'>
+            <label className='font-bold'>Haz.Manifest:</label>
+            <input
+              className='w-full border-b-2 border-black outline-none'
+              type="text"
+              value={hazManifest}
+              onChange={(e) => setHazManifest(e.target.value)}
+            />
+          </div>
+          {errors.hazManifest && <div className="text-red-500">{errors.hazManifest}</div>}
+
+          <div className='flex'>
+            <label className='font-bold'>Non-Haz. Man.:</label>
+            <input
+              className='w-full border-b-2 border-black outline-none'
+              type="text"
+              value={nonHazManifest}
+              onChange={(e) => setNonHazManifest(e.target.value)}
+            />
+          </div>
+          {errors.nonHazManifest && <div className="text-red-500">{errors.nonHazManifest}</div>}
+
+
+          <div className='flex'>
+            <label className='font-bold'>Non-Haz. Man.&lt;1%:</label>
+            <input
+              className='w-full border-b-2 border-black outline-none'
+              type="text"
+              value={nonHazManLT1}
+              onChange={(e) => setNonHazManLT1(e.target.value)}
+            />
+          </div>
+          {errors.nonHazManLT1 && <div className="text-red-500">{errors.nonHazManLT1}</div>}
+
+
+          <div className='flex'>
+            <label className='font-bold'>Trash:</label>
+            <input
+              className='w-full border-b-2 border-black outline-none'
+              type="text"
+              value={trash}
+              onChange={(e) => setTrash(e.target.value)}
+            />
+          </div>
+          {errors.trash && <div className="text-red-500">{errors.trash}</div>}
+
+
+          <div className='flex'>
+            <label className='font-bold'>Project type:</label>
+            <input
+              className='w-full border-b-2 border-black outline-none'
+              type="text"
+              value={projectType}
+              onChange={(e) => setProjectType(e.target.value)}
+            />
+          </div>
+          {errors.projectType && <div className="text-red-500">{errors.projectType}</div>}
+
+
+          <div className='flex'>
+            <label className='font-bold'>Building size:</label>
+            <input
+              className='w-full border-b-2 border-black outline-none'
+              type="text"
+              value={buildingSize}
+              onChange={(e) => setBuildingSize(e.target.value)}
+            />
+          </div>
+          {errors.buildingSize && <div className="text-red-500">{errors.buildingSize}</div>}
+
+
+          <div className='flex'>
+            <label className='font-bold'>Number of floors:</label>
+            <input
+              className='w-full border-b-2 border-black outline-none'
+              type="text"
+              value={numberOfFloors}
+              onChange={(e) => setNumberOfFloors(e.target.value)}
+            />
+          </div>
+          {errors.numberOfFloors && <div className="text-red-500">{errors.numberOfFloors}</div>}
+
+
+          <div className='flex'>
+            <label className='font-bold'>Building age:</label>
+            <input
+              className='w-full border-b-2 border-black outline-none'
+              type="text"
+              value={buildingAge}
+              onChange={(e) => setBuildingAge(e.target.value)}
+            />
+          </div>
+          {errors.buildingAge && <div className="text-red-500">{errors.buildingAge}</div>}
+
+
+          <div className='flex'>
+            <label className='font-bold'>No. of dwelling units:</label>
+            <input
+              className='w-full border-b-2 border-black outline-none'
+              type="text"
+              value={numDwellingUnits}
+              onChange={(e) => setNumDwellingUnits(e.target.value)}
+            />
+          </div>
+          {errors.numDwellingUnits && <div className="text-red-500">{errors.numDwellingUnits}</div>}
+
+
+          <div className='flex'>
+            <label className='font-bold'>Present/Prior use:</label>
+            <input
+              className='w-full border-b-2 border-black outline-none'
+              type="text"
+              value={priorUse}
+              onChange={(e) => setPriorUse(e.target.value)}
+            />
+          </div>
+          {errors.priorUse && <div className="text-red-500">{errors.priorUse}</div>}
+
+
+          <div className='flex'>
+            <label className='p-2 font-bold'>Procedure:</label>
+            <div>
+              <Multiselect
+                options={UsProcedure.options}
+                displayValue="name"
+                singleSelect={true}
+                placeholder="Select a Procedure"
+                className='w-full p-2 outline-none cursor-pointer'
+                onSelect={agencyinfoselect}
+              />
+
+            </div>
+            {errors.procedure && <div className="text-red-500">{errors.procedure}</div>}
+          </div>
+
+          <div className='flex'>
+            <label className='font-bold'>Survey : </label>
+            <div>
+              <input className='ml-4' type="radio" name="survey" id="yes" value="Yes" onChange={(e) => setSurvey(e.target.value)} /> <label className='font-bold'>Yes</label>
+              <input className='ml-4' type="radio" name="survey" id="no" value="No" onChange={(e) => setSurvey(e.target.value)} /> <label className='font-bold'>NO</label>
+            </div>
+          </div>
         </div>
 
-        <div className="w-full p-3 mx-1 border-2 rounded-md sm:w-1/4 md:w-1/4">
+
+        <div className="md:w-[25%] sm:w-[50%] ml-3 p-3 border-2 rounded-md">
           <div className='flex flex-col p-3 border-2 rounded-md'>
             <label className='font-bold'>Contract Amount:</label>
             <div className='flex'>
@@ -973,9 +1129,8 @@ const Form = () => {
             {errors.specialInstructions && <div className="text-red-500">{errors.specialInstructions}</div>}
           </div>
         </div>
+
       </section>
-
-
       <button
         onClick={handleSave}
         className='float-right px-5 py-2 m-6 text-white bg-blue-500 rounded-lg hover:bg-gray-800 active:bg-gray-900 focus:outline-none'
