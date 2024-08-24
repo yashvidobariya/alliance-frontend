@@ -111,7 +111,7 @@ const Form = () => {
     // if (!city) newErrors.city = 'City is required';
     // if (!state) newErrors.state = 'State is required';
     // if (!zip) newErrors.zip = 'Zip is required';
-    // if (!customerName) newErrors.customerName = 'Customer Name is required';
+    if (!customerName) newErrors.customerName = 'Customer Name is required';
     //if (!claimNumber) newErrors.claimNumber = 'Claim Number is required';
     //if (!poNumber) newErrors.poNumber = 'PO Number is required';
     // if (!customerAddress) newErrors.customerAddress = 'Customer Address is required';
