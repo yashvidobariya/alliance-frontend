@@ -523,7 +523,7 @@ const Form = () => {
               <label className='font-bold'>Zip : </label>
               <input
                 className='w-full border-b-2 border-black outline-none'
-                type="number"
+                type="text"
                 value={zip}
                 onChange={(e) => setZip(e.target.value)}
               />
@@ -546,14 +546,14 @@ const Form = () => {
             <label className='font-bold'>Contact : </label>
             <input
               className='w-full border-b-2 border-black outline-none'
-              type="number"
+              type="text"
               value={contact}
               onChange={(e) => setContact(e.target.value)}
             />
             <label className='font-bold'>Phone : </label>
             <input
               className='w-full border-b-2 border-black outline-none'
-              type="number"
+              type="text"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
@@ -584,7 +584,7 @@ const Form = () => {
               onChange={(e) => setClaimNumber(e.target.value)} />
 
             <label className='font-bold'>PO # </label>
-            <input className='w-full border-b-2 border-black outline-none' type="number" value={poNumber}
+            <input className='w-full border-b-2 border-black outline-none' type="text" value={poNumber}
               onChange={(e) => setPoNumber(e.target.value)} />
 
           </div>
@@ -639,10 +639,10 @@ const Form = () => {
           {errors.customerPhone && <p className='text-red-500'>{errors.customerPhone}</p>}
           <div className='flex'>
             <label className='font-bold'>Contact : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="number" value={customerContact}
+            <input className='w-full border-b-2 border-black outline-none' type="text" value={customerContact}
               onChange={(e) => setCustomerContact(e.target.value)} />
             <label className='font-bold'>Cell : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="number" value={customerCell}
+            <input className='w-full border-b-2 border-black outline-none' type="text" value={customerCell}
               onChange={(e) => setCustomerCell(e.target.value)} />
           </div>
           {errors.customerCell && <p className='text-red-500'>{errors.customerCell}</p>}
@@ -695,7 +695,7 @@ const Form = () => {
           </div>
           <div className='flex'>
             <label className='font-bold'>Phone : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="number" value={ownerphone}
+            <input className='w-full border-b-2 border-black outline-none' type="text" value={ownerphone}
               onChange={(e) => setOwnerphone(e.target.value)} />
             <label className='font-bold'>E-mail : </label>
             <input className='w-full border-b-2 border-black outline-none' type="email" value={owneremail}
@@ -705,11 +705,11 @@ const Form = () => {
           {errors.owneremail && <span className="text-red-500">{errors.owneremail}</span>}
           <div className='flex'>
             <label className='font-bold'>Contact : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="number" value={ownercontact}
+            <input className='w-full border-b-2 border-black outline-none' type="text" value={ownercontact}
               onChange={(e) => setOwnercontact(e.target.value)} />
             {errors.ownercontact && <span className="text-red-500">{errors.ownercontact}</span>}
             <label className='font-bold'>Cell : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="number" value={ownercell}
+            <input className='w-full border-b-2 border-black outline-none' type="text" value={ownercell}
               onChange={(e) => setOwnercell(e.target.value)} />
           </div>
           {errors.ownercell && <span className="text-red-500">{errors.ownercell}</span>}
@@ -782,7 +782,7 @@ const Form = () => {
             <label className='font-bold'>Phone: </label>
             <input
               className='w-full border-b-2 border-black outline-none'
-              type="number"
+              type="text"
               value={referralphone}
               onChange={(e) => setreferralphone(e.target.value)}
             />
@@ -800,7 +800,7 @@ const Form = () => {
             <label className='font-bold'>Contact: </label>
             <input
               className='w-full border-b-2 border-black outline-none'
-              type="number"
+              type="text"
               value={referralcontact}
               onChange={(e) => setreferralcontact(e.target.value)}
             />
@@ -808,7 +808,7 @@ const Form = () => {
             <label className='font-bold'>Cell: </label>
             <input
               className='w-full border-b-2 border-black outline-none'
-              type="number"
+              type="text"
               value={referralcell}
               onChange={(e) => setreferralcell(e.target.value)}
             />
@@ -837,7 +837,7 @@ const Form = () => {
 
             <div className='flex'>
               <label className='font-bold'>Phone : </label>
-              <input className='w-full border-b-2 border-black outline-none' type="number" value={acphone1}
+              <input className='w-full border-b-2 border-black outline-none' type="text" value={acphone1}
                 onChange={(e) => setacphone1(e.target.value)} />
               <label className='font-bold'>E-mail : </label>
               <input className='w-full border-b-2 border-black outline-none' type="email" value={acemail1}
@@ -881,7 +881,7 @@ const Form = () => {
             {errors.accmpname3 && <p className='text-red-500'>{errors.accmpname3}</p>}
             <div className='flex'>
               <label className='font-bold'>Phone : </label>
-              <input className='w-full border-b-2 border-black outline-none' type="number" value={acphone3}
+              <input className='w-full border-b-2 border-black outline-none' type="text" value={acphone3}
                 onChange={(e) => setacphone3(e.target.value)} />
               <label className='font-bold'>E-mail : </label>
               <input className='w-full border-b-2 border-black outline-none' type="email" value={acemail3}
