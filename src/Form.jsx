@@ -454,7 +454,7 @@ const Form = () => {
             <DatePicker
               selected={selectedDate}
               onChange={(date) => setSelectedDate(date)}
-              dateFormat="yyyy/MM/dd"
+              dateFormat="MM/dd/YYYY"
               isClearable
               placeholderText="Select a date"
             />
