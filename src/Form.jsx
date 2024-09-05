@@ -5,7 +5,7 @@ import { Formdata } from '../src/Router';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../src/style.css'
-import axios from 'axios';
+import emailjs from '@emailjs/browser';
 
 const Form = () => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -90,8 +90,6 @@ const Form = () => {
   const [contractAmount, setContractAmount] = useState('');
   const [lockBoxCombo, setLockBoxCombo] = useState('');
   const [specialInstructions, setSpecialInstructions] = useState('');
-  // ===========company
-
 
   const onRemove = (selectedList, removedItem) => {
     //console.log('Remaining Items:', selectedList);
@@ -336,52 +334,121 @@ const Form = () => {
         instruction_notes: specialInstructions
       };
 
-      //  console.log("data", data);
-
       try {
-        //  console.log("try")
-        const response = await fetch(Formdata, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data),
-        });
+        // const response = await fetch(Formdata, {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json'
+        //   },
+        //   body: JSON.stringify(data),
+        // });
 
-        // console.log("reaspo9nse", response);
+        // if (!response.ok) {
+        //   alert("Form data not submitted");
+        //   throw new Error(`HTTP error! status: ${response.status}`);
+        // }
+        // const result = await response.json();
+        // console.log('Saved Customer Data:', result);
+        console.log('Saved Customer Data:', data);
+        alert("Form data submitted");
 
-        if (!response.ok) {
-          alert("form data not submmitted");
-          throw new Error(`HTTP error! status: ${response.status}`);
+        const templetedata = {
+          estimator: estimator,
+          proposal: proposal,
+          job_walkDate: selectedDate,
+          job_walkTime: time,
+          job_name: jobName,
+          job_address: address,
+          job_city: city,
+          job_state: state,
+          job_zip: zip,
+          job_email: email,
+          job_contact: contact,
+          job_phone: phone,
+          customer_name: customerName,
+          customer_claim: claimNumber,
+          customer_po: poNumber,
+          customer_address: customerAddress,
+          customer_city: customerCity,
+          customer_state: customerState,
+          customer_zip: customerZip,
+          customer_phone: customerPhone,
+          customer_email: customerEmail,
+          customer_contact: customerContact,
+          customer_cell: customerCell,
+          owner_name: ownername,
+          owner_address: owneraddress,
+          owner_city: ownercity,
+          owner_state: ownerstate,
+          owner_zip: ownerzip,
+          owner_phone: ownerphone,
+          owner_email: owneremail,
+          owner_contact: ownercontact,
+          owner_cell: ownercell,
+          referral_name: referralname,
+          referral_address: referraladdress,
+          referral_city: referralcity,
+          referral_state: referralstate,
+          referral_zip: referralzip,
+          referral_phone: referralphone,
+          referral_email: referralemail,
+          referral_contact: referralcontact,
+          referral_cell: referralcell,
+          ac_name1: acname1,
+          ac_company1: accmpname1,
+          ac_phone1: acphone1,
+          ac_email1: acemail1,
+          ac_name2: acname2,
+          ac_company2: accmpname2,
+          ac_phone2: acphone2,
+          ac_email2: acemail2,
+          ac_name3: acname3,
+          ac_company3: accmpname3,
+          ac_phone3: acphone3,
+          ac_email3: acemail3,
+          scope_work: scopework,
+          customer_type: customerTypes,
+          job_and_work_type: jobAndWorkTypes,
+          epa_id: epaId,
+          haz_manifest: hazManifest,
+          non_haz_man: nonHazManifest,
+          non_haz_man_1pr: nonHazManLT1,
+          trash: trash,
+          project_type: projectType,
+          building_size: buildingSize,
+          number_of_floors: numberOfFloors,
+          building_age: buildingAge,
+          no_of_dwelling_units: numDwellingUnits,
+          present_prior_use: priorUse,
+          procedure: procedure,
+          survey: survey,
+          contract_amount: contractAmount,
+          lock_box_combo: lockBoxCombo,
+          instruction_notes: specialInstructions
+        };
+        if (Array.isArray(templetedata.customer_type)) {
+          templetedata.customer_type = templetedata.customer_type.map(item => item.name).join(',');
         }
-
-        const result = await response.json();
-        console.log('Saved Customer Data:', result);
-        alert("form data submmitted");
+        if (Array.isArray(templetedata.job_and_work_type)) {
+          templetedata.job_and_work_type = templetedata.job_and_work_type.map(item => item.name).join(',');
+        }
+        emailjs
+          .send('service_lhw3x9j', 'template_g5rvd78', templetedata, 'B7IK4pR4P8ucQ8AFf')
+          .then(
+            (response) => {
+              console.log('SUCCESS!', response.status, response.text);
+              alert("Email sent successfully!");
+            },
+            (error) => {
+              console.log('FAILED...', error);
+              alert("Failed to send email.");
+            }
+          );
       } catch (error) {
-        alert("form data not submmitted");
+        alert("Form data not submitted");
         console.error('Error ', error);
       }
-
-
-      // try {
-      //   console.log("Trying to save data...");
-
-      //   const response = await axios.post(Formdata, data, {
-      //     headers: {
-      //       'Content-Type': 'application/json'
-      //     }
-      //   });
-
-      //   console.log('Saved Customer Data:', response.data);
-      //   // Handle success (e.g., show a success message, redirect, etc.)
-
-      // } catch (error) {
-      //   console.error('Error saving customer data:', error);
-      //   // Handle error (e.g., show an error message, etc.)
-      // }
-
-    }
+    };
   };
 
 
