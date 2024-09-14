@@ -353,19 +353,19 @@ const Form = () => {
       };
 
       try {
-        // const response = await fetch(Formdata, {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json'
-        //   },
-        //   body: JSON.stringify(data),
-        // });
-        // if (!response.ok) {
-        //   alert("Form data not submitted");
-        //   throw new Error(`HTTP error! status: ${response.status}`);
-        // }
-        // const result = await response.json();
-        // console.log('Saved Customer Data:', result);
+        const response = await fetch(Formdata, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data),
+        });
+        if (!response.ok) {
+          alert("Form data not submitted");
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const result = await response.json();
+        console.log('Saved Customer Data:', result);
         console.log('Saved Customer Data:', data);
         alert("Form data submitted");
 
