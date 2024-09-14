@@ -90,6 +90,24 @@ const Form = () => {
   const [contractAmount, setContractAmount] = useState('');
   const [lockBoxCombo, setLockBoxCombo] = useState('');
   const [specialInstructions, setSpecialInstructions] = useState('');
+  // ======same
+  const [sameprojectcustmer, setsameprojectcustmer] = useState(false);
+  const [sameprojectowner, setsameprojectowner] = useState(false);
+  const [sameprojectrefferal, setsameprojectrefferal] = useState(false);
+
+  const [samecustomerproject, setsamecustomerproject] = useState(false);
+  const [samecustomerowner, setsamecustomerowner] = useState(false);
+  const [samecustomerrefferal, setsamecustomerrefferal] = useState(false);
+
+  const [sameownerproject, setsameownerproject] = useState(false);
+  const [sameownercustomer, setsameownercustomer] = useState(false);
+  const [sameownerprojects, setsameownerprojects] = useState(false);
+
+  const [samerefferalcustomer, setsamerefferalcustomer] = useState(false);
+  const [samerefferalproject, setsamerefferalproject] = useState(false);
+  const [samerefferalowner, setsamerefferalowner] = useState(false);
+
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const onRemove = (selectedList, removedItem) => {
     //console.log('Remaining Items:', selectedList);
@@ -335,20 +353,19 @@ const Form = () => {
       };
 
       try {
-        const response = await fetch(Formdata, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data),
-        });
-
-        if (!response.ok) {
-          alert("Form data not submitted");
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const result = await response.json();
-        console.log('Saved Customer Data:', result);
+        // const response = await fetch(Formdata, {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json'
+        //   },
+        //   body: JSON.stringify(data),
+        // });
+        // if (!response.ok) {
+        //   alert("Form data not submitted");
+        //   throw new Error(`HTTP error! status: ${response.status}`);
+        // }
+        // const result = await response.json();
+        // console.log('Saved Customer Data:', result);
         console.log('Saved Customer Data:', data);
         alert("Form data submitted");
 
@@ -452,33 +469,321 @@ const Form = () => {
   };
 
 
-  const projectonSelect = (selectedList, selectedItem) => {
-    if (selectedItem) {
-      console.log("select projectonSelect", selectedItem);
-      setState(selectedItem.name);
+  const handleCheckboxChangecustomer = (e) => {
+    setsameprojectcustmer(e.target.checked);
+    if (e.target.checked) {
+      // setCustomerName(customerName);
+      setAddress(prev => prev === '' ? customerAddress : prev);
+      setCity(prev => prev === '' ? customerCity : prev);
+      setState(prev => prev === '' ? customerState : prev);
+      setZip(prev => prev === '' ? customerZip : prev);
+      setPhone(prev => prev === '' ? customerPhone : prev);
+      setContact(prev => prev === '' ? customerContact : prev);
+      setEmail(prev => prev === '' ? customerEmail : prev);
+    } else {
+      //   // setCustomerName('');
+      setAddress('');
+      setCity('');
+      setState('');
+      setZip('');
+      setPhone('');
+      setContact('');
+      setEmail('');
     }
   };
 
-  const customeronSelect = (selectedList, selectedItem) => {
-    if (selectedItem) {
-      setCustomerState(selectedItem.name);
-      console.log("select customerselect", selectedItem);
+  const handleCheckboxChangeowner = (e) => {
+    setsameprojectowner(e.target.checked);
+    if (e.target.checked) {
+      // setCustomerName(customerName);
+      setAddress(prev => prev === '' ? owneraddress : prev);
+      setCity(prev => prev === '' ? ownercity : prev);
+      setState(prev => prev === '' ? ownerstate : prev);
+      setZip(prev => prev === '' ? ownerzip : prev);
+      setPhone(prev => prev === '' ? ownerphone : prev);
+      setContact(prev => prev === '' ? ownercontact : prev);
+      setEmail(prev => prev === '' ? owneremail : prev);
+    } else {
+      setCustomerName('');
+      setAddress('');
+      setCity('');
+      setState('');
+      setZip('');
+      setPhone('');
+      setContact('');
+      setEmail('');
     }
   };
 
-  const owneronSelect = (selectedList, selectedItem) => {
-    if (selectedItem) {
-      setOwnerstate(selectedItem.name);
-      console.log("select owneritem", selectedItem);
+  const handleCheckboxChangerefferal = (e) => {
+    setsameprojectrefferal(e.target.checked);
+    if (e.target.checked) {
+      // setCustomerName(customerName);
+      setAddress(prev => prev === '' ? referraladdress : prev);
+      setCity(prev => prev === '' ? referralcity : prev);
+      setState(prev => prev === '' ? referralstate : prev);
+      setZip(prev => prev === '' ? referralzip : prev);
+      setPhone(prev => prev === '' ? referralphone : prev);
+      setContact(prev => prev === '' ? referralcontact : prev);
+      setEmail(prev => prev === '' ? referralemail : prev);
+    } else {
+      // setCustomerName('');
+      setAddress('');
+      setCity('');
+      setState('');
+      setZip('');
+      setPhone('');
+      setContact('');
+      setEmail('');
     }
   };
 
-  const refferralselect = (selectedList, selectedItem) => {
-    if (selectedItem) {
-      setreferralstate(selectedItem.name);
-      console.log("select refferralselect", selectedItem);
+  const handleCheckboxChangecustomerproject = (e) => {
+    setsamecustomerproject(e.target.checked);
+    if (e.target.checked) {
+      // setCustomerName(customerName);
+      setCustomerAddress(prev => prev === '' ? address : prev);
+      setCustomerCity(prev => prev === '' ? city : prev);
+      setCustomerState(prev => prev === '' ? state : prev);
+      setCustomerZip(prev => prev === '' ? zip : prev);
+      setCustomerPhone(prev => prev === '' ? phone : prev);
+      setCustomerContact(prev => prev === '' ? contact : prev);
+      setCustomerEmail(prev => prev === '' ? email : prev);
+    } else {
+      setCustomerName('');
+      setCustomerAddress("");
+      setCustomerCity("");
+      setCustomerState("");
+      setCustomerZip("");
+      setCustomerPhone("");
+      setCustomerContact("");
+      setCustomerEmail("");
     }
   };
+
+  const handleCheckboxChangecustomerowner = (e) => {
+    setsamecustomerowner(e.target.checked);
+    if (e.target.checked) {
+      // setCustomerName(customerName);
+      setCustomerAddress(prev => prev === '' ? owneraddress : prev);
+      setCustomerCity(prev => prev === '' ? ownercity : prev);
+      setCustomerState(prev => prev === '' ? ownerstate : prev);
+      setCustomerZip(prev => prev === '' ? ownerzip : prev);
+      setCustomerPhone(prev => prev === '' ? ownerphone : prev);
+      setCustomerContact(prev => prev === '' ? ownercontact : prev);
+    } else {
+      setCustomerName('');
+      setCustomerAddress("");
+      setCustomerCity("");
+      setCustomerState("");
+      setCustomerZip("");
+      setCustomerPhone("");
+      setCustomerContact("");
+      setCustomerEmail("");
+    }
+  };
+
+  const handleCheckboxChangecustomerrefferal = (e) => {
+    setsamecustomerrefferal(e.target.checked);
+    if (e.target.checked) {
+      // setCustomerName(customerName);
+      setCustomerAddress(prev => prev === '' ? referraladdress : prev);
+      setCustomerCity(prev => prev === '' ? referralcity : prev);
+      setCustomerState(prev => prev === '' ? referralstate : prev);
+      setCustomerZip(prev => prev === '' ? referralzip : prev);
+      setCustomerPhone(prev => prev === '' ? referralphone : prev);
+      setCustomerContact(prev => prev === '' ? referralcontact : prev);
+      setCustomerEmail(prev => prev === '' ? referralemail : prev);
+    } else {
+      setCustomerName('');
+      setCustomerAddress("");
+      setCustomerCity("");
+      setCustomerState("");
+      setCustomerZip("");
+      setCustomerPhone("");
+      setCustomerContact("");
+      setCustomerEmail("");
+    }
+  };
+
+  const handleCheckboxChangeownerrefferal = (e) => {
+    setsameownerproject(e.target.checked);
+    if (e.target.checked) {
+      // setCustomerName(customerName);
+      setOwneraddress(prev => prev === '' ? referraladdress : prev);
+      setOwnercity(prev => prev === '' ? referralcity : prev);
+      setOwnerstate(prev => prev === '' ? referralstate : prev);
+      setOwnerzip(prev => prev === '' ? referralzip : prev);
+      setOwnerphone(prev => prev === '' ? referralphone : prev);
+      setOwnercontact(prev => prev === '' ? referralcontact : prev);
+      setOwneremail(prev => prev === '' ? referralemail : prev);
+    } else {
+      setCustomerName('');
+      setOwneraddress("");
+      setOwnercity("");
+      setOwnerstate("");
+      setOwnerzip("");
+      setOwnerphone("");
+      setOwnercontact("");
+      setOwneremail("");
+    }
+  };
+
+  const handleCheckboxChangeownercustomer = (e) => {
+    setsameownercustomer(e.target.checked);
+    if (e.target.checked) {
+      // setCustomerName(customerName);
+      setOwneraddress(prev => prev === '' ? customerAddress : prev);
+      setOwnercity(prev => prev === '' ? customerCity : prev);
+      setOwnerstate(prev => prev === '' ? customerState : prev);
+      setOwnerzip(prev => prev === '' ? customerZip : prev);
+      setOwnerphone(prev => prev === '' ? customerPhone : prev);
+      setOwnercontact(prev => prev === '' ? customerContact : prev);
+      setOwneremail(prev => prev === '' ? customerEmail : prev);
+    } else {
+      setCustomerName('');
+      setOwneraddress("");
+      setOwnercity("");
+      setOwnerstate("");
+      setOwnerzip("");
+      setOwnerphone("");
+      setOwnercontact("");
+      setOwneremail("");
+    }
+  };
+
+  const handleCheckboxChangeownerproject = (e) => {
+    setsameownerprojects(e.target.checked);
+    if (e.target.checked) {
+      // setCustomerName(customerName);
+      setOwneraddress(prev => prev === '' ? address : prev);
+      setOwnercity(prev => prev === '' ? city : prev);
+      setOwnerstate(prev => prev === '' ? state : prev);
+      setOwnerzip(prev => prev === '' ? zip : prev);
+      setOwnerphone(prev => prev === '' ? phone : prev);
+      setOwnercontact(prev => prev === '' ? contact : prev);
+      setOwneremail(prev => prev === '' ? email : prev);
+    } else {
+      setCustomerName('');
+      setOwneraddress("");
+      setOwnercity("");
+      setOwnerstate("");
+      setOwnerzip("");
+      setOwnerphone("");
+      setOwnercontact("");
+      setOwneremail("");
+    }
+  };
+
+  const handleCheckboxChangerefferalproject = (e) => {
+    setsamerefferalproject(e.target.checked);
+    if (e.target.checked) {
+      // setCustomerName(customerName);
+      setreferraladdress(prev => prev === '' ? address : prev);
+      setreferralcity(prev => prev === '' ? city : prev);
+      setreferralstate(prev => prev === '' ? state : prev);
+      setreferralzip(prev => prev === '' ? zip : prev);
+      setreferralphone(prev => prev === '' ? phone : prev);
+      setreferralcontact(prev => prev === '' ? contact : prev);
+      setreferralemail(prev => prev === '' ? email : prev);
+    } else {
+      setCustomerName('');
+      setreferraladdress("");
+      setreferralcity("");
+      setreferralstate("");
+      setreferralzip("");
+      setreferralphone("");
+      setreferralcontact("");
+      setreferralemail("");
+    }
+  };
+
+  const handleCheckboxChangerefferalcustomer = (e) => {
+    setsamerefferalcustomer(e.target.checked);
+    if (e.target.checked) {
+      // setCustomerName(customerName);
+      setreferraladdress(prev => prev === '' ? customerAddress : prev);
+      setreferralcity(prev => prev === '' ? customerCity : prev);
+      setreferralstate(prev => prev === '' ? customerState : prev);
+      setreferralzip(prev => prev === '' ? customerZip : prev);
+      setreferralphone(prev => prev === '' ? customerPhone : prev);
+      setreferralcontact(prev => prev === '' ? customerContact : prev);
+      setreferralemail(prev => prev === '' ? customerEmail : prev);
+    } else {
+      setCustomerName('');
+      setreferraladdress("");
+      setreferralcity("");
+      setreferralstate("");
+      setreferralzip("");
+      setreferralphone("");
+      setreferralcontact("");
+      setreferralemail("");
+    }
+  };
+
+  const handleCheckboxChangerefferalowner = (e) => {
+    setsamerefferalowner(e.target.checked);
+    if (e.target.checked) {
+      // setCustomerName(customerName);
+      setreferraladdress(prev => prev === '' ? owneraddress : prev);
+      setreferralcity(prev => prev === '' ? ownercity : prev);
+      setreferralstate(prev => prev === '' ? ownerstate : prev);
+      setreferralzip(prev => prev === '' ? ownerzip : prev);
+      setreferralphone(prev => prev === '' ? ownerphone : prev);
+      setreferralemail(prev => prev === '' ? ownercontact : prev);
+      setreferralcontact(prev => prev === '' ? owneremail : prev);
+    } else {
+      // setCustomerName('');
+      setreferraladdress("");
+      setreferralcity("");
+      setreferralstate("");
+      setreferralzip("");
+      setreferralphone("");
+      setreferralcontact("");
+      setreferralemail("");
+    }
+  };
+
+  const handleSelect = (type, selectedItem) => {
+    if (selectedItem) {
+      switch (type) {
+        case 'project':
+          setState(selectedItem.name);
+          break;
+        case 'customer':
+          setCustomerState(selectedItem.name);
+          break;
+        case 'owner':
+          setOwnerstate(selectedItem.name);
+          break;
+        case 'referral':
+          setreferralstate(selectedItem.name);
+          break;
+        default:
+          break;
+      }
+      setSelectedItem(selectedItem);
+    }
+  };
+
+  // useEffect to synchronize states based on checkboxes
+  useEffect(() => {
+    if (selectedItem) {
+      if (samecustomerproject) setCustomerState(selectedItem.name);
+      if (sameownerprojects) setOwnerstate(selectedItem.name);
+      if (samerefferalproject) setreferralstate(selectedItem.name);
+      if (sameprojectcustmer) setState(selectedItem.name);
+      if (sameownercustomer) setOwnerstate(selectedItem.name);
+      if (samerefferalcustomer) setreferralstate(selectedItem.name);
+      if (sameprojectowner) setState(selectedItem.name);
+      if (samecustomerowner) setOwnerstate(selectedItem.name);
+      if (samerefferalowner) setreferralstate(selectedItem.name);
+      if (sameprojectrefferal) setState(selectedItem.name);
+      if (samecustomerrefferal) setOwnerstate(selectedItem.name);
+      // if (sameownerprojects) setreferralstate(selectedItem.name);
+    }
+  }, [selectedItem, samecustomerproject, sameownerprojects, samerefferalproject, sameprojectcustmer, sameownercustomer, samerefferalcustomer, sameprojectowner, samecustomerowner, samerefferalowner, sameownerprojects]);
+
 
   const agencyinfoselect = (selectedList, selectedItem) => {
     if (selectedItem) {
@@ -490,7 +795,6 @@ const Form = () => {
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
-
 
   return (
     <>
@@ -534,6 +838,7 @@ const Form = () => {
           </div>
         </div>
       </div>
+
       <section className='flex mt-5'>
         <div className='w-1/2 p-3 mr-3 border-2 rounded-md'>
           <h1 className='mb-2 font-extrabold border-b-2'>PROJECT</h1>
@@ -574,12 +879,12 @@ const Form = () => {
 
             <div className='flex items-center '>
               <label className='font-bold'>State :  </label>
-              {/* <input className='w-full border-b-2 border-black outline-none' type="text" /> */}
               <Multiselect
                 options={USStateOptions.options}
                 displayValue="name"
-                onSelect={projectonSelect}
+                onSelect={(selectedList, selectedItem) => handleSelect('project', selectedItem)}
                 singleSelect={true}
+                selectedValues={samecustomerproject && customerState ? [{ name: customerState }] : state ? [{ name: state }] : undefined}
                 placeholder="Select a State"
                 className="p-2 outline-none cursor-pointer custom-width"
               />
@@ -627,7 +932,45 @@ const Form = () => {
           </div>
           {errors.contact && <p className='text-red-500'>{errors.contact}</p>}
           {errors.phone && <p className='text-red-500'>{errors.phone}</p>}
-
+          <input
+            type="checkbox"
+            id="sameaddress"
+            name="sameaddress"
+            value="sameaddress"
+            checked={sameprojectcustmer}
+            disabled={
+              !(sameprojectcustmer || sameprojectowner || sameprojectrefferal) &&
+              (address !== '' || city !== '' || state !== '' || zip !== '' || phone !== '' || contact !== '' || email !== '')
+            }
+            onChange={handleCheckboxChangecustomer}
+          />
+          <label htmlFor="sameaddress">Same contact - Customer</label><br />
+          <input
+            type="checkbox"
+            id="sameaddressowner"
+            name="sameaddressowner"
+            value="sameaddressowner"
+            checked={sameprojectowner}
+            disabled={
+              !(sameprojectcustmer || sameprojectowner || sameprojectrefferal) &&
+              (address !== '' || city !== '' || state !== '' || zip !== '' || phone !== '' || contact !== '' || email !== '')
+            }
+            onChange={handleCheckboxChangeowner}
+          />
+          <label htmlFor="sameaddress">Same contact - Owner</label><br />
+          <input
+            type="checkbox"
+            id="sameaddressrefferal"
+            name="sameaddressrefferal"
+            value="sameaddressrefferal"
+            checked={sameprojectrefferal}
+            disabled={
+              !(sameprojectcustmer || sameprojectowner || sameprojectrefferal) &&
+              (address !== '' || city !== '' || state !== '' || zip !== '' || phone !== '' || contact !== '' || email !== '')
+            }
+            onChange={handleCheckboxChangerefferal}
+          />
+          <label htmlFor="sameaddress">Same contact - Refferal</label>
           {/* <button
             onClick={projecthandleSave}
             className='float-right px-5 py-2 m-6 text-white bg-black rounded-lg hover:bg-gray-800 active:bg-gray-900 focus:outline-none'
@@ -636,6 +979,7 @@ const Form = () => {
             Save
           </button> */}
         </div>
+
         <div className='w-1/2 p-3 ml-3 border-2 rounded-md '>
           <h1 className='mb-2 font-extrabold border-b-2'>CUSTOMER</h1>
           <div className='flex'>
@@ -679,11 +1023,13 @@ const Form = () => {
               <Multiselect
                 options={USStateOptions.options}
                 displayValue="name"
-                onSelect={customeronSelect}
+                onSelect={(selectedList, selectedItem) => handleSelect('customer', selectedItem)}
                 singleSelect={true}
+                selectedValues={sameprojectcustmer && state ? [{ name: state }] : customerState ? [{ name: customerState }] : undefined}
                 placeholder="Select a State"
                 className="w-full p-2 outline-none cursor-pointer"
               />
+
               {errors.customerState && <p className='text-red-500'>{errors.customerState}</p>}
             </div>
             <div className='flex flex-grow space-x-2 text-center'>
@@ -715,8 +1061,52 @@ const Form = () => {
           {errors.customerCell && <p className='text-red-500'>{errors.customerCell}</p>}
           {errors.customerContact && <p className='text-red-500'>{errors.customerContact}</p>}
 
+          <input
+            type="checkbox"
+            id="sameaddress-project-customer"
+            name="sameaddress-project-customer"
+            value="sameaddress-project-customer"
+            checked={samecustomerproject}
+
+            disabled={
+              !(samecustomerproject || samecustomerowner || samecustomerrefferal) &&
+              (customerAddress !== '' || customerCity !== '' || customerState !== '' || customerZip !== '' || customerPhone !== '' || customerContact !== '' || customerEmail !== '')
+            }
+            onChange={handleCheckboxChangecustomerproject}
+          />
+          <label htmlFor="sameaddress-project">Same contact - Project</label><br />
+
+          <input
+            type="checkbox"
+            id="sameaddress-project-owner"
+            name="sameaddress-project-owner"
+            value="sameaddress-project-owner"
+            checked={samecustomerowner}
+            disabled={
+              !(samecustomerproject || samecustomerowner || samecustomerrefferal) &&
+              (customerAddress !== '' || customerCity !== '' || customerState !== '' || customerZip !== '' || customerPhone !== '' || customerContact !== '' || customerEmail !== '')
+            }
+            onChange={handleCheckboxChangecustomerowner}
+          />
+          <label htmlFor="sameaddress-owner">Same contact - Owner</label><br />
+
+          <input
+            type="checkbox"
+            id="sameaddress-project-refferal"
+            name="sameaddress-project-refferal"
+            value="sameaddress-project-refferal"
+            checked={samecustomerrefferal}
+            disabled={
+              !(samecustomerproject || samecustomerowner || samecustomerrefferal) &&
+              (customerAddress !== '' || customerCity !== '' || customerState !== '' || customerZip !== '' || customerPhone !== '' || customerContact !== '' || customerEmail !== '')
+            }
+            onChange={handleCheckboxChangecustomerrefferal}
+          />
+          <label htmlFor="sameaddress-refferal">Same contact - Refferal</label>
         </div>
+
       </section>
+
       <section className='flex mt-5'>
         <div className='w-1/2 p-3 mr-3 border-2 rounded-md'>
           <h1 className='mb-2 font-extrabold border-b-2'>OWNER</h1>
@@ -746,10 +1136,11 @@ const Form = () => {
               <Multiselect
                 options={USStateOptions.options}
                 displayValue="name"
-                onSelect={owneronSelect}
+                onSelect={(selectedList, selectedItem) => handleSelect('owner', selectedItem)}
                 singleSelect={true}
+                selectedValues={sameownerprojects && state ? [{ name: state }] : ownerstate ? [{ name: ownerstate }] : undefined}
                 placeholder="Select a State"
-                className="w-full p-2 outline-none cursor: pointer"
+                className="w-full p-2 outline-none cursor-pointer"
               />
               {errors.ownerstate && <span className="text-red-500">{errors.ownerstate}</span>}
             </div>
@@ -780,6 +1171,49 @@ const Form = () => {
               onChange={(e) => setOwnercell(e.target.value)} />
           </div>
           {errors.ownercell && <span className="text-red-500">{errors.ownercell}</span>}
+          <input
+            type="checkbox"
+            id="sameaddress"
+            name="sameaddress"
+            value="sameaddress"
+            checked={sameownerprojects}
+            onChange={handleCheckboxChangeownerproject}
+
+            disabled={
+              !(sameownerprojects || sameownercustomer || sameownerproject) &&
+              (owneraddress !== '' || ownercity !== '' || ownerstate !== '' || ownerzip !== '' || ownerphone !== '' || ownercontact !== '' || owneremail !== '')
+            }
+          />
+          <label htmlFor="sameaddress">Same contact - Project </label><br />
+          <input
+            type="checkbox"
+            id="sameaddress"
+            name="sameaddress"
+            value="sameaddress"
+            checked={sameownercustomer}
+            // onSelect={refferralselect}
+            onChange={handleCheckboxChangeownercustomer}
+
+            disabled={
+              !(sameownerprojects || sameownercustomer || sameownerproject) &&
+              (owneraddress !== '' || ownercity !== '' || ownerstate !== '' || ownerzip !== '' || ownerphone !== '' || ownercontact !== '' || owneremail !== '')
+            }
+          />
+          <label htmlFor="sameaddress">Same contact - Customer</label><br />
+          <input
+            type="checkbox"
+            id="sameaddress"
+            name="sameaddress"
+            value="sameaddress"
+            checked={sameownerproject}
+            onChange={handleCheckboxChangeownerrefferal}
+
+            disabled={
+              !(sameownerprojects || sameownercustomer || sameownerproject) &&
+              (owneraddress !== '' || ownercity !== '' || ownerstate !== '' || ownerzip !== '' || ownerphone !== '' || ownercontact !== '' || owneremail !== '')
+            }
+          />
+          <label htmlFor="sameaddress">Same contact - Refferal</label>
         </div>
 
         <div className='w-1/2 p-3 ml-3 border-2 rounded-md'>
@@ -824,12 +1258,12 @@ const Form = () => {
               <Multiselect
                 options={USStateOptions.options}
                 displayValue="name"
+                onSelect={(selectedList, selectedItem) => handleSelect('referral', selectedItem)}
                 singleSelect={true}
-                onSelect={refferralselect}
+                selectedValues={sameprojectcustmer && state ? [{ name: state }] : referralstate ? [{ name: referralstate }] : undefined}
                 placeholder="Select a State"
-                className='p-2 outline-none responsive-select'
+                className="w-full p-2 outline-none cursor-pointer"
               />
-
             </div>
             {errors.referralstate && <div className="text-red-500">{errors.referralstate}</div>}
 
@@ -882,7 +1316,47 @@ const Form = () => {
           </div>
           {errors.referralcell && <div className="text-red-500">{errors.referralcell}</div>}
           {errors.referralcontact && <div className="text-red-500">{errors.referralcontact}</div>}
+          <input
+            type="checkbox"
+            id="sameaddress"
+            name="sameaddress"
+            value="sameaddress"
+            checked={samerefferalproject}
+            onChange={handleCheckboxChangerefferalproject}
 
+            disabled={
+              !(samerefferalproject || samerefferalcustomer || samerefferalowner) &&
+              (referraladdress !== '' || referralcity !== '' || referralstate !== '' || referralzip !== '' || referralphone !== '' || referralcontact !== '' || referralemail !== '')
+            }
+          />
+          <label htmlFor="sameaddress">Same contact - Project</label><br />
+
+          <input
+            type="checkbox"
+            id="sameaddress"
+            name="sameaddress"
+            value="sameaddress"
+            checked={samerefferalcustomer}
+            onChange={handleCheckboxChangerefferalcustomer}
+            disabled={
+              !(samerefferalproject || samerefferalcustomer || samerefferalowner) &&
+              (referraladdress !== '' || referralcity !== '' || referralstate !== '' || referralzip !== '' || referralphone !== '' || referralcontact !== '' || referralemail !== '')
+            }
+          />
+          <label htmlFor="sameaddress">Same contact - Customer</label><br />
+          <input
+            type="checkbox"
+            id="sameaddress"
+            name="sameaddress"
+            value="sameaddress"
+            checked={samerefferalowner}
+            onChange={handleCheckboxChangerefferalowner}
+            disabled={
+              !(samerefferalproject || samerefferalcustomer || samerefferalowner) &&
+              (referraladdress !== '' || referralcity !== '' || referralstate !== '' || referralzip !== '' || referralphone !== '' || referralcontact !== '' || referralemail !== '')
+            }
+          />
+          <label htmlFor="sameaddress">Same contact - Owner</label><br />
         </div>
 
 
@@ -1210,3 +1684,4 @@ const Form = () => {
 }
 
 export default Form
+
