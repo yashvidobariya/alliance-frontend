@@ -107,11 +107,18 @@ const Form = () => {
   const [samerefferalproject, setsamerefferalproject] = useState(false);
   const [samerefferalowner, setsamerefferalowner] = useState(false);
 
+  const [samecontact12, setsamecontact12] = useState(false);
+  const [samecontact13, setsamecontact13] = useState(false);
+  const [samecontact21, setsamecontact21] = useState(false);
+  const [samecontact23, setsamecontact23] = useState(false);
+  const [samecontact31, setsamecontact31] = useState(false);
+  const [samecontact32, setsamecontact32] = useState(false);
+
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const onRemove = (selectedList, removedItem) => {
-    //console.log('Remaining Items:', selectedList);
-  };
+  // const onRemove = (selectedList, removedItem) => {
+  //   //console.log('Remaining Items:', selectedList);
+  // };
 
   const validation = () => {
     let newErrors = {};
@@ -744,6 +751,114 @@ const Form = () => {
     }
   };
 
+  const handlecontact12 = (e) => {
+    setsamecontact12(e.target.checked);
+    if (e.target.checked) {
+      // setCustomerName(customerName);
+      setacname1(prev => prev === '' ? acname2 : prev);
+      setaccmpname1(prev => prev === '' ? accmpname2 : prev);
+      setacphone1(prev => prev === '' ? acphone2 : prev);
+      setacemail1(prev => prev === '' ? acemail2 : prev);
+
+    } else {
+      // setCustomerName('');
+      setacname1("");
+      setaccmpname1("");
+      setacphone1("");
+      setacemail1("");
+    }
+  };
+
+  const handlecontact13 = (e) => {
+    setsamecontact13(e.target.checked);
+    if (e.target.checked) {
+      // setCustomerName(customerName);
+      setacname1(prev => prev === '' ? acname3 : prev);
+      setaccmpname1(prev => prev === '' ? accmpname3 : prev);
+      setacphone1(prev => prev === '' ? acphone3 : prev);
+      setacemail1(prev => prev === '' ? acemail3 : prev);
+
+    } else {
+      // setCustomerName('');
+      setacname1("");
+      setaccmpname1("");
+      setacphone1("");
+      setacemail1("");
+    }
+  };
+
+  const handlecontact21 = (e) => {
+    setsamecontact21(e.target.checked);
+    if (e.target.checked) {
+      // setCustomerName(customerName);
+      setacname2(prev => prev === '' ? acname1 : prev);
+      setaccmpname2(prev => prev === '' ? accmpname1 : prev);
+      setacphone2(prev => prev === '' ? acphone1 : prev);
+      setacemail2(prev => prev === '' ? acemail1 : prev);
+
+    } else {
+      // setCustomerName('');
+      setacname2("");
+      setaccmpname2("");
+      setacphone2("");
+      setacemail2("");
+    }
+  };
+
+  const handlecontact23 = (e) => {
+    setsamecontact23(e.target.checked);
+    if (e.target.checked) {
+      // setCustomerName(customerName);
+      setacname2(prev => prev === '' ? acname3 : prev);
+      setaccmpname2(prev => prev === '' ? accmpname3 : prev);
+      setacphone2(prev => prev === '' ? acphone3 : prev);
+      setacemail2(prev => prev === '' ? acemail3 : prev);
+
+    } else {
+      // setCustomerName('');
+      setacname2("");
+      setaccmpname2("");
+      setacphone2("");
+      setacemail2("");
+    }
+  };
+
+  const handlecontact31 = (e) => {
+    setsamecontact31(e.target.checked);
+    if (e.target.checked) {
+      // setCustomerName(customerName);
+      setacname3(prev => prev === '' ? acname1 : prev);
+      setaccmpname3(prev => prev === '' ? accmpname1 : prev);
+      setacphone3(prev => prev === '' ? acphone1 : prev);
+      setacemail3(prev => prev === '' ? acemail1 : prev);
+
+    } else {
+      // setCustomerName('');
+      setacname3("");
+      setaccmpname3("");
+      setacphone3("");
+      setacemail3("");
+    }
+  };
+
+  const handlecontact32 = (e) => {
+    setsamecontact32(e.target.checked);
+    if (e.target.checked) {
+      // setCustomerName(customerName);
+      setacname3(prev => prev === '' ? acname2 : prev);
+      setaccmpname3(prev => prev === '' ? accmpname2 : prev);
+      setacphone3(prev => prev === '' ? acphone2 : prev);
+      setacemail3(prev => prev === '' ? acemail2 : prev);
+
+    } else {
+      // setCustomerName('');
+      setacname3("");
+      setaccmpname3("");
+      setacphone3("");
+      setacemail3("");
+    }
+  };
+
   const handleSelect = (type, selectedItem) => {
     if (selectedItem) {
       switch (type) {
@@ -932,10 +1047,12 @@ const Form = () => {
           </div>
           {errors.contact && <p className='text-red-500'>{errors.contact}</p>}
           {errors.phone && <p className='text-red-500'>{errors.phone}</p>}
+          <br />
           <input
             type="checkbox"
             id="sameaddress"
             name="sameaddress"
+            className="checkbox"
             value="sameaddress"
             checked={sameprojectcustmer}
             disabled={
@@ -944,12 +1061,13 @@ const Form = () => {
             }
             onChange={handleCheckboxChangecustomer}
           />
-          <label htmlFor="sameaddress">Same contact - Customer</label><br />
+          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Customer</label><br />
           <input
             type="checkbox"
             id="sameaddressowner"
             name="sameaddressowner"
             value="sameaddressowner"
+            className="checkbox"
             checked={sameprojectowner}
             disabled={
               !(sameprojectcustmer || sameprojectowner || sameprojectrefferal) &&
@@ -957,11 +1075,12 @@ const Form = () => {
             }
             onChange={handleCheckboxChangeowner}
           />
-          <label htmlFor="sameaddress">Same contact - Owner</label><br />
+          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Owner</label><br />
           <input
             type="checkbox"
             id="sameaddressrefferal"
             name="sameaddressrefferal"
+            className="checkbox"
             value="sameaddressrefferal"
             checked={sameprojectrefferal}
             disabled={
@@ -970,15 +1089,9 @@ const Form = () => {
             }
             onChange={handleCheckboxChangerefferal}
           />
-          <label htmlFor="sameaddress">Same contact - Refferal</label>
-          {/* <button
-            onClick={projecthandleSave}
-            className='float-right px-5 py-2 m-6 text-white bg-black rounded-lg hover:bg-gray-800 active:bg-gray-900 focus:outline-none'
-            aria-label="Save"
-          >
-            Save
-          </button> */}
+          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Refferal</label>
         </div>
+
 
         <div className='w-1/2 p-3 ml-3 border-2 rounded-md '>
           <h1 className='mb-2 font-extrabold border-b-2'>CUSTOMER</h1>
@@ -1060,11 +1173,12 @@ const Form = () => {
           </div>
           {errors.customerCell && <p className='text-red-500'>{errors.customerCell}</p>}
           {errors.customerContact && <p className='text-red-500'>{errors.customerContact}</p>}
-
+          <br />
           <input
             type="checkbox"
             id="sameaddress-project-customer"
             name="sameaddress-project-customer"
+            className="checkbox"
             value="sameaddress-project-customer"
             checked={samecustomerproject}
 
@@ -1074,13 +1188,14 @@ const Form = () => {
             }
             onChange={handleCheckboxChangecustomerproject}
           />
-          <label htmlFor="sameaddress-project">Same contact - Project</label><br />
+          <label htmlFor="sameaddress-project" className='checkbox-label'>Same contact - Project</label><br />
 
           <input
             type="checkbox"
             id="sameaddress-project-owner"
             name="sameaddress-project-owner"
             value="sameaddress-project-owner"
+            className="checkbox"
             checked={samecustomerowner}
             disabled={
               !(samecustomerproject || samecustomerowner || samecustomerrefferal) &&
@@ -1088,13 +1203,14 @@ const Form = () => {
             }
             onChange={handleCheckboxChangecustomerowner}
           />
-          <label htmlFor="sameaddress-owner">Same contact - Owner</label><br />
+          <label htmlFor="sameaddress-owner" className='checkbox-label'>Same contact - Owner</label><br />
 
           <input
             type="checkbox"
             id="sameaddress-project-refferal"
             name="sameaddress-project-refferal"
             value="sameaddress-project-refferal"
+            className="checkbox"
             checked={samecustomerrefferal}
             disabled={
               !(samecustomerproject || samecustomerowner || samecustomerrefferal) &&
@@ -1102,7 +1218,7 @@ const Form = () => {
             }
             onChange={handleCheckboxChangecustomerrefferal}
           />
-          <label htmlFor="sameaddress-refferal">Same contact - Refferal</label>
+          <label htmlFor="sameaddress-refferal" className='checkbox-label'>Same contact - Refferal</label>
         </div>
 
       </section>
@@ -1170,10 +1286,11 @@ const Form = () => {
             <input className='w-full border-b-2 border-black outline-none' type="text" value={ownercell}
               onChange={(e) => setOwnercell(e.target.value)} />
           </div>
-          {errors.ownercell && <span className="text-red-500">{errors.ownercell}</span>}
+          {errors.ownercell && <span className="text-red-500">{errors.ownercell}</span>}<br />
           <input
             type="checkbox"
             id="sameaddress"
+            className="checkbox"
             name="sameaddress"
             value="sameaddress"
             checked={sameownerprojects}
@@ -1184,11 +1301,12 @@ const Form = () => {
               (owneraddress !== '' || ownercity !== '' || ownerstate !== '' || ownerzip !== '' || ownerphone !== '' || ownercontact !== '' || owneremail !== '')
             }
           />
-          <label htmlFor="sameaddress">Same contact - Project </label><br />
+          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Project </label><br />
           <input
             type="checkbox"
             id="sameaddress"
             name="sameaddress"
+            className="checkbox"
             value="sameaddress"
             checked={sameownercustomer}
             // onSelect={refferralselect}
@@ -1199,12 +1317,13 @@ const Form = () => {
               (owneraddress !== '' || ownercity !== '' || ownerstate !== '' || ownerzip !== '' || ownerphone !== '' || ownercontact !== '' || owneremail !== '')
             }
           />
-          <label htmlFor="sameaddress">Same contact - Customer</label><br />
+          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Customer</label><br />
           <input
             type="checkbox"
             id="sameaddress"
             name="sameaddress"
             value="sameaddress"
+            className="checkbox"
             checked={sameownerproject}
             onChange={handleCheckboxChangeownerrefferal}
 
@@ -1213,7 +1332,7 @@ const Form = () => {
               (owneraddress !== '' || ownercity !== '' || ownerstate !== '' || ownerzip !== '' || ownerphone !== '' || ownercontact !== '' || owneremail !== '')
             }
           />
-          <label htmlFor="sameaddress">Same contact - Refferal</label>
+          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Refferal</label>
         </div>
 
         <div className='w-1/2 p-3 ml-3 border-2 rounded-md'>
@@ -1316,10 +1435,12 @@ const Form = () => {
           </div>
           {errors.referralcell && <div className="text-red-500">{errors.referralcell}</div>}
           {errors.referralcontact && <div className="text-red-500">{errors.referralcontact}</div>}
+          <br />
           <input
             type="checkbox"
             id="sameaddress"
             name="sameaddress"
+            className="checkbox"
             value="sameaddress"
             checked={samerefferalproject}
             onChange={handleCheckboxChangerefferalproject}
@@ -1329,13 +1450,14 @@ const Form = () => {
               (referraladdress !== '' || referralcity !== '' || referralstate !== '' || referralzip !== '' || referralphone !== '' || referralcontact !== '' || referralemail !== '')
             }
           />
-          <label htmlFor="sameaddress">Same contact - Project</label><br />
+          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Project</label><br />
 
           <input
             type="checkbox"
             id="sameaddress"
             name="sameaddress"
             value="sameaddress"
+            className="checkbox"
             checked={samerefferalcustomer}
             onChange={handleCheckboxChangerefferalcustomer}
             disabled={
@@ -1343,12 +1465,13 @@ const Form = () => {
               (referraladdress !== '' || referralcity !== '' || referralstate !== '' || referralzip !== '' || referralphone !== '' || referralcontact !== '' || referralemail !== '')
             }
           />
-          <label htmlFor="sameaddress">Same contact - Customer</label><br />
+          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Customer</label><br />
           <input
             type="checkbox"
             id="sameaddress"
             name="sameaddress"
             value="sameaddress"
+            className="checkbox"
             checked={samerefferalowner}
             onChange={handleCheckboxChangerefferalowner}
             disabled={
@@ -1356,7 +1479,7 @@ const Form = () => {
               (referraladdress !== '' || referralcity !== '' || referralstate !== '' || referralzip !== '' || referralphone !== '' || referralcontact !== '' || referralemail !== '')
             }
           />
-          <label htmlFor="sameaddress">Same contact - Owner</label><br />
+          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Owner</label><br />
         </div>
 
 
@@ -1375,7 +1498,6 @@ const Form = () => {
             </div>
             {errors.acname1 && <p className='text-red-500'>{errors.acname1}</p>}
             {errors.accmpname1 && <p className='text-red-500'>{errors.accmpname1}</p>}
-
             <div className='flex'>
               <label className='font-bold'>Phone : </label>
               <input className='w-full border-b-2 border-black outline-none' type="text" value={acphone1}
@@ -1387,6 +1509,38 @@ const Form = () => {
             {errors.acphone1 && <p className='text-red-500'>{errors.acphone1}</p>}
             {errors.acemail1 && <p className='text-red-500'>{errors.acemail1}</p>}
           </div>
+          <input
+            type="checkbox"
+            id="sameaddress"
+            name="sameaddress"
+            className="contact-checkbox"
+            value="sameaddress"
+            checked={samecontact12}
+            onChange={handlecontact12}
+
+            disabled={
+              !(samecontact12 || samecontact13) &&
+              (acname1 !== '' || accmpname1 !== '' || acemail1 !== '' || acphone1)
+            }
+          />
+          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Second Additional Contact</label>
+          <br />
+          <input
+            type="checkbox"
+            id="sameaddress"
+            name="sameaddress"
+            className="contact-checkbox"
+            value="sameaddress"
+            checked={samecontact13}
+            onChange={handlecontact13}
+
+            disabled={
+              !(samecontact12 || samecontact13) &&
+              (acname1 !== '' || accmpname1 !== '' || acemail1 !== '' || acphone1)
+            }
+          />
+          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Third Additional Contact</label>
+
           <div className='mt-5'>
             <div className='flex'>
               <label className='font-bold'>Name : </label>
@@ -1408,6 +1562,37 @@ const Form = () => {
             </div>
             {errors.acphone2 && <p className='text-red-500'>{errors.acphone2}</p>}
             {errors.acemail2 && <p className='text-red-500'>{errors.acemail2}</p>}
+            <input
+              type="checkbox"
+              id="sameaddress"
+              name="sameaddress"
+              className="contact-checkbox"
+              value="sameaddress"
+              checked={samecontact21}
+              onChange={handlecontact21}
+
+              disabled={
+                !(samecontact21 || samecontact23) &&
+                (acname2 !== '' || accmpname2 !== '' || acemail2 !== '' || acphone2)
+              }
+            />
+            <label htmlFor="sameaddress" className='checkbox-label'>Same contact - First Additional Contact</label>
+            <br />
+            <input
+              type="checkbox"
+              id="sameaddress"
+              name="sameaddress"
+              className="contact-checkbox"
+              value="sameaddress"
+              checked={samecontact23}
+              onChange={handlecontact23}
+              disabled={
+                !(samecontact21 || samecontact23) &&
+                (acname2 !== '' || accmpname2 !== '' || acemail2 !== '' || acphone2)
+              }
+            />
+            <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Third Additional Contact</label>
+
           </div>
           <div className='mt-5'>
             <div className='flex'>
@@ -1430,6 +1615,35 @@ const Form = () => {
             </div>
             {errors.acphone3 && <p className='text-red-500'>{errors.acphone3}</p>}
             {errors.acemail3 && <p className='text-red-500'>{errors.acemail3}</p>}
+            <input
+              type="checkbox"
+              id="sameaddress"
+              name="sameaddress"
+              className="contact-checkbox"
+              value="sameaddress"
+              checked={samecontact31}
+              onChange={handlecontact31}
+              disabled={
+                !(samecontact31 || samecontact32) &&
+                (acname3 !== '' || accmpname3 !== '' || acemail3 !== '' || acphone3)
+              }
+            />
+            <label htmlFor="sameaddress" className='checkbox-label'>Same contact - First Additional Contact</label>
+            <br />
+            <input
+              type="checkbox"
+              id="sameaddress"
+              name="sameaddress"
+              className="contact-checkbox"
+              value="sameaddress"
+              checked={samecontact32}
+              onChange={handlecontact32}
+              disabled={
+                !(samecontact31 || samecontact32) &&
+                (acname3 !== '' || accmpname3 !== '' || acemail3 !== '' || acphone3)
+              }
+            />
+            <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Second Additional Contact</label>
           </div>
         </div>
         <div className='w-1/2 p-3 ml-3 border-2 rounded-md'>

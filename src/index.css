@@ -58,3 +58,18 @@ code {
     width: 33.33%;
   }
 }
+
+.checkbox {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.checkbox-label {
+  font-weight: 500;
+}
+
+.contact-checkbox {
+  margin-right: 10px;
+  /* margin-bottom: 10px; */
+  margin-top: 15px;
+}
