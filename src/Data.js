@@ -96,8 +96,9 @@ export const USStateOptions = {
         { name: 'West Virginia', id: 48 },
         { name: 'Wisconsin', id: 49 },
         { name: 'Wyoming', id: 50 },
-    ]
+    ].sort((a, b) => a.name.localeCompare(b.name))
 };
+
 
 export const UsProcedure = {
     options: [
@@ -107,4 +108,13 @@ export const UsProcedure = {
         { name: '4', id: 4 },
         { name: '5', id: 5 }
     ]
+}
+
+
+export const zipdata =
+{
+    "20001": {
+        "city": "Washington",
+        "state": "DC"
+    }
 }

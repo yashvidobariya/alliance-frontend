@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import Multiselect from 'multiselect-react-dropdown';
 import { CustTypeOptions, JobAndWorkType, UsProcedure, USStateOptions } from './Data';
-import { Formdata } from '../src/Router';
+import { account, Formdata } from '../src/Router';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../src/style.css'
 import emailjs from '@emailjs/browser';
+import { zipdata } from '../src/Data'
+import axios from 'axios';
+
 
 const Form = () => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -107,21 +110,93 @@ const Form = () => {
   const [samerefferalproject, setsamerefferalproject] = useState(false);
   const [samerefferalowner, setsamerefferalowner] = useState(false);
 
-  const [samecontact12, setsamecontact12] = useState(false);
-  const [samecontact13, setsamecontact13] = useState(false);
-  const [samecontact21, setsamecontact21] = useState(false);
-  const [samecontact23, setsamecontact23] = useState(false);
-  const [samecontact31, setsamecontact31] = useState(false);
-  const [samecontact32, setsamecontact32] = useState(false);
+  const [isTestingCompany1, setIsTestingCompany1] = useState(false);
+  const [isTestingCompany2, setIsTestingCompany2] = useState(false);
+  const [isTestingCompany3, setIsTestingCompany3] = useState(false);
+  // const [samecontact12, setsamecontact12] = useState(false);
+  // const [samecontact13, setsamecontact13] = useState(false);
+  // const [samecontact21, setsamecontact21] = useState(false);
+  // const [samecontact23, setsamecontact23] = useState(false);
+  // const [samecontact31, setsamecontact31] = useState(false);
+  // const [samecontact32, setsamecontact32] = useState(false);
 
   const [selectedItem, setSelectedItem] = useState(null);
-
   // const onRemove = (selectedList, removedItem) => {
   //   //console.log('Remaining Items:', selectedList);
   // };
+  const [suggestions, setSuggestions] = useState([]);
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [zipError, setZipError] = useState({
+    project: '',
+    customer: '',
+    owner: '',
+    referral: '',
+  });
+
+
+  const handleInputChange = async (e) => {
+    const value = e.target.value;
+    setCustomerName(value);
+
+    if (value.trim) {
+      try {
+        const url = `${account}?searchTerm=${value}`;
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("data", data);
+
+        setSuggestions(Array.isArray(data) ? data : []);
+        setIsDropdownVisible(data.length > 0);
+      } catch (error) {
+        console.error('Error fetching suggestions:', error);
+        setSuggestions([]);
+        setIsDropdownVisible(false);
+      }
+    } else {
+      setSuggestions([]);
+      setIsDropdownVisible(false);
+    }
+  };
+
+
 
   const validation = () => {
     let newErrors = {};
+
+    // if (acname1 || accmpname1 || acphone1 || acemail1) {
+    //   if (!isTestingCompany1) {
+    //     newErrors.testingCompany1 = 'Please check Testing Company before saving.';
+    //   }
+    // }
+
+    // if (acname2 || accmpname2 || acphone2 || acemail2) {
+    //   if (!isTestingCompany2) {
+    //     newErrors.testingCompany2 = 'Please check Testing Company before saving.';
+    //   }
+    // }
+
+    // if (acname3 || accmpname3 || acphone3 || acemail3) {
+    //   if (!isTestingCompany3) {
+    //     newErrors.testingCompany3 = 'Please check Testing Company before saving.';
+    //   }
+    // }
+
+    // If there are errors, set them in state and prevent form submission
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     // const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     // const tenDigitPattern = /^\d{10}$/;
 
@@ -282,7 +357,6 @@ const Form = () => {
 
   const handleSave = async (e) => {
     e.preventDefault();
-
     if (validation()) {
       const data = {
         estimator: estimator,
@@ -359,122 +433,121 @@ const Form = () => {
         instruction_notes: specialInstructions
       };
 
-      try {
-        const response = await fetch(Formdata, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data),
-        });
-        if (!response.ok) {
-          alert("Form data not submitted");
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const result = await response.json();
-        console.log('Saved Customer Data:', result);
-        console.log('Saved Customer Data:', data);
-        alert("Form data submitted");
+      // try {
+      // const response = await fetch(Formdata, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify(data),
+      // });
+      // if (!response.ok) {
+      //   alert("Form data not submitted");
+      //   throw new Error(`HTTP error! status: ${response.status}`);
+      // }
+      // const result = await response.json();
+      // console.log('Saved Customer Data:', result);
+      console.log('Saved Customer Data:', data);
+      alert("Form data submitted");
 
-        const templetedata = {
-          estimator: estimator,
-          proposal: proposal,
-          job_walkDate: selectedDate,
-          job_walkTime: time,
-          job_name: jobName,
-          job_address: address,
-          job_city: city,
-          job_state: state,
-          job_zip: zip,
-          job_email: email,
-          job_contact: contact,
-          job_phone: phone,
-          customer_name: customerName,
-          customer_claim: claimNumber,
-          customer_po: poNumber,
-          customer_address: customerAddress,
-          customer_city: customerCity,
-          customer_state: customerState,
-          customer_zip: customerZip,
-          customer_phone: customerPhone,
-          customer_email: customerEmail,
-          customer_contact: customerContact,
-          customer_cell: customerCell,
-          owner_name: ownername,
-          owner_address: owneraddress,
-          owner_city: ownercity,
-          owner_state: ownerstate,
-          owner_zip: ownerzip,
-          owner_phone: ownerphone,
-          owner_email: owneremail,
-          owner_contact: ownercontact,
-          owner_cell: ownercell,
-          referral_name: referralname,
-          referral_address: referraladdress,
-          referral_city: referralcity,
-          referral_state: referralstate,
-          referral_zip: referralzip,
-          referral_phone: referralphone,
-          referral_email: referralemail,
-          referral_contact: referralcontact,
-          referral_cell: referralcell,
-          ac_name1: acname1,
-          ac_company1: accmpname1,
-          ac_phone1: acphone1,
-          ac_email1: acemail1,
-          ac_name2: acname2,
-          ac_company2: accmpname2,
-          ac_phone2: acphone2,
-          ac_email2: acemail2,
-          ac_name3: acname3,
-          ac_company3: accmpname3,
-          ac_phone3: acphone3,
-          ac_email3: acemail3,
-          scope_work: scopework,
-          customer_type: customerTypes,
-          job_and_work_type: jobAndWorkTypes,
-          epa_id: epaId,
-          haz_manifest: hazManifest,
-          non_haz_man: nonHazManifest,
-          non_haz_man_1pr: nonHazManLT1,
-          trash: trash,
-          project_type: projectType,
-          building_size: buildingSize,
-          number_of_floors: numberOfFloors,
-          building_age: buildingAge,
-          no_of_dwelling_units: numDwellingUnits,
-          present_prior_use: priorUse,
-          procedure: procedure,
-          survey: survey,
-          contract_amount: contractAmount,
-          lock_box_combo: lockBoxCombo,
-          instruction_notes: specialInstructions
-        };
-        if (Array.isArray(templetedata.customer_type)) {
-          templetedata.customer_type = templetedata.customer_type.map(item => item.name).join(',');
-        }
-        if (Array.isArray(templetedata.job_and_work_type)) {
-          templetedata.job_and_work_type = templetedata.job_and_work_type.map(item => item.name).join(',');
-        }
-        emailjs
-          .send('service_lhw3x9j', 'template_g5rvd78', templetedata, 'B7IK4pR4P8ucQ8AFf')
-          .then(
-            (response) => {
-              console.log('SUCCESS!', response.status, response.text);
-              alert("Email sent successfully!");
-            },
-            (error) => {
-              console.log('FAILED...', error);
-              alert("Failed to send email.");
-            }
-          );
-      } catch (error) {
-        alert("Form data not submitted");
-        console.error('Error ', error);
-      }
+      //   const templetedata = {
+      //     estimator: estimator,
+      //     proposal: proposal,
+      //     job_walkDate: selectedDate,
+      //     job_walkTime: time,
+      //     job_name: jobName,
+      //     job_address: address,
+      //     job_city: city,
+      //     job_state: state,
+      //     job_zip: zip,
+      //     job_email: email,
+      //     job_contact: contact,
+      //     job_phone: phone,
+      //     customer_name: customerName,
+      //     customer_claim: claimNumber,
+      //     customer_po: poNumber,
+      //     customer_address: customerAddress,
+      //     customer_city: customerCity,
+      //     customer_state: customerState,
+      //     customer_zip: customerZip,
+      //     customer_phone: customerPhone,
+      //     customer_email: customerEmail,
+      //     customer_contact: customerContact,
+      //     customer_cell: customerCell,
+      //     owner_name: ownername,
+      //     owner_address: owneraddress,
+      //     owner_city: ownercity,
+      //     owner_state: ownerstate,
+      //     owner_zip: ownerzip,
+      //     owner_phone: ownerphone,
+      //     owner_email: owneremail,
+      //     owner_contact: ownercontact,
+      //     owner_cell: ownercell,
+      //     referral_name: referralname,
+      //     referral_address: referraladdress,
+      //     referral_city: referralcity,
+      //     referral_state: referralstate,
+      //     referral_zip: referralzip,
+      //     referral_phone: referralphone,
+      //     referral_email: referralemail,
+      //     referral_contact: referralcontact,
+      //     referral_cell: referralcell,
+      //     ac_name1: acname1,
+      //     ac_company1: accmpname1,
+      //     ac_phone1: acphone1,
+      //     ac_email1: acemail1,
+      //     ac_name2: acname2,
+      //     ac_company2: accmpname2,
+      //     ac_phone2: acphone2,
+      //     ac_email2: acemail2,
+      //     ac_name3: acname3,
+      //     ac_company3: accmpname3,
+      //     ac_phone3: acphone3,
+      //     ac_email3: acemail3,
+      //     scope_work: scopework,
+      //     customer_type: customerTypes,
+      //     job_and_work_type: jobAndWorkTypes,
+      //     epa_id: epaId,
+      //     haz_manifest: hazManifest,
+      //     non_haz_man: nonHazManifest,
+      //     non_haz_man_1pr: nonHazManLT1,
+      //     trash: trash,
+      //     project_type: projectType,
+      //     building_size: buildingSize,
+      //     number_of_floors: numberOfFloors,
+      //     building_age: buildingAge,
+      //     no_of_dwelling_units: numDwellingUnits,
+      //     present_prior_use: priorUse,
+      //     procedure: procedure,
+      //     survey: survey,
+      //     contract_amount: contractAmount,
+      //     lock_box_combo: lockBoxCombo,
+      //     instruction_notes: specialInstructions
+      //   };
+      //   if (Array.isArray(templetedata.customer_type)) {
+      //     templetedata.customer_type = templetedata.customer_type.map(item => item.name).join(',');
+      //   }
+      //   if (Array.isArray(templetedata.job_and_work_type)) {
+      //     templetedata.job_and_work_type = templetedata.job_and_work_type.map(item => item.name).join(',');
+      //   }
+      //   emailjs
+      //     .send('service_lhw3x9j', 'template_g5rvd78', templetedata, 'B7IK4pR4P8ucQ8AFf')
+      //     .then(
+      //       (response) => {
+      //         console.log('SUCCESS!', response.status, response.text);
+      //         alert("Email sent successfully!");
+      //       },
+      //       (error) => {
+      //         console.log('FAILED...', error);
+      //         alert("Failed to send email.");
+      //       }
+      //     );
+      // } catch (error) {
+      //   alert("Form data not submitted");
+      //   console.error('Error ', error);
+      // }
     };
   };
-
 
   const handleCheckboxChangecustomer = (e) => {
     setsameprojectcustmer(e.target.checked);
@@ -751,113 +824,113 @@ const Form = () => {
     }
   };
 
-  const handlecontact12 = (e) => {
-    setsamecontact12(e.target.checked);
-    if (e.target.checked) {
-      // setCustomerName(customerName);
-      setacname1(prev => prev === '' ? acname2 : prev);
-      setaccmpname1(prev => prev === '' ? accmpname2 : prev);
-      setacphone1(prev => prev === '' ? acphone2 : prev);
-      setacemail1(prev => prev === '' ? acemail2 : prev);
+  // const handlecontact12 = (e) => {
+  //   setsamecontact12(e.target.checked);
+  //   if (e.target.checked) {
+  //     // setCustomerName(customerName);
+  //     setacname1(prev => prev === '' ? acname2 : prev);
+  //     setaccmpname1(prev => prev === '' ? accmpname2 : prev);
+  //     setacphone1(prev => prev === '' ? acphone2 : prev);
+  //     setacemail1(prev => prev === '' ? acemail2 : prev);
 
-    } else {
-      // setCustomerName('');
-      setacname1("");
-      setaccmpname1("");
-      setacphone1("");
-      setacemail1("");
-    }
-  };
+  //   } else {
+  //     // setCustomerName('');
+  //     setacname1("");
+  //     setaccmpname1("");
+  //     setacphone1("");
+  //     setacemail1("");
+  //   }
+  // };
 
-  const handlecontact13 = (e) => {
-    setsamecontact13(e.target.checked);
-    if (e.target.checked) {
-      // setCustomerName(customerName);
-      setacname1(prev => prev === '' ? acname3 : prev);
-      setaccmpname1(prev => prev === '' ? accmpname3 : prev);
-      setacphone1(prev => prev === '' ? acphone3 : prev);
-      setacemail1(prev => prev === '' ? acemail3 : prev);
+  // const handlecontact13 = (e) => {
+  //   setsamecontact13(e.target.checked);
+  //   if (e.target.checked) {
+  //     // setCustomerName(customerName);
+  //     setacname1(prev => prev === '' ? acname3 : prev);
+  //     setaccmpname1(prev => prev === '' ? accmpname3 : prev);
+  //     setacphone1(prev => prev === '' ? acphone3 : prev);
+  //     setacemail1(prev => prev === '' ? acemail3 : prev);
 
-    } else {
-      // setCustomerName('');
-      setacname1("");
-      setaccmpname1("");
-      setacphone1("");
-      setacemail1("");
-    }
-  };
+  //   } else {
+  //     // setCustomerName('');
+  //     setacname1("");
+  //     setaccmpname1("");
+  //     setacphone1("");
+  //     setacemail1("");
+  //   }
+  // };
 
-  const handlecontact21 = (e) => {
-    setsamecontact21(e.target.checked);
-    if (e.target.checked) {
-      // setCustomerName(customerName);
-      setacname2(prev => prev === '' ? acname1 : prev);
-      setaccmpname2(prev => prev === '' ? accmpname1 : prev);
-      setacphone2(prev => prev === '' ? acphone1 : prev);
-      setacemail2(prev => prev === '' ? acemail1 : prev);
+  // const handlecontact21 = (e) => {
+  //   setsamecontact21(e.target.checked);
+  //   if (e.target.checked) {
+  //     // setCustomerName(customerName);
+  //     setacname2(prev => prev === '' ? acname1 : prev);
+  //     setaccmpname2(prev => prev === '' ? accmpname1 : prev);
+  //     setacphone2(prev => prev === '' ? acphone1 : prev);
+  //     setacemail2(prev => prev === '' ? acemail1 : prev);
 
-    } else {
-      // setCustomerName('');
-      setacname2("");
-      setaccmpname2("");
-      setacphone2("");
-      setacemail2("");
-    }
-  };
+  //   } else {
+  //     // setCustomerName('');
+  //     setacname2("");
+  //     setaccmpname2("");
+  //     setacphone2("");
+  //     setacemail2("");
+  //   }
+  // };
 
-  const handlecontact23 = (e) => {
-    setsamecontact23(e.target.checked);
-    if (e.target.checked) {
-      // setCustomerName(customerName);
-      setacname2(prev => prev === '' ? acname3 : prev);
-      setaccmpname2(prev => prev === '' ? accmpname3 : prev);
-      setacphone2(prev => prev === '' ? acphone3 : prev);
-      setacemail2(prev => prev === '' ? acemail3 : prev);
+  // const handlecontact23 = (e) => {
+  //   setsamecontact23(e.target.checked);
+  //   if (e.target.checked) {
+  //     // setCustomerName(customerName);
+  //     setacname2(prev => prev === '' ? acname3 : prev);
+  //     setaccmpname2(prev => prev === '' ? accmpname3 : prev);
+  //     setacphone2(prev => prev === '' ? acphone3 : prev);
+  //     setacemail2(prev => prev === '' ? acemail3 : prev);
 
-    } else {
-      // setCustomerName('');
-      setacname2("");
-      setaccmpname2("");
-      setacphone2("");
-      setacemail2("");
-    }
-  };
+  //   } else {
+  //     // setCustomerName('');
+  //     setacname2("");
+  //     setaccmpname2("");
+  //     setacphone2("");
+  //     setacemail2("");
+  //   }
+  // };
 
-  const handlecontact31 = (e) => {
-    setsamecontact31(e.target.checked);
-    if (e.target.checked) {
-      // setCustomerName(customerName);
-      setacname3(prev => prev === '' ? acname1 : prev);
-      setaccmpname3(prev => prev === '' ? accmpname1 : prev);
-      setacphone3(prev => prev === '' ? acphone1 : prev);
-      setacemail3(prev => prev === '' ? acemail1 : prev);
+  // const handlecontact31 = (e) => {
+  //   setsamecontact31(e.target.checked);
+  //   if (e.target.checked) {
+  //     // setCustomerName(customerName);
+  //     setacname3(prev => prev === '' ? acname1 : prev);
+  //     setaccmpname3(prev => prev === '' ? accmpname1 : prev);
+  //     setacphone3(prev => prev === '' ? acphone1 : prev);
+  //     setacemail3(prev => prev === '' ? acemail1 : prev);
 
-    } else {
-      // setCustomerName('');
-      setacname3("");
-      setaccmpname3("");
-      setacphone3("");
-      setacemail3("");
-    }
-  };
+  //   } else {
+  //     // setCustomerName('');
+  //     setacname3("");
+  //     setaccmpname3("");
+  //     setacphone3("");
+  //     setacemail3("");
+  //   }
+  // };
 
-  const handlecontact32 = (e) => {
-    setsamecontact32(e.target.checked);
-    if (e.target.checked) {
-      // setCustomerName(customerName);
-      setacname3(prev => prev === '' ? acname2 : prev);
-      setaccmpname3(prev => prev === '' ? accmpname2 : prev);
-      setacphone3(prev => prev === '' ? acphone2 : prev);
-      setacemail3(prev => prev === '' ? acemail2 : prev);
+  // const handlecontact32 = (e) => {
+  //   setsamecontact32(e.target.checked);
+  //   if (e.target.checked) {
+  //     // setCustomerName(customerName);
+  //     setacname3(prev => prev === '' ? acname2 : prev);
+  //     setaccmpname3(prev => prev === '' ? accmpname2 : prev);
+  //     setacphone3(prev => prev === '' ? acphone2 : prev);
+  //     setacemail3(prev => prev === '' ? acemail2 : prev);
 
-    } else {
-      // setCustomerName('');
-      setacname3("");
-      setaccmpname3("");
-      setacphone3("");
-      setacemail3("");
-    }
-  };
+  //   } else {
+  //     // setCustomerName('');
+  //     setacname3("");
+  //     setaccmpname3("");
+  //     setacphone3("");
+  //     setacemail3("");
+  //   }
+  // };
 
   const handleSelect = (type, selectedItem) => {
     if (selectedItem) {
@@ -910,6 +983,100 @@ const Form = () => {
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
+
+  const handleSuggestionClick = (suggestion) => {
+    setCustomerName(suggestion.account_name);
+    setIsDropdownVisible(false);
+  };
+
+  const handleZipChange = async (e, type) => {
+    const zip = e.target.value;
+    console.log("zip", zip);
+
+    // Set ZIP value based on type
+    switch (type) {
+      case 'project':
+        setZip(zip);
+        break;
+      case 'customer':
+        setCustomerZip(zip);
+        break;
+      case 'owner':
+        setOwnerzip(zip);
+        break;
+      case 'referral':
+        setreferralzip(zip);
+        break;
+      default:
+        break;
+    }
+
+    if (zip.length === 5) {
+      try {
+        const response = await axios.get(`https://api.zippopotam.us/us/${zip}`);
+        const city = response.data.places[0]['place name'];
+        const state = response.data.places[0]['state abbreviation'];
+
+        // Set city and state based on type
+        switch (type) {
+          case 'project':
+            setCity(city);
+            setState(state);
+            setZipError(prev => ({ ...prev, project: '' }));
+            break;
+          case 'customer':
+            setCustomerCity(city);
+            setCustomerState(state);
+            setZipError(prev => ({ ...prev, customer: '' }));
+            break;
+          case 'owner':
+            setOwnercity(city);
+            setOwnerstate(state);
+            setZipError(prev => ({ ...prev, owner: '' }));
+            break;
+          case 'referral':
+            setreferralcity(city);
+            setreferralstate(state);
+            setZipError(prev => ({ ...prev, referral: '' }));
+            break;
+          default:
+            break;
+        }
+
+      } catch (error) {
+        console.error("Error fetching data", error);
+        resetCityState(type);
+        setZipError(prev => ({ ...prev, [type]: 'Please enter a valid ZIP code' }));
+      }
+    } else {
+      resetCityState(type);
+      setZipError(prev => ({ ...prev, [type]: 'ZIP code must be 5 digits' }));
+    }
+  };
+
+  const resetCityState = (type) => {
+    switch (type) {
+      case 'project':
+        setCity('');
+        setState('');
+        break;
+      case 'customer':
+        setCustomerCity('');
+        setCustomerState('');
+        break;
+      case 'owner':
+        setOwnercity('');
+        setOwnerstate('');
+        break;
+      case 'referral':
+        setreferralcity('');
+        setreferralstate('');
+        break;
+      default:
+        break;
+    }
+  };
+
 
   return (
     <>
@@ -968,67 +1135,6 @@ const Form = () => {
           </div>
           {errors.jobName && <p className='text-red-500'>{errors.jobName}</p>}
 
-
-          <div className='flex'>
-            <label className='font-bold'>Address : </label>
-            <input
-              className='w-full border-b-2 border-black outline-none'
-              type="text"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
-          </div>
-          {errors.address && <p className='text-red-500'>{errors.address}</p>}
-
-          <div className='flex items-center flex-grow space-x-2 responsive-flex'>
-            <div className='flex'>
-              <label className='font-bold'>City : </label>
-              <input
-                className='w-full border-b-2 border-black outline-none'
-                type="text"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-              />
-            </div>
-            {errors.city && <p className='text-red-500'>{errors.city}</p>}
-
-            <div className='flex items-center '>
-              <label className='font-bold'>State :  </label>
-              <Multiselect
-                options={USStateOptions.options}
-                displayValue="name"
-                onSelect={(selectedList, selectedItem) => handleSelect('project', selectedItem)}
-                singleSelect={true}
-                selectedValues={samecustomerproject && customerState ? [{ name: customerState }] : state ? [{ name: state }] : undefined}
-                placeholder="Select a State"
-                className="p-2 outline-none cursor-pointer custom-width"
-              />
-            </div>
-            {errors.state && <p className='text-red-500'>{errors.state}</p>}
-
-            <div className='flex items-center flex-grow space-x-2'>
-              <label className='font-bold'>Zip : </label>
-              <input
-                className='w-full border-b-2 border-black outline-none'
-                type="text"
-                value={zip}
-                onChange={(e) => setZip(e.target.value)}
-              />
-            </div>
-            {errors.zip && <p className='text-red-500'>{errors.zip}</p>}
-          </div>
-
-          <div className='flex'>
-            <label className='font-bold'>E-mail : </label>
-            <input
-              className='w-full border-b-2 border-black outline-none'
-              type="email"
-              value={email}
-              onChange={handleEmailChange}
-            />
-          </div>
-          {errors.email && <p className='text-red-500'>{errors.email}</p>}
-
           <div className='flex'>
             <label className='font-bold'>Contact : </label>
             <input
@@ -1047,6 +1153,70 @@ const Form = () => {
           </div>
           {errors.contact && <p className='text-red-500'>{errors.contact}</p>}
           {errors.phone && <p className='text-red-500'>{errors.phone}</p>}
+
+          <div className='flex'>
+            <label className='font-bold'>Address : </label>
+            <input
+              className='w-full border-b-2 border-black outline-none'
+              type="text"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </div>
+          {errors.address && <p className='text-red-500'>{errors.address}</p>}
+
+          <div className='flex items-center flex-grow space-x-2 responsive-flex'>
+            <div className='flex'>
+              <label className='font-bold '>City : </label>
+              <input
+                className='w-full max-w-[300px] border-b-2 border-black outline-none'
+                type="text"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+              />
+            </div>
+            {errors.city && <p className='text-red-500'>{errors.city}</p>}
+
+            <div className='flex items-center '>
+              <label className='font-bold'>State :  </label>
+              <div className='w-32 ml-2'>
+                <Multiselect
+                  options={USStateOptions.options}
+                  displayValue="name"
+                  onSelect={(selectedList, selectedItem) => handleSelect('project', selectedItem)}
+                  singleSelect={true}
+                  selectedValues={samecustomerproject && customerState ? [{ name: customerState }] : state ? [{ name: state }] : undefined}
+                  placeholder="State"
+                  className="p-2 outline-none cursor-pointer custom-width"
+                />
+              </div>
+            </div>
+            {errors.state && <p className='text-red-500'>{errors.state}</p>}
+
+            <div className='flex items-center flex-grow space-x-2'>
+              <label className='font-bold'>Zip : </label>
+              <input
+                className='w-full border-b-2 border-black outline-none'
+                type="text"
+                value={zip}
+                onChange={(e) => { setZip(e.target.value); handleZipChange(e, 'project'); }}
+              />
+            </div>
+            {errors.zip && <p className='text-red-500'>{errors.zip}</p>}
+            {zipError.project && <p className='text-red-500'>{zipError.project}</p>}
+          </div>
+
+          <div className='flex'>
+            <label className='font-bold'>E-mail : </label>
+            <input
+              className='w-full border-b-2 border-black outline-none'
+              type="email"
+              value={email}
+              onChange={handleEmailChange}
+            />
+          </div>
+          {errors.email && <p className='text-red-500'>{errors.email}</p>}
+
           <br />
           <input
             type="checkbox"
@@ -1092,15 +1262,41 @@ const Form = () => {
           <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Refferal</label>
         </div>
 
-
         <div className='w-1/2 p-3 ml-3 border-2 rounded-md '>
           <h1 className='mb-2 font-extrabold border-b-2'>CUSTOMER</h1>
           <div className='flex'>
             <label className='font-bold'>CUSTOMER : </label>
             <input className='w-full border-b-2 border-black outline-none' type="text" value={customerName}
-              onChange={(e) => setCustomerName(e.target.value)} />
+              onChange={(e) => {
+                setCustomerName(e.target.value); handleInputChange(e);
+              }} />
           </div>
+
           {errors.customerName && <p className='text-red-500'>{errors.customerName}</p>}
+          {isDropdownVisible && suggestions && suggestions.length > 0 && (
+            <ul className='absolute z-10 overflow-y-auto bg-white border border-gray-300 max-h-60' style={{ width: '46%' }}>
+              {suggestions.map((suggestion) => (
+                <li
+                  key={suggestion.account_id}
+                  className='p-2 cursor-pointer hover:bg-gray-200'
+                  onClick={() => handleSuggestionClick(suggestion)}
+                >
+                  {suggestion.account_name}
+                </li>
+              ))}
+            </ul>
+          )}
+          <div className='flex'>
+            <label className='font-bold'>Contact : </label>
+            <input className='w-full border-b-2 border-black outline-none' type="text" value={customerContact}
+              onChange={(e) => setCustomerContact(e.target.value)} />
+            <label className='font-bold'>Cell : </label>
+            <input className='w-full border-b-2 border-black outline-none' type="text" value={customerCell}
+              onChange={(e) => setCustomerCell(e.target.value)} />
+          </div>
+
+          {errors.customerCell && <p className='text-red-500'>{errors.customerCell}</p>}
+          {errors.customerContact && <p className='text-red-500'>{errors.customerContact}</p>}
 
           <div className='flex'>
             <label className='font-bold'>Claim # </label>
@@ -1133,25 +1329,30 @@ const Form = () => {
             <div className='flex items-center'>
               <label className='font-bold'>State :  </label>
               {/* <input className='w-full border-b-2 border-black outline-none' type="text" /> */}
-              <Multiselect
-                options={USStateOptions.options}
-                displayValue="name"
-                onSelect={(selectedList, selectedItem) => handleSelect('customer', selectedItem)}
-                singleSelect={true}
-                selectedValues={sameprojectcustmer && state ? [{ name: state }] : customerState ? [{ name: customerState }] : undefined}
-                placeholder="Select a State"
-                className="w-full p-2 outline-none cursor-pointer"
-              />
-
+              <div className='w-32 ml-2'>
+                <Multiselect
+                  options={USStateOptions.options}
+                  displayValue="name"
+                  onSelect={(selectedList, selectedItem) => handleSelect('customer', selectedItem)}
+                  singleSelect={true}
+                  selectedValues={sameprojectcustmer && state ? [{ name: state }] : customerState ? [{ name: customerState }] : undefined}
+                  placeholder="State"
+                  className="w-full p-2 outline-none cursor-pointer"
+                />
+              </div>
               {errors.customerState && <p className='text-red-500'>{errors.customerState}</p>}
             </div>
             <div className='flex flex-grow space-x-2 text-center'>
               <label className='font-bold'>Zip : </label>
-              <input className='w-full border-b-2 border-black outline-none' type="text" value={customerZip}
-                onChange={(e) => setCustomerZip(e.target.value)} />
-
+              <input
+                className='w-full border-b-2 border-black outline-none'
+                type="text"
+                value={customerZip}
+                onChange={(e) => { setCustomerZip(e.target.value); handleZipChange(e, 'customer'); }}
+              />
             </div>
             {errors.customerZip && <p className='text-red-500'>{errors.customerZip}</p>}
+            {zipError.customer && <p className='text-red-500'>{zipError.customer}</p>}
           </div>
           <div className='flex'>
             <label className='font-bold'>Phone : </label>
@@ -1163,16 +1364,6 @@ const Form = () => {
           </div>
           {errors.customerEmail && <p className='text-red-500'>{errors.customerEmail}</p>}
           {errors.customerPhone && <p className='text-red-500'>{errors.customerPhone}</p>}
-          <div className='flex'>
-            <label className='font-bold'>Contact : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="text" value={customerContact}
-              onChange={(e) => setCustomerContact(e.target.value)} />
-            <label className='font-bold'>Cell : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="text" value={customerCell}
-              onChange={(e) => setCustomerCell(e.target.value)} />
-          </div>
-          {errors.customerCell && <p className='text-red-500'>{errors.customerCell}</p>}
-          {errors.customerContact && <p className='text-red-500'>{errors.customerContact}</p>}
           <br />
           <input
             type="checkbox"
@@ -1231,6 +1422,19 @@ const Form = () => {
             <input className='w-full border-b-2 border-black outline-none' type="text" value={ownername}
               onChange={(e) => setOwnername(e.target.value)} />
           </div>
+
+          <div className='flex'>
+            <label className='font-bold'>Contact : </label>
+            <input className='w-full border-b-2 border-black outline-none' type="text" value={ownercontact}
+              onChange={(e) => setOwnercontact(e.target.value)} />
+            {errors.ownercontact && <span className="text-red-500">{errors.ownercontact}</span>}
+            <label className='font-bold'>Cell : </label>
+            <input className='w-full border-b-2 border-black outline-none' type="text" value={ownercell}
+              onChange={(e) => setOwnercell(e.target.value)} />
+          </div>
+          {errors.ownercell && <span className="text-red-500">{errors.ownercell}</span>}
+
+
           {errors.ownername && <span className="text-red-500">{errors.ownername}</span>}
           <div className='flex'>
             <label className='font-bold'>Address : </label>
@@ -1249,23 +1453,26 @@ const Form = () => {
             <div className='flex items-center'>
               <label className='font-bold'>State :  </label>
               {/* <input className='w-full border-b-2 border-black outline-none' type="text" /> */}
-              <Multiselect
-                options={USStateOptions.options}
-                displayValue="name"
-                onSelect={(selectedList, selectedItem) => handleSelect('owner', selectedItem)}
-                singleSelect={true}
-                selectedValues={sameownerprojects && state ? [{ name: state }] : ownerstate ? [{ name: ownerstate }] : undefined}
-                placeholder="Select a State"
-                className="w-full p-2 outline-none cursor-pointer"
-              />
+              <div className='w-32 ml-2'>
+                <Multiselect
+                  options={USStateOptions.options}
+                  displayValue="name"
+                  onSelect={(selectedList, selectedItem) => handleSelect('owner', selectedItem)}
+                  singleSelect={true}
+                  selectedValues={sameownerprojects && state ? [{ name: state }] : ownerstate ? [{ name: ownerstate }] : undefined}
+                  placeholder="State"
+                  className="w-full p-2 outline-none cursor-pointer"
+                />
+              </div>
               {errors.ownerstate && <span className="text-red-500">{errors.ownerstate}</span>}
             </div>
             <div className='flex items-center flex-grow space-x-2 '>
               <label className='font-bold'>Zip : </label>
               <input className='w-full border-b-2 border-black outline-none' type="text" value={ownerzip}
-                onChange={(e) => setOwnerzip(e.target.value)} />
+                onChange={(e) => { setOwnerzip(e.target.value); handleZipChange(e, 'owner') }} />
             </div>
             {errors.ownerzip && <span className="text-red-500">{errors.ownerzip}</span>}
+            {zipError.owner && <p className='text-red-500'>{zipError.owner}</p>}
           </div>
           <div className='flex'>
             <label className='font-bold'>Phone : </label>
@@ -1277,16 +1484,7 @@ const Form = () => {
           </div>
           {errors.ownerphone && <span className="text-red-500">{errors.ownerphone}</span>}
           {errors.owneremail && <span className="text-red-500">{errors.owneremail}</span>}
-          <div className='flex'>
-            <label className='font-bold'>Contact : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="text" value={ownercontact}
-              onChange={(e) => setOwnercontact(e.target.value)} />
-            {errors.ownercontact && <span className="text-red-500">{errors.ownercontact}</span>}
-            <label className='font-bold'>Cell : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="text" value={ownercell}
-              onChange={(e) => setOwnercell(e.target.value)} />
-          </div>
-          {errors.ownercell && <span className="text-red-500">{errors.ownercell}</span>}<br />
+          <br />
           <input
             type="checkbox"
             id="sameaddress"
@@ -1350,6 +1548,28 @@ const Form = () => {
           {errors.referralname && <div className="text-red-500">{errors.referralname}</div>}
 
           <div className='flex'>
+            <label className='font-bold'>Contact: </label>
+            <input
+              className='w-full border-b-2 border-black outline-none'
+              type="text"
+              value={referralcontact}
+              onChange={(e) => setreferralcontact(e.target.value)}
+            />
+
+            <label className='font-bold'>Cell: </label>
+            <input
+              className='w-full border-b-2 border-black outline-none'
+              type="text"
+              value={referralcell}
+              onChange={(e) => setreferralcell(e.target.value)}
+            />
+          </div>
+          {errors.referralcell && <div className="text-red-500">{errors.referralcell}</div>}
+          {errors.referralcontact && <div className="text-red-500">{errors.referralcontact}</div>}
+
+
+
+          <div className='flex'>
             <label className='font-bold'>Address: </label>
             <input
               className='w-full border-b-2 border-black outline-none'
@@ -1374,27 +1594,26 @@ const Form = () => {
 
             <div className='flex items-center'>
               <label className='font-bold'>State:  </label>
-              <Multiselect
-                options={USStateOptions.options}
-                displayValue="name"
-                onSelect={(selectedList, selectedItem) => handleSelect('referral', selectedItem)}
-                singleSelect={true}
-                selectedValues={sameprojectcustmer && state ? [{ name: state }] : referralstate ? [{ name: referralstate }] : undefined}
-                placeholder="Select a State"
-                className="w-full p-2 outline-none cursor-pointer"
-              />
+              <div className='w-32 ml-2'>
+                <Multiselect
+                  options={USStateOptions.options}
+                  displayValue="name"
+                  onSelect={(selectedList, selectedItem) => handleSelect('referral', selectedItem)}
+                  singleSelect={true}
+                  selectedValues={sameprojectcustmer && state ? [{ name: state }] : referralstate ? [{ name: referralstate }] : undefined}
+                  placeholder="State"
+                  className="w-full p-2 outline-none cursor-pointer"
+                />
+              </div>
             </div>
             {errors.referralstate && <div className="text-red-500">{errors.referralstate}</div>}
 
-            <div className='flex items-center space-x-2'>
-              <label className='font-bold'>Zip: </label>
-              <input
-                className='w-full border-b-2 border-black outline-none'
-                type="text"
-                value={referralzip}
-                onChange={(e) => setreferralzip(e.target.value)}
-              />
+            <div className='flex flex-grow space-x-2 text-center'>
+              <label className='font-bold'>Zip : </label>
+              <input className='w-full border-b-2 border-black outline-none' type="text" value={referralzip}
+                onChange={(e) => { setreferralzip(e.target.value); handleZipChange(e, 'referral') }} />
             </div>
+            {zipError.referral && <p className='text-red-500'>{zipError.referral}</p>}
             {errors.referralzip && <div className="text-red-500">{errors.referralzip}</div>}
           </div>
 
@@ -1416,25 +1635,7 @@ const Form = () => {
           </div>
           {errors.referralphone && <div className="text-red-500">{errors.referralphone}</div>}
           {errors.referralemail && <div className="text-red-500">{errors.referralemail}</div>}
-          <div className='flex'>
-            <label className='font-bold'>Contact: </label>
-            <input
-              className='w-full border-b-2 border-black outline-none'
-              type="text"
-              value={referralcontact}
-              onChange={(e) => setreferralcontact(e.target.value)}
-            />
 
-            <label className='font-bold'>Cell: </label>
-            <input
-              className='w-full border-b-2 border-black outline-none'
-              type="text"
-              value={referralcell}
-              onChange={(e) => setreferralcell(e.target.value)}
-            />
-          </div>
-          {errors.referralcell && <div className="text-red-500">{errors.referralcell}</div>}
-          {errors.referralcontact && <div className="text-red-500">{errors.referralcontact}</div>}
           <br />
           <input
             type="checkbox"
@@ -1487,7 +1688,9 @@ const Form = () => {
       <section className='flex mt-5'>
         <div className='w-1/2 p-3 mr-3 border-2 rounded-md'>
           <h1 className='mb-2 font-extrabold border-b-2'>ADDITIONAL CONTACTS</h1>
-          <div>
+
+          {/* First Additional Contact */}
+          <div className='mt-5'>
             <div className='flex'>
               <label className='font-bold'>Name : </label>
               <input className='w-full border-b-2 border-black outline-none' type="text" value={acname1}
@@ -1508,38 +1711,33 @@ const Form = () => {
             </div>
             {errors.acphone1 && <p className='text-red-500'>{errors.acphone1}</p>}
             {errors.acemail1 && <p className='text-red-500'>{errors.acemail1}</p>}
+
+            {/* Testing Company Checkbox */}
+            <div className='mt-3'>
+              <input
+                type="checkbox"
+                id="testingCompany1"
+                name="testingCompany1"
+                className="contact-checkbox"
+                value="testingCompany1"
+                checked={isTestingCompany1}
+                onChange={(e) => {
+                  setIsTestingCompany1(e.target.checked)
+
+                  if (e.target.checked) {
+                    setErrors((prevErrors) => {
+                      const { testingCompany1, ...restErrors } = prevErrors;
+                      return restErrors;
+                    });
+                  }
+                }
+                }
+              />
+
+              <label htmlFor="testingCompany1" className='ml-2'>Testing Company</label>
+            </div>
+            {errors.testingCompany1 && <p className='text-red-500'>{errors.testingCompany1}</p>}
           </div>
-          <input
-            type="checkbox"
-            id="sameaddress"
-            name="sameaddress"
-            className="contact-checkbox"
-            value="sameaddress"
-            checked={samecontact12}
-            onChange={handlecontact12}
-
-            disabled={
-              !(samecontact12 || samecontact13) &&
-              (acname1 !== '' || accmpname1 !== '' || acemail1 !== '' || acphone1)
-            }
-          />
-          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Second Additional Contact</label>
-          <br />
-          <input
-            type="checkbox"
-            id="sameaddress"
-            name="sameaddress"
-            className="contact-checkbox"
-            value="sameaddress"
-            checked={samecontact13}
-            onChange={handlecontact13}
-
-            disabled={
-              !(samecontact12 || samecontact13) &&
-              (acname1 !== '' || accmpname1 !== '' || acemail1 !== '' || acphone1)
-            }
-          />
-          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Third Additional Contact</label>
 
           <div className='mt-5'>
             <div className='flex'>
@@ -1562,38 +1760,31 @@ const Form = () => {
             </div>
             {errors.acphone2 && <p className='text-red-500'>{errors.acphone2}</p>}
             {errors.acemail2 && <p className='text-red-500'>{errors.acemail2}</p>}
-            <input
-              type="checkbox"
-              id="sameaddress"
-              name="sameaddress"
-              className="contact-checkbox"
-              value="sameaddress"
-              checked={samecontact21}
-              onChange={handlecontact21}
 
-              disabled={
-                !(samecontact21 || samecontact23) &&
-                (acname2 !== '' || accmpname2 !== '' || acemail2 !== '' || acphone2)
-              }
-            />
-            <label htmlFor="sameaddress" className='checkbox-label'>Same contact - First Additional Contact</label>
-            <br />
-            <input
-              type="checkbox"
-              id="sameaddress"
-              name="sameaddress"
-              className="contact-checkbox"
-              value="sameaddress"
-              checked={samecontact23}
-              onChange={handlecontact23}
-              disabled={
-                !(samecontact21 || samecontact23) &&
-                (acname2 !== '' || accmpname2 !== '' || acemail2 !== '' || acphone2)
-              }
-            />
-            <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Third Additional Contact</label>
-
+            {/* Testing Company Checkbox */}
+            <div className='mt-3'>
+              <input
+                type="checkbox"
+                id="testingCompany2"
+                name="testingCompany2"
+                className="contact-checkbox"
+                value="testingCompany2"
+                checked={isTestingCompany2}
+                onChange={(e) => {
+                  setIsTestingCompany2(e.target.checked)
+                  if (e.target.checked) {
+                    setErrors((prevErrors) => {
+                      const { testingCompany2, ...restErrors } = prevErrors;
+                      return restErrors;
+                    });
+                  }
+                }}
+              />
+              <label htmlFor="testingCompany2" className='ml-2'>Testing Company</label>
+            </div>
+            {errors.testingCompany2 && <p className='text-red-500'>{errors.testingCompany2}</p>}
           </div>
+
           <div className='mt-5'>
             <div className='flex'>
               <label className='font-bold'>Name : </label>
@@ -1605,6 +1796,7 @@ const Form = () => {
             </div>
             {errors.acname3 && <p className='text-red-500'>{errors.acname3}</p>}
             {errors.accmpname3 && <p className='text-red-500'>{errors.accmpname3}</p>}
+
             <div className='flex'>
               <label className='font-bold'>Phone : </label>
               <input className='w-full border-b-2 border-black outline-none' type="text" value={acphone3}
@@ -1615,37 +1807,33 @@ const Form = () => {
             </div>
             {errors.acphone3 && <p className='text-red-500'>{errors.acphone3}</p>}
             {errors.acemail3 && <p className='text-red-500'>{errors.acemail3}</p>}
-            <input
-              type="checkbox"
-              id="sameaddress"
-              name="sameaddress"
-              className="contact-checkbox"
-              value="sameaddress"
-              checked={samecontact31}
-              onChange={handlecontact31}
-              disabled={
-                !(samecontact31 || samecontact32) &&
-                (acname3 !== '' || accmpname3 !== '' || acemail3 !== '' || acphone3)
-              }
-            />
-            <label htmlFor="sameaddress" className='checkbox-label'>Same contact - First Additional Contact</label>
-            <br />
-            <input
-              type="checkbox"
-              id="sameaddress"
-              name="sameaddress"
-              className="contact-checkbox"
-              value="sameaddress"
-              checked={samecontact32}
-              onChange={handlecontact32}
-              disabled={
-                !(samecontact31 || samecontact32) &&
-                (acname3 !== '' || accmpname3 !== '' || acemail3 !== '' || acphone3)
-              }
-            />
-            <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Second Additional Contact</label>
+
+            {/* Testing Company Checkbox */}
+            <div className='mt-3'>
+              <input
+                type="checkbox"
+                id="testingCompany2"
+                name="testingCompany2"
+                className="contact-checkbox"
+                value="testingCompany3"
+                checked={isTestingCompany3}
+                onChange={(e) => {
+                  setIsTestingCompany3(e.target.checked)
+                  if (e.target.checked) {
+                    setErrors((prevErrors) => {
+                      const { testingCompany3, ...restErrors } = prevErrors;
+                      return restErrors;
+                    });
+                  }
+                }}
+              />
+              <label htmlFor="testingCompany3" className='ml-2'>Testing Company</label>
+            </div>
+            {errors.testingCompany3 && <p className='text-red-500'>{errors.testingCompany3}</p>}
           </div>
+
         </div>
+
         <div className='w-1/2 p-3 ml-3 border-2 rounded-md'>
           <h1 className='mb-2 font-extrabold border-b-2'>SCOPE OF WORK</h1>
           <div>
