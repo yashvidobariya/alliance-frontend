@@ -61,15 +61,12 @@ const Form = () => {
   const [acname1, setacname1] = useState('');
   const [acname2, setacname2] = useState('');
   const [acname3, setacname3] = useState('');
-  const [testingcmy1, settestingcmy1] = useState(false);
   const [accmpname1, setaccmpname1] = useState('');
   const [accmpname2, setaccmpname2] = useState('');
   const [accmpname3, setaccmpname3] = useState('');
-  const [testingcmy2, settestingcmy2] = useState(false);
   const [acphone1, setacphone1] = useState('');
   const [acphone2, setacphone2] = useState('');
   const [acphone3, setacphone3] = useState('');
-  const [testingcmy3, settestingcmy3] = useState(false);
   const [acemail1, setacemail1] = useState('');
   const [acemail2, setacemail2] = useState('');
   const [acemail3, setacemail3] = useState('');
@@ -113,9 +110,12 @@ const Form = () => {
   const [samerefferalproject, setsamerefferalproject] = useState(false);
   const [samerefferalowner, setsamerefferalowner] = useState(false);
 
-  const [isTestingCompany1, setIsTestingCompany1] = useState(false);
-  const [isTestingCompany2, setIsTestingCompany2] = useState(false);
-  const [isTestingCompany3, setIsTestingCompany3] = useState(false);
+  const [testingCompanies, setTestingCompanies] = useState({
+    company1: false,
+    company2: false,
+    company3: false,
+  });
+
   // const [samecontact12, setsamecontact12] = useState(false);
   // const [samecontact13, setsamecontact13] = useState(false);
   // const [samecontact21, setsamecontact21] = useState(false);
@@ -135,6 +135,15 @@ const Form = () => {
     owner: '',
     referral: '',
   });
+
+  const handleFormChange = (company, checked) => {
+    setTestingCompanies((prev) => ({
+      ...prev,
+      [company]: checked,
+    }));
+  };
+
+  const { company1, company2, company3 } = testingCompanies;
 
 
   const handleInputChange = async (e) => {
@@ -407,14 +416,17 @@ const Form = () => {
         ac_company1: accmpname1,
         ac_phone1: acphone1,
         ac_email1: acemail1,
+        ac_testing_cmp1: company1.toString(),
         ac_name2: acname2,
         ac_company2: accmpname2,
         ac_phone2: acphone2,
         ac_email2: acemail2,
+        ac_testing_cmp2: company2.toString(),
         ac_name3: acname3,
         ac_company3: accmpname3,
         ac_phone3: acphone3,
         ac_email3: acemail3,
+        ac_testing_cmp3: company3.toString(),
         scope_work: scopework,
         customer_type: customerTypes,
         job_and_work_type: jobAndWorkTypes,
@@ -499,14 +511,17 @@ const Form = () => {
           ac_company1: accmpname1,
           ac_phone1: acphone1,
           ac_email1: acemail1,
+          ac_testing_cmp1: company1,
           ac_name2: acname2,
           ac_company2: accmpname2,
           ac_phone2: acphone2,
           ac_email2: acemail2,
+          ac_testing_cmp2: company2,
           ac_name3: acname3,
           ac_company3: accmpname3,
           ac_phone3: acphone3,
           ac_email3: acemail3,
+          ac_testing_cmp3: company3,
           scope_work: scopework,
           customer_type: customerTypes,
           job_and_work_type: jobAndWorkTypes,
@@ -1723,22 +1738,13 @@ const Form = () => {
                 name="testingCompany1"
                 className="contact-checkbox"
                 value="testingCompany1"
-                checked={isTestingCompany1}
-                onChange={(e) => {
-                  setIsTestingCompany1(e.target.checked)
-
-                  if (e.target.checked) {
-                    setErrors((prevErrors) => {
-                      const { testingCompany1, ...restErrors } = prevErrors;
-                      return restErrors;
-                    });
-                  }
-                }
-                }
+                checked={company1}
+                onChange={(e) => handleFormChange('company1', e.target.checked)}
               />
 
               <label htmlFor="testingCompany1" className='ml-2'>Testing Company</label>
             </div>
+
             {errors.testingCompany1 && <p className='text-red-500'>{errors.testingCompany1}</p>}
           </div>
 
@@ -1772,19 +1778,12 @@ const Form = () => {
                 name="testingCompany2"
                 className="contact-checkbox"
                 value="testingCompany2"
-                checked={isTestingCompany2}
-                onChange={(e) => {
-                  setIsTestingCompany2(e.target.checked)
-                  if (e.target.checked) {
-                    setErrors((prevErrors) => {
-                      const { testingCompany2, ...restErrors } = prevErrors;
-                      return restErrors;
-                    });
-                  }
-                }}
+                checked={company2}
+                onChange={(e) => handleFormChange('company2', e.target.checked)}
               />
-              <label htmlFor="testingCompany2" className='ml-2'>Testing Company</label>
+              <label htmlFor="testingCompany2" className='ml-2'>Testing Company 2</label>
             </div>
+
             {errors.testingCompany2 && <p className='text-red-500'>{errors.testingCompany2}</p>}
           </div>
 
@@ -1815,23 +1814,16 @@ const Form = () => {
             <div className='mt-3'>
               <input
                 type="checkbox"
-                id="testingCompany2"
-                name="testingCompany2"
+                id="testingCompany3"
+                name="testingCompany3"
                 className="contact-checkbox"
                 value="testingCompany3"
-                checked={isTestingCompany3}
-                onChange={(e) => {
-                  setIsTestingCompany3(e.target.checked)
-                  if (e.target.checked) {
-                    setErrors((prevErrors) => {
-                      const { testingCompany3, ...restErrors } = prevErrors;
-                      return restErrors;
-                    });
-                  }
-                }}
+                checked={company3}
+                onChange={(e) => handleFormChange('company3', e.target.checked)}
               />
-              <label htmlFor="testingCompany3" className='ml-2'>Testing Company</label>
+              <label htmlFor="testingCompany3" className='ml-2'>Testing Company 3</label>
             </div>
+
             {errors.testingCompany3 && <p className='text-red-500'>{errors.testingCompany3}</p>}
           </div>
 
