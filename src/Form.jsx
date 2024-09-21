@@ -61,12 +61,15 @@ const Form = () => {
   const [acname1, setacname1] = useState('');
   const [acname2, setacname2] = useState('');
   const [acname3, setacname3] = useState('');
+  const [testingcmy1, settestingcmy1] = useState(false);
   const [accmpname1, setaccmpname1] = useState('');
   const [accmpname2, setaccmpname2] = useState('');
   const [accmpname3, setaccmpname3] = useState('');
+  const [testingcmy2, settestingcmy2] = useState(false);
   const [acphone1, setacphone1] = useState('');
   const [acphone2, setacphone2] = useState('');
   const [acphone3, setacphone3] = useState('');
+  const [testingcmy3, settestingcmy3] = useState(false);
   const [acemail1, setacemail1] = useState('');
   const [acemail2, setacemail2] = useState('');
   const [acemail3, setacemail3] = useState('');
@@ -433,119 +436,119 @@ const Form = () => {
         instruction_notes: specialInstructions
       };
 
-      // try {
-      // const response = await fetch(Formdata, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify(data),
-      // });
-      // if (!response.ok) {
-      //   alert("Form data not submitted");
-      //   throw new Error(`HTTP error! status: ${response.status}`);
-      // }
-      // const result = await response.json();
-      // console.log('Saved Customer Data:', result);
-      console.log('Saved Customer Data:', data);
-      alert("Form data submitted");
+      try {
+        const response = await fetch(Formdata, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data),
+        });
+        if (!response.ok) {
+          alert("Form data not submitted");
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const result = await response.json();
+        console.log('Saved Customer Data:', result);
+        console.log('Saved Customer Data:', data);
+        alert("Form data submitted");
 
-      //   const templetedata = {
-      //     estimator: estimator,
-      //     proposal: proposal,
-      //     job_walkDate: selectedDate,
-      //     job_walkTime: time,
-      //     job_name: jobName,
-      //     job_address: address,
-      //     job_city: city,
-      //     job_state: state,
-      //     job_zip: zip,
-      //     job_email: email,
-      //     job_contact: contact,
-      //     job_phone: phone,
-      //     customer_name: customerName,
-      //     customer_claim: claimNumber,
-      //     customer_po: poNumber,
-      //     customer_address: customerAddress,
-      //     customer_city: customerCity,
-      //     customer_state: customerState,
-      //     customer_zip: customerZip,
-      //     customer_phone: customerPhone,
-      //     customer_email: customerEmail,
-      //     customer_contact: customerContact,
-      //     customer_cell: customerCell,
-      //     owner_name: ownername,
-      //     owner_address: owneraddress,
-      //     owner_city: ownercity,
-      //     owner_state: ownerstate,
-      //     owner_zip: ownerzip,
-      //     owner_phone: ownerphone,
-      //     owner_email: owneremail,
-      //     owner_contact: ownercontact,
-      //     owner_cell: ownercell,
-      //     referral_name: referralname,
-      //     referral_address: referraladdress,
-      //     referral_city: referralcity,
-      //     referral_state: referralstate,
-      //     referral_zip: referralzip,
-      //     referral_phone: referralphone,
-      //     referral_email: referralemail,
-      //     referral_contact: referralcontact,
-      //     referral_cell: referralcell,
-      //     ac_name1: acname1,
-      //     ac_company1: accmpname1,
-      //     ac_phone1: acphone1,
-      //     ac_email1: acemail1,
-      //     ac_name2: acname2,
-      //     ac_company2: accmpname2,
-      //     ac_phone2: acphone2,
-      //     ac_email2: acemail2,
-      //     ac_name3: acname3,
-      //     ac_company3: accmpname3,
-      //     ac_phone3: acphone3,
-      //     ac_email3: acemail3,
-      //     scope_work: scopework,
-      //     customer_type: customerTypes,
-      //     job_and_work_type: jobAndWorkTypes,
-      //     epa_id: epaId,
-      //     haz_manifest: hazManifest,
-      //     non_haz_man: nonHazManifest,
-      //     non_haz_man_1pr: nonHazManLT1,
-      //     trash: trash,
-      //     project_type: projectType,
-      //     building_size: buildingSize,
-      //     number_of_floors: numberOfFloors,
-      //     building_age: buildingAge,
-      //     no_of_dwelling_units: numDwellingUnits,
-      //     present_prior_use: priorUse,
-      //     procedure: procedure,
-      //     survey: survey,
-      //     contract_amount: contractAmount,
-      //     lock_box_combo: lockBoxCombo,
-      //     instruction_notes: specialInstructions
-      //   };
-      //   if (Array.isArray(templetedata.customer_type)) {
-      //     templetedata.customer_type = templetedata.customer_type.map(item => item.name).join(',');
-      //   }
-      //   if (Array.isArray(templetedata.job_and_work_type)) {
-      //     templetedata.job_and_work_type = templetedata.job_and_work_type.map(item => item.name).join(',');
-      //   }
-      //   emailjs
-      //     .send('service_lhw3x9j', 'template_g5rvd78', templetedata, 'B7IK4pR4P8ucQ8AFf')
-      //     .then(
-      //       (response) => {
-      //         console.log('SUCCESS!', response.status, response.text);
-      //         alert("Email sent successfully!");
-      //       },
-      //       (error) => {
-      //         console.log('FAILED...', error);
-      //         alert("Failed to send email.");
-      //       }
-      //     );
-      // } catch (error) {
-      //   alert("Form data not submitted");
-      //   console.error('Error ', error);
-      // }
+        const templetedata = {
+          estimator: estimator,
+          proposal: proposal,
+          job_walkDate: selectedDate,
+          job_walkTime: time,
+          job_name: jobName,
+          job_address: address,
+          job_city: city,
+          job_state: state,
+          job_zip: zip,
+          job_email: email,
+          job_contact: contact,
+          job_phone: phone,
+          customer_name: customerName,
+          customer_claim: claimNumber,
+          customer_po: poNumber,
+          customer_address: customerAddress,
+          customer_city: customerCity,
+          customer_state: customerState,
+          customer_zip: customerZip,
+          customer_phone: customerPhone,
+          customer_email: customerEmail,
+          customer_contact: customerContact,
+          customer_cell: customerCell,
+          owner_name: ownername,
+          owner_address: owneraddress,
+          owner_city: ownercity,
+          owner_state: ownerstate,
+          owner_zip: ownerzip,
+          owner_phone: ownerphone,
+          owner_email: owneremail,
+          owner_contact: ownercontact,
+          owner_cell: ownercell,
+          referral_name: referralname,
+          referral_address: referraladdress,
+          referral_city: referralcity,
+          referral_state: referralstate,
+          referral_zip: referralzip,
+          referral_phone: referralphone,
+          referral_email: referralemail,
+          referral_contact: referralcontact,
+          referral_cell: referralcell,
+          ac_name1: acname1,
+          ac_company1: accmpname1,
+          ac_phone1: acphone1,
+          ac_email1: acemail1,
+          ac_name2: acname2,
+          ac_company2: accmpname2,
+          ac_phone2: acphone2,
+          ac_email2: acemail2,
+          ac_name3: acname3,
+          ac_company3: accmpname3,
+          ac_phone3: acphone3,
+          ac_email3: acemail3,
+          scope_work: scopework,
+          customer_type: customerTypes,
+          job_and_work_type: jobAndWorkTypes,
+          epa_id: epaId,
+          haz_manifest: hazManifest,
+          non_haz_man: nonHazManifest,
+          non_haz_man_1pr: nonHazManLT1,
+          trash: trash,
+          project_type: projectType,
+          building_size: buildingSize,
+          number_of_floors: numberOfFloors,
+          building_age: buildingAge,
+          no_of_dwelling_units: numDwellingUnits,
+          present_prior_use: priorUse,
+          procedure: procedure,
+          survey: survey,
+          contract_amount: contractAmount,
+          lock_box_combo: lockBoxCombo,
+          instruction_notes: specialInstructions
+        };
+        if (Array.isArray(templetedata.customer_type)) {
+          templetedata.customer_type = templetedata.customer_type.map(item => item.name).join(',');
+        }
+        if (Array.isArray(templetedata.job_and_work_type)) {
+          templetedata.job_and_work_type = templetedata.job_and_work_type.map(item => item.name).join(',');
+        }
+        emailjs
+          .send('service_lhw3x9j', 'template_g5rvd78', templetedata, 'B7IK4pR4P8ucQ8AFf')
+          .then(
+            (response) => {
+              console.log('SUCCESS!', response.status, response.text);
+              alert("Email sent successfully!");
+            },
+            (error) => {
+              console.log('FAILED...', error);
+              alert("Failed to send email.");
+            }
+          );
+      } catch (error) {
+        alert("Form data not submitted");
+        console.error('Error ', error);
+      }
     };
   };
 
