@@ -110,9 +110,12 @@ const Form = () => {
   const [samerefferalproject, setsamerefferalproject] = useState(false);
   const [samerefferalowner, setsamerefferalowner] = useState(false);
 
-  const [isTestingCompany1, setIsTestingCompany1] = useState(false);
-  const [isTestingCompany2, setIsTestingCompany2] = useState(false);
-  const [isTestingCompany3, setIsTestingCompany3] = useState(false);
+  const [testingCompanies, setTestingCompanies] = useState({
+    company1: false,
+    company2: false,
+    company3: false,
+  });
+
   // const [samecontact12, setsamecontact12] = useState(false);
   // const [samecontact13, setsamecontact13] = useState(false);
   // const [samecontact21, setsamecontact21] = useState(false);
@@ -132,6 +135,15 @@ const Form = () => {
     owner: '',
     referral: '',
   });
+
+  const handleFormChange = (company, checked) => {
+    setTestingCompanies((prev) => ({
+      ...prev,
+      [company]: checked,
+    }));
+  };
+
+  const { company1, company2, company3 } = testingCompanies;
 
 
   const handleInputChange = async (e) => {
@@ -404,14 +416,17 @@ const Form = () => {
         ac_company1: accmpname1,
         ac_phone1: acphone1,
         ac_email1: acemail1,
+        ac_testing_cmp1: company1.toString(),
         ac_name2: acname2,
         ac_company2: accmpname2,
         ac_phone2: acphone2,
         ac_email2: acemail2,
+        ac_testing_cmp2: company2.toString(),
         ac_name3: acname3,
         ac_company3: accmpname3,
         ac_phone3: acphone3,
         ac_email3: acemail3,
+        ac_testing_cmp3: company3.toString(),
         scope_work: scopework,
         customer_type: customerTypes,
         job_and_work_type: jobAndWorkTypes,
@@ -433,119 +448,122 @@ const Form = () => {
         instruction_notes: specialInstructions
       };
 
-      // try {
-      // const response = await fetch(Formdata, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify(data),
-      // });
-      // if (!response.ok) {
-      //   alert("Form data not submitted");
-      //   throw new Error(`HTTP error! status: ${response.status}`);
-      // }
-      // const result = await response.json();
-      // console.log('Saved Customer Data:', result);
-      console.log('Saved Customer Data:', data);
-      alert("Form data submitted");
+      try {
+        const response = await fetch(Formdata, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data),
+        });
+        if (!response.ok) {
+          alert("Form data not submitted");
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const result = await response.json();
+        console.log('Saved Customer Data:', result);
+        console.log('Saved Customer Data:', data);
+        alert("Form data submitted");
 
-      //   const templetedata = {
-      //     estimator: estimator,
-      //     proposal: proposal,
-      //     job_walkDate: selectedDate,
-      //     job_walkTime: time,
-      //     job_name: jobName,
-      //     job_address: address,
-      //     job_city: city,
-      //     job_state: state,
-      //     job_zip: zip,
-      //     job_email: email,
-      //     job_contact: contact,
-      //     job_phone: phone,
-      //     customer_name: customerName,
-      //     customer_claim: claimNumber,
-      //     customer_po: poNumber,
-      //     customer_address: customerAddress,
-      //     customer_city: customerCity,
-      //     customer_state: customerState,
-      //     customer_zip: customerZip,
-      //     customer_phone: customerPhone,
-      //     customer_email: customerEmail,
-      //     customer_contact: customerContact,
-      //     customer_cell: customerCell,
-      //     owner_name: ownername,
-      //     owner_address: owneraddress,
-      //     owner_city: ownercity,
-      //     owner_state: ownerstate,
-      //     owner_zip: ownerzip,
-      //     owner_phone: ownerphone,
-      //     owner_email: owneremail,
-      //     owner_contact: ownercontact,
-      //     owner_cell: ownercell,
-      //     referral_name: referralname,
-      //     referral_address: referraladdress,
-      //     referral_city: referralcity,
-      //     referral_state: referralstate,
-      //     referral_zip: referralzip,
-      //     referral_phone: referralphone,
-      //     referral_email: referralemail,
-      //     referral_contact: referralcontact,
-      //     referral_cell: referralcell,
-      //     ac_name1: acname1,
-      //     ac_company1: accmpname1,
-      //     ac_phone1: acphone1,
-      //     ac_email1: acemail1,
-      //     ac_name2: acname2,
-      //     ac_company2: accmpname2,
-      //     ac_phone2: acphone2,
-      //     ac_email2: acemail2,
-      //     ac_name3: acname3,
-      //     ac_company3: accmpname3,
-      //     ac_phone3: acphone3,
-      //     ac_email3: acemail3,
-      //     scope_work: scopework,
-      //     customer_type: customerTypes,
-      //     job_and_work_type: jobAndWorkTypes,
-      //     epa_id: epaId,
-      //     haz_manifest: hazManifest,
-      //     non_haz_man: nonHazManifest,
-      //     non_haz_man_1pr: nonHazManLT1,
-      //     trash: trash,
-      //     project_type: projectType,
-      //     building_size: buildingSize,
-      //     number_of_floors: numberOfFloors,
-      //     building_age: buildingAge,
-      //     no_of_dwelling_units: numDwellingUnits,
-      //     present_prior_use: priorUse,
-      //     procedure: procedure,
-      //     survey: survey,
-      //     contract_amount: contractAmount,
-      //     lock_box_combo: lockBoxCombo,
-      //     instruction_notes: specialInstructions
-      //   };
-      //   if (Array.isArray(templetedata.customer_type)) {
-      //     templetedata.customer_type = templetedata.customer_type.map(item => item.name).join(',');
-      //   }
-      //   if (Array.isArray(templetedata.job_and_work_type)) {
-      //     templetedata.job_and_work_type = templetedata.job_and_work_type.map(item => item.name).join(',');
-      //   }
-      //   emailjs
-      //     .send('service_lhw3x9j', 'template_g5rvd78', templetedata, 'B7IK4pR4P8ucQ8AFf')
-      //     .then(
-      //       (response) => {
-      //         console.log('SUCCESS!', response.status, response.text);
-      //         alert("Email sent successfully!");
-      //       },
-      //       (error) => {
-      //         console.log('FAILED...', error);
-      //         alert("Failed to send email.");
-      //       }
-      //     );
-      // } catch (error) {
-      //   alert("Form data not submitted");
-      //   console.error('Error ', error);
-      // }
+        const templetedata = {
+          estimator: estimator,
+          proposal: proposal,
+          job_walkDate: selectedDate,
+          job_walkTime: time,
+          job_name: jobName,
+          job_address: address,
+          job_city: city,
+          job_state: state,
+          job_zip: zip,
+          job_email: email,
+          job_contact: contact,
+          job_phone: phone,
+          customer_name: customerName,
+          customer_claim: claimNumber,
+          customer_po: poNumber,
+          customer_address: customerAddress,
+          customer_city: customerCity,
+          customer_state: customerState,
+          customer_zip: customerZip,
+          customer_phone: customerPhone,
+          customer_email: customerEmail,
+          customer_contact: customerContact,
+          customer_cell: customerCell,
+          owner_name: ownername,
+          owner_address: owneraddress,
+          owner_city: ownercity,
+          owner_state: ownerstate,
+          owner_zip: ownerzip,
+          owner_phone: ownerphone,
+          owner_email: owneremail,
+          owner_contact: ownercontact,
+          owner_cell: ownercell,
+          referral_name: referralname,
+          referral_address: referraladdress,
+          referral_city: referralcity,
+          referral_state: referralstate,
+          referral_zip: referralzip,
+          referral_phone: referralphone,
+          referral_email: referralemail,
+          referral_contact: referralcontact,
+          referral_cell: referralcell,
+          ac_name1: acname1,
+          ac_company1: accmpname1,
+          ac_phone1: acphone1,
+          ac_email1: acemail1,
+          ac_testing_cmp1: company1,
+          ac_name2: acname2,
+          ac_company2: accmpname2,
+          ac_phone2: acphone2,
+          ac_email2: acemail2,
+          ac_testing_cmp2: company2,
+          ac_name3: acname3,
+          ac_company3: accmpname3,
+          ac_phone3: acphone3,
+          ac_email3: acemail3,
+          ac_testing_cmp3: company3,
+          scope_work: scopework,
+          customer_type: customerTypes,
+          job_and_work_type: jobAndWorkTypes,
+          epa_id: epaId,
+          haz_manifest: hazManifest,
+          non_haz_man: nonHazManifest,
+          non_haz_man_1pr: nonHazManLT1,
+          trash: trash,
+          project_type: projectType,
+          building_size: buildingSize,
+          number_of_floors: numberOfFloors,
+          building_age: buildingAge,
+          no_of_dwelling_units: numDwellingUnits,
+          present_prior_use: priorUse,
+          procedure: procedure,
+          survey: survey,
+          contract_amount: contractAmount,
+          lock_box_combo: lockBoxCombo,
+          instruction_notes: specialInstructions
+        };
+        if (Array.isArray(templetedata.customer_type)) {
+          templetedata.customer_type = templetedata.customer_type.map(item => item.name).join(',');
+        }
+        if (Array.isArray(templetedata.job_and_work_type)) {
+          templetedata.job_and_work_type = templetedata.job_and_work_type.map(item => item.name).join(',');
+        }
+        emailjs
+          .send('service_lhw3x9j', 'template_g5rvd78', templetedata, 'B7IK4pR4P8ucQ8AFf')
+          .then(
+            (response) => {
+              console.log('SUCCESS!', response.status, response.text);
+              alert("Email sent successfully!");
+            },
+            (error) => {
+              console.log('FAILED...', error);
+              alert("Failed to send email.");
+            }
+          );
+      } catch (error) {
+        alert("Form data not submitted");
+        console.error('Error ', error);
+      }
     };
   };
 
@@ -1080,30 +1098,29 @@ const Form = () => {
 
   return (
     <>
-      <div className='flex items-center justify-between border-b-2 border-black'>
-        <img src="/image/logo.png" className='w-[120px]' alt="Logo" />
-        <h1 className='text-4xl font-bold text-black'>TICK SHEET</h1>
+      <div className="header">
+        <img src="/image/logo.png" className="logo" alt="Logo" />
+        <h1 className="title">TICK SHEET</h1>
       </div>
 
-      <div className='flex flex-col justify-between mt-4 md:flex-row'>
+      <div className="form-container">
         <div>
-          <div>
-            <label className='font-bold'>Estimator: </label>
-            <input className='border-b-2 border-black outline-none' type="text" value={estimator}
-              onChange={(e) => setestimator(e.target.value)} />
+          <div className="input-group">
+            <label className="label">Estimator: </label>
+            <input className="input" type="text" value={estimator} onChange={(e) => setestimator(e.target.value)} />
           </div>
-          {errors.estimator && <p className='text-red-500'>{errors.estimator}</p>}
-          <div>
-            <label className='font-bold'>Proposal# </label>
-            <input className='border-b-2 border-black outline-none' type="text" value={proposal}
-              onChange={(e) => setproposal(e.target.value)} />
+          {errors.estimator && <p className="error-message">{errors.estimator}</p>}
+
+          <div className="input-group">
+            <label className="label">Proposal#: </label>
+            <input className="input" type="text" value={proposal} onChange={(e) => setproposal(e.target.value)} />
           </div>
-          {errors.proposal && <p className='text-red-500'>{errors.proposal}</p>}
+          {errors.proposal && <p className="error-message">{errors.proposal}</p>}
         </div>
+
         <div>
-          <div>
-            <label className='font-bold'>Job Walk Date: </label>
-            {/* <input className='border-b-2 border-black outline-none' type="text" /> */}
+          <div className="input-group">
+            <label className="label">Job Walk Date: </label>
             <DatePicker
               selected={selectedDate}
               onChange={(date) => setSelectedDate(date)}
@@ -1111,75 +1128,78 @@ const Form = () => {
               isClearable
               placeholderText="Select a date"
             />
-            {errors.selectedDate && <p className='text-red-500'>{errors.selectedDate}</p>}
+            {errors.selectedDate && <p className="error-message">{errors.selectedDate}</p>}
           </div>
-          <div>
-            <label className='font-bold'>Job Walk Time: </label>
-            <input type="time" id="timeInput" name="timeInput" value={time} onChange={(e) => setTime(e.target.value)}></input>
-            {errors.time && <p className='text-red-500'>{errors.time}</p>}
+
+          <div className="input-group">
+            <label className="label">Job Walk Time: </label>
+            <input type="time" id="timeInput" name="timeInput" value={time} onChange={(e) => setTime(e.target.value)} />
+            {errors.time && <p className="error-message">{errors.time}</p>}
           </div>
         </div>
       </div>
 
-      <section className='flex mt-5'>
-        <div className='w-1/2 p-3 mr-3 border-2 rounded-md'>
-          <h1 className='mb-2 font-extrabold border-b-2'>PROJECT</h1>
-          <div className='flex'>
-            <label className='font-bold'>JOB NAME : </label>
+
+      <section className='project-section'>
+        <div className="container-project">
+          <h1 className="header">PROJECT</h1>
+
+          <div className="flex-row">
+            <label className="label">JOB NAME : </label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className="input-field"
               type="text"
               value={jobName}
               onChange={(e) => setJobName(e.target.value)}
             />
           </div>
-          {errors.jobName && <p className='text-red-500'>{errors.jobName}</p>}
+          {errors.jobName && <p className="error-text">{errors.jobName}</p>}
 
-          <div className='flex'>
-            <label className='font-bold'>Contact : </label>
+          <div className="flex-row">
+            <label className="label">Contact : </label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className="input-field"
               type="text"
               value={contact}
               onChange={(e) => setContact(e.target.value)}
             />
-            <label className='font-bold'>Phone : </label>
+            <label className="label">Phone : </label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className="input-field"
               type="text"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
           </div>
-          {errors.contact && <p className='text-red-500'>{errors.contact}</p>}
-          {errors.phone && <p className='text-red-500'>{errors.phone}</p>}
+          {errors.contact && <p className="error-text">{errors.contact}</p>}
+          {errors.phone && <p className="error-text">{errors.phone}</p>}
 
-          <div className='flex'>
-            <label className='font-bold'>Address : </label>
+          <div className="flex-row">
+            <label className="label">Address : </label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className="input-field"
               type="text"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
           </div>
-          {errors.address && <p className='text-red-500'>{errors.address}</p>}
+          {errors.address && <p className="error-text">{errors.address}</p>}
 
-          <div className='flex items-center flex-grow space-x-2 responsive-flex'>
-            <div className='flex'>
-              <label className='font-bold '>City : </label>
+          <div className="flex items-center flex-grow space-x-2 responsive-flex-project">
+            <div className="flex">
+              <label className="owner-label">City : </label>
               <input
-                className='w-full max-w-[300px] border-b-2 border-black outline-none'
+                className="project-input"
                 type="text"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
               />
             </div>
-            {errors.city && <p className='text-red-500'>{errors.city}</p>}
+            {errors.city && <p className="error-text">{errors.city}</p>}
 
-            <div className='flex items-center '>
-              <label className='font-bold'>State :  </label>
-              <div className='w-32 ml-2'>
+            <div className="flex items-center">
+              <label className="owner-label">State : </label>
+              <div className="state-selector">
                 <Multiselect
                   options={USStateOptions.options}
                   displayValue="name"
@@ -1187,35 +1207,34 @@ const Form = () => {
                   singleSelect={true}
                   selectedValues={samecustomerproject && customerState ? [{ name: customerState }] : state ? [{ name: state }] : undefined}
                   placeholder="State"
-                  className="p-2 outline-none cursor-pointer custom-width"
                 />
               </div>
             </div>
-            {errors.state && <p className='text-red-500'>{errors.state}</p>}
+            {errors.state && <p className="error-text">{errors.state}</p>}
 
-            <div className='flex items-center flex-grow space-x-2'>
-              <label className='font-bold'>Zip : </label>
+            <div className="flex items-center flex-grow space-x-2">
+              <label className="owner-label">Zip : </label>
               <input
-                className='w-full border-b-2 border-black outline-none'
+                className="owner-input"
                 type="text"
                 value={zip}
                 onChange={(e) => { setZip(e.target.value); handleZipChange(e, 'project'); }}
               />
             </div>
-            {errors.zip && <p className='text-red-500'>{errors.zip}</p>}
-            {zipError.project && <p className='text-red-500'>{zipError.project}</p>}
+            {errors.zip && <p className="error-text">{errors.zip}</p>}
+            {zipError.project && <p className="error-text">{zipError.project}</p>}
           </div>
 
-          <div className='flex'>
-            <label className='font-bold'>E-mail : </label>
+          <div className="flex-row">
+            <label className="label">E-mail : </label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className="input-field"
               type="email"
               value={email}
               onChange={handleEmailChange}
             />
           </div>
-          {errors.email && <p className='text-red-500'>{errors.email}</p>}
+          {errors.email && <p className="error-text">{errors.email}</p>}
 
           <br />
           <input
@@ -1231,13 +1250,14 @@ const Form = () => {
             }
             onChange={handleCheckboxChangecustomer}
           />
-          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Customer</label><br />
+          <label htmlFor="sameaddress" className="checkbox-label">Same contact - Customer</label><br />
+
           <input
             type="checkbox"
             id="sameaddressowner"
             name="sameaddressowner"
-            value="sameaddressowner"
             className="checkbox"
+            value="sameaddressowner"
             checked={sameprojectowner}
             disabled={
               !(sameprojectcustmer || sameprojectowner || sameprojectrefferal) &&
@@ -1245,7 +1265,8 @@ const Form = () => {
             }
             onChange={handleCheckboxChangeowner}
           />
-          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Owner</label><br />
+          <label htmlFor="sameaddressowner" className="checkbox-label">Same contact - Owner</label><br />
+
           <input
             type="checkbox"
             id="sameaddressrefferal"
@@ -1259,77 +1280,65 @@ const Form = () => {
             }
             onChange={handleCheckboxChangerefferal}
           />
-          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Refferal</label>
+          <label htmlFor="sameaddressrefferal" className="checkbox-label">Same contact - Refferal</label>
         </div>
 
-        <div className='w-1/2 p-3 ml-3 border-2 rounded-md '>
-          <h1 className='mb-2 font-extrabold border-b-2'>CUSTOMER</h1>
-          <div className='flex'>
-            <label className='font-bold'>CUSTOMER : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="text" value={customerName}
-              onChange={(e) => {
-                setCustomerName(e.target.value); handleInputChange(e);
-              }} />
+
+        <div class="container-customer">
+          <h1 class="heading">CUSTOMER</h1>
+          <div class="field">
+            <label class="label">CUSTOMER:</label>
+            <input class="input" type="text" value={customerName} onChange={(e) => { setCustomerName(e.target.value); handleInputChange(e); }} />
           </div>
 
-          {errors.customerName && <p className='text-red-500'>{errors.customerName}</p>}
+          {errors.customerName && <p class="error-message">{errors.customerName}</p>}
           {isDropdownVisible && suggestions && suggestions.length > 0 && (
-            <ul className='absolute z-10 overflow-y-auto bg-white border border-gray-300 max-h-60' style={{ width: '46%' }}>
+            <ul class="suggestions">
               {suggestions.map((suggestion) => (
-                <li
-                  key={suggestion.account_id}
-                  className='p-2 cursor-pointer hover:bg-gray-200'
-                  onClick={() => handleSuggestionClick(suggestion)}
-                >
+                <li key={suggestion.account_id} class="suggestion-item" onClick={() => handleSuggestionClick(suggestion)}>
                   {suggestion.account_name}
                 </li>
               ))}
             </ul>
           )}
-          <div className='flex'>
-            <label className='font-bold'>Contact : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="text" value={customerContact}
-              onChange={(e) => setCustomerContact(e.target.value)} />
-            <label className='font-bold'>Cell : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="text" value={customerCell}
-              onChange={(e) => setCustomerCell(e.target.value)} />
+
+          <div class="field">
+            <label class="label">Contact:</label>
+            <input class="input" type="text" value={customerContact} onChange={(e) => setCustomerContact(e.target.value)} />
+            <label class="label">Cell:</label>
+            <input class="input" type="text" value={customerCell} onChange={(e) => setCustomerCell(e.target.value)} />
           </div>
 
-          {errors.customerCell && <p className='text-red-500'>{errors.customerCell}</p>}
-          {errors.customerContact && <p className='text-red-500'>{errors.customerContact}</p>}
+          {errors.customerCell && <p class="error-message">{errors.customerCell}</p>}
+          {errors.customerContact && <p class="error-message">{errors.customerContact}</p>}
 
-          <div className='flex'>
-            <label className='font-bold'>Claim # </label>
-            <input className='w-full border-b-2 border-black outline-none' type="text" value={claimNumber}
-              onChange={(e) => setClaimNumber(e.target.value)} />
-
-            <label className='font-bold'>PO # </label>
-            <input className='w-full border-b-2 border-black outline-none' type="text" value={poNumber}
-              onChange={(e) => setPoNumber(e.target.value)} />
-
+          <div class="field">
+            <label class="label">Claim #:</label>
+            <input class="input" type="text" value={claimNumber} onChange={(e) => setClaimNumber(e.target.value)} />
+            <label class="label">PO #:</label>
+            <input class="input" type="text" value={poNumber} onChange={(e) => setPoNumber(e.target.value)} />
           </div>
-          {errors.claimNumber && <p className='text-red-500'>{errors.claimNumber}</p>}
-          {errors.poNumber && <p className='text-red-500'>{errors.poNumber}</p>}
 
-          <div className='flex'>
-            <label className='font-bold'>Address : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="text" value={customerAddress}
-              onChange={(e) => setCustomerAddress(e.target.value)} />
+          {errors.claimNumber && <p class="error-message">{errors.claimNumber}</p>}
+          {errors.poNumber && <p class="error-message">{errors.poNumber}</p>}
+
+          <div class="flex">
+            <label class="label">Address:</label>
+            <input class="input" type="text" value={customerAddress} onChange={(e) => setCustomerAddress(e.target.value)} />
           </div>
-          {errors.customerAddress && <p className='text-red-500'>{errors.customerAddress}</p>}
 
-          <div className='flex items-center flex-grow space-x-2 responsive-flex'>
-            <div className='flex'>
-              <label className='font-bold'>City : </label>
-              <input className='w-full border-b-2 border-black outline-none' type="text" value={customerCity}
-                onChange={(e) => setCustomerCity(e.target.value)} />
+          {errors.customerAddress && <p class="error-message">{errors.customerAddress}</p>}
+
+          <div class="flex items-center flex-grow space-x-2 responsive-flex-project">
+            <div class="flex">
+              <label class="label">City:</label>
+              <input class="customer-input" type="text" value={customerCity} onChange={(e) => setCustomerCity(e.target.value)} />
             </div>
-            {errors.customerCity && <p className='text-red-500'>{errors.customerCity}</p>}
+            {errors.customerCity && <p class="error-message">{errors.customerCity}</p>}
 
-            <div className='flex items-center'>
-              <label className='font-bold'>State :  </label>
-              {/* <input className='w-full border-b-2 border-black outline-none' type="text" /> */}
-              <div className='w-32 ml-2'>
+            <div class="flex items-center">
+              <label class="owner-label">State:</label>
+              <div class="multiselect-container">
                 <Multiselect
                   options={USStateOptions.options}
                   displayValue="name"
@@ -1337,56 +1346,52 @@ const Form = () => {
                   singleSelect={true}
                   selectedValues={sameprojectcustmer && state ? [{ name: state }] : customerState ? [{ name: customerState }] : undefined}
                   placeholder="State"
-                  className="w-full p-2 outline-none cursor-pointer"
+                  className="multiselect"
                 />
               </div>
-              {errors.customerState && <p className='text-red-500'>{errors.customerState}</p>}
+              {errors.customerState && <p class="error-message">{errors.customerState}</p>}
             </div>
-            <div className='flex flex-grow space-x-2 text-center'>
-              <label className='font-bold'>Zip : </label>
-              <input
-                className='w-full border-b-2 border-black outline-none'
-                type="text"
-                value={customerZip}
-                onChange={(e) => { setCustomerZip(e.target.value); handleZipChange(e, 'customer'); }}
-              />
+
+            <div class="flex items-center flex-grow space-x-2">
+              <label class="label">Zip:</label>
+              <input class="input" type="text" value={customerZip} onChange={(e) => { setCustomerZip(e.target.value); handleZipChange(e, 'customer'); }} />
             </div>
-            {errors.customerZip && <p className='text-red-500'>{errors.customerZip}</p>}
-            {zipError.customer && <p className='text-red-500'>{zipError.customer}</p>}
+            {errors.customerZip && <p class="error-message">{errors.customerZip}</p>}
+            {zipError.customer && <p class="error-message">{zipError.customer}</p>}
           </div>
-          <div className='flex'>
-            <label className='font-bold'>Phone : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="text" value={customerPhone}
-              onChange={(e) => setCustomerPhone(e.target.value)} />
-            <label className='font-bold'>E-mail : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="email" value={customerEmail}
-              onChange={(e) => setCustomerEmail(e.target.value)} />
+
+          <div class="field">
+            <label class="label">Phone:</label>
+            <input class="input" type="text" value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value)} />
+            <label class="label">E-mail:</label>
+            <input class="input" type="email" value={customerEmail} onChange={(e) => setCustomerEmail(e.target.value)} />
           </div>
-          {errors.customerEmail && <p className='text-red-500'>{errors.customerEmail}</p>}
-          {errors.customerPhone && <p className='text-red-500'>{errors.customerPhone}</p>}
+
+          {errors.customerEmail && <p class="error-message">{errors.customerEmail}</p>}
+          {errors.customerPhone && <p class="error-message">{errors.customerPhone}</p>}
+
           <br />
           <input
             type="checkbox"
             id="sameaddress-project-customer"
             name="sameaddress-project-customer"
-            className="checkbox"
+            class="checkbox"
             value="sameaddress-project-customer"
             checked={samecustomerproject}
-
             disabled={
               !(samecustomerproject || samecustomerowner || samecustomerrefferal) &&
               (customerAddress !== '' || customerCity !== '' || customerState !== '' || customerZip !== '' || customerPhone !== '' || customerContact !== '' || customerEmail !== '')
             }
             onChange={handleCheckboxChangecustomerproject}
           />
-          <label htmlFor="sameaddress-project" className='checkbox-label'>Same contact - Project</label><br />
+          <label for="sameaddress-project" class="checkbox-label">Same contact - Project</label><br />
 
           <input
             type="checkbox"
             id="sameaddress-project-owner"
             name="sameaddress-project-owner"
             value="sameaddress-project-owner"
-            className="checkbox"
+            class="checkbox"
             checked={samecustomerowner}
             disabled={
               !(samecustomerproject || samecustomerowner || samecustomerrefferal) &&
@@ -1394,14 +1399,14 @@ const Form = () => {
             }
             onChange={handleCheckboxChangecustomerowner}
           />
-          <label htmlFor="sameaddress-owner" className='checkbox-label'>Same contact - Owner</label><br />
+          <label for="sameaddress-owner" class="checkbox-label">Same contact - Owner</label><br />
 
           <input
             type="checkbox"
             id="sameaddress-project-refferal"
             name="sameaddress-project-refferal"
             value="sameaddress-project-refferal"
-            className="checkbox"
+            class="checkbox"
             checked={samecustomerrefferal}
             disabled={
               !(samecustomerproject || samecustomerowner || samecustomerrefferal) &&
@@ -1409,51 +1414,43 @@ const Form = () => {
             }
             onChange={handleCheckboxChangecustomerrefferal}
           />
-          <label htmlFor="sameaddress-refferal" className='checkbox-label'>Same contact - Refferal</label>
+          <label for="sameaddress-refferal" class="checkbox-label">Same contact - Refferal</label>
         </div>
-
       </section>
 
-      <section className='flex mt-5'>
-        <div className='w-1/2 p-3 mr-3 border-2 rounded-md'>
-          <h1 className='mb-2 font-extrabold border-b-2'>OWNER</h1>
+      <section className='owner-section'>
+        <div className='owner-container'>
+          <h1 className='owner-title'>OWNER</h1>
           <div className='flex'>
-            <label className='font-bold'>OWNER : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="text" value={ownername}
-              onChange={(e) => setOwnername(e.target.value)} />
+            <label className='owner-label'>OWNER : </label>
+            <input className='owner-input' type="text" value={ownername} onChange={(e) => setOwnername(e.target.value)} />
           </div>
 
           <div className='flex'>
-            <label className='font-bold'>Contact : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="text" value={ownercontact}
-              onChange={(e) => setOwnercontact(e.target.value)} />
-            {errors.ownercontact && <span className="text-red-500">{errors.ownercontact}</span>}
-            <label className='font-bold'>Cell : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="text" value={ownercell}
-              onChange={(e) => setOwnercell(e.target.value)} />
+            <label className='owner-label'>Contact : </label>
+            <input className='owner-input' type="text" value={ownercontact} onChange={(e) => setOwnercontact(e.target.value)} />
+            {errors.ownercontact && <span className="error-text">{errors.ownercontact}</span>}
+            <label className='owner-label'>Cell : </label>
+            <input className='owner-input' type="text" value={ownercell} onChange={(e) => setOwnercell(e.target.value)} />
           </div>
-          {errors.ownercell && <span className="text-red-500">{errors.ownercell}</span>}
+          {errors.ownercell && <span className="error-text">{errors.ownercell}</span>}
 
-
-          {errors.ownername && <span className="text-red-500">{errors.ownername}</span>}
+          {errors.ownername && <span className="error-text">{errors.ownername}</span>}
           <div className='flex'>
-            <label className='font-bold'>Address : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="text" value={owneraddress}
-              onChange={(e) => setOwneraddress(e.target.value)} />
+            <label className='owner-label'>Address : </label>
+            <input className='owner-input' type="text" value={owneraddress} onChange={(e) => setOwneraddress(e.target.value)} />
           </div>
-          {errors.owneraddress && <span className="text-red-500">{errors.owneraddress}</span>}
+          {errors.owneraddress && <span className="error-text">{errors.owneraddress}</span>}
 
-          <div className='flex items-center flex-grow space-x-2 responsive-flex'>
+          <div className='flex items-center flex-grow space-x-2 responsive-flex-project'>
             <div className='flex'>
-              <label className='font-bold'>City : </label>
-              <input className='w-full border-b-2 border-black outline-none' type="text" value={ownercity}
-                onChange={(e) => setOwnercity(e.target.value)} />
+              <label className='owner-label'>City : </label>
+              <input className='owners-input' type="text" value={ownercity} onChange={(e) => setOwnercity(e.target.value)} />
             </div>
-            {errors.ownercity && <span className="text-red-500">{errors.ownercity}</span>}
+            {errors.ownercity && <span className="error-text">{errors.ownercity}</span>}
             <div className='flex items-center'>
-              <label className='font-bold'>State :  </label>
-              {/* <input className='w-full border-b-2 border-black outline-none' type="text" /> */}
-              <div className='w-32 ml-2'>
+              <label className='owner-label'>State : </label>
+              <div className='state-select'>
                 <Multiselect
                   options={USStateOptions.options}
                   displayValue="name"
@@ -1461,139 +1458,133 @@ const Form = () => {
                   singleSelect={true}
                   selectedValues={sameownerprojects && state ? [{ name: state }] : ownerstate ? [{ name: ownerstate }] : undefined}
                   placeholder="State"
-                  className="w-full p-2 outline-none cursor-pointer"
+                  className="multiselect"
                 />
               </div>
-              {errors.ownerstate && <span className="text-red-500">{errors.ownerstate}</span>}
+              {errors.ownerstate && <span className="error-text">{errors.ownerstate}</span>}
             </div>
-            <div className='flex items-center flex-grow space-x-2 '>
-              <label className='font-bold'>Zip : </label>
-              <input className='w-full border-b-2 border-black outline-none' type="text" value={ownerzip}
-                onChange={(e) => { setOwnerzip(e.target.value); handleZipChange(e, 'owner') }} />
+            <div className='flex items-center flex-grow space-x-2'>
+              <label className='owner-label'>Zip : </label>
+              <input className='owner-input' type="text" value={ownerzip} onChange={(e) => { setOwnerzip(e.target.value); handleZipChange(e, 'owner') }} />
             </div>
-            {errors.ownerzip && <span className="text-red-500">{errors.ownerzip}</span>}
-            {zipError.owner && <p className='text-red-500'>{zipError.owner}</p>}
+            {errors.ownerzip && <span className="error-text">{errors.ownerzip}</span>}
+            {zipError.owner && <p className='error-text'>{zipError.owner}</p>}
           </div>
           <div className='flex'>
-            <label className='font-bold'>Phone : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="text" value={ownerphone}
-              onChange={(e) => setOwnerphone(e.target.value)} />
-            <label className='font-bold'>E-mail : </label>
-            <input className='w-full border-b-2 border-black outline-none' type="email" value={owneremail}
-              onChange={(e) => setOwneremail(e.target.value)} />
+            <label className='owner-label'>Phone : </label>
+            <input className='owner-input' type="text" value={ownerphone} onChange={(e) => setOwnerphone(e.target.value)} />
+            <label className='owner-label'>E-mail : </label>
+            <input className='owner-input' type="email" value={owneremail} onChange={(e) => setOwneremail(e.target.value)} />
           </div>
-          {errors.ownerphone && <span className="text-red-500">{errors.ownerphone}</span>}
-          {errors.owneremail && <span className="text-red-500">{errors.owneremail}</span>}
+          {errors.ownerphone && <span className="error-text">{errors.ownerphone}</span>}
+          {errors.owneremail && <span className="error-text">{errors.owneremail}</span>}
           <br />
           <input
             type="checkbox"
-            id="sameaddress"
+            id="sameaddress-project"
             className="checkbox"
             name="sameaddress"
             value="sameaddress"
             checked={sameownerprojects}
             onChange={handleCheckboxChangeownerproject}
-
             disabled={
               !(sameownerprojects || sameownercustomer || sameownerproject) &&
               (owneraddress !== '' || ownercity !== '' || ownerstate !== '' || ownerzip !== '' || ownerphone !== '' || ownercontact !== '' || owneremail !== '')
             }
           />
-          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Project </label><br />
+          <label htmlFor="sameaddress-project" className='checkbox-label'>Same contact - Project</label><br />
+
           <input
             type="checkbox"
-            id="sameaddress"
+            id="sameaddress-customer"
             name="sameaddress"
             className="checkbox"
             value="sameaddress"
             checked={sameownercustomer}
-            // onSelect={refferralselect}
             onChange={handleCheckboxChangeownercustomer}
-
             disabled={
               !(sameownerprojects || sameownercustomer || sameownerproject) &&
               (owneraddress !== '' || ownercity !== '' || ownerstate !== '' || ownerzip !== '' || ownerphone !== '' || ownercontact !== '' || owneremail !== '')
             }
           />
-          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Customer</label><br />
+          <label htmlFor="sameaddress-customer" className='checkbox-label'>Same contact - Customer</label><br />
+
           <input
             type="checkbox"
-            id="sameaddress"
+            id="sameaddress-referral"
             name="sameaddress"
             value="sameaddress"
             className="checkbox"
             checked={sameownerproject}
             onChange={handleCheckboxChangeownerrefferal}
-
             disabled={
               !(sameownerprojects || sameownercustomer || sameownerproject) &&
               (owneraddress !== '' || ownercity !== '' || ownerstate !== '' || ownerzip !== '' || ownerphone !== '' || ownercontact !== '' || owneremail !== '')
             }
           />
-          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Refferal</label>
+          <label htmlFor="sameaddress-referral" className='checkbox-label'>Same contact - Referral</label>
         </div>
 
-        <div className='w-1/2 p-3 ml-3 border-2 rounded-md'>
-          <h1 className='mb-2 font-extrabold border-b-2'>REFERRAL</h1>
+        <div className='container-refferal'>
+          <h1 className='header'>REFERRAL</h1>
 
           <div className='flex'>
-            <label className='font-bold'>REFERRAL NAME: </label>
+            <label className='label'>REFERRAL NAME: </label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className='input'
               type="text"
               value={referralname}
               onChange={(e) => setreferralname(e.target.value)}
             />
           </div>
-          {errors.referralname && <div className="text-red-500">{errors.referralname}</div>}
+          {errors.referralname && <div className="error">{errors.referralname}</div>}
 
           <div className='flex'>
-            <label className='font-bold'>Contact: </label>
+            <label className='label'>Contact: </label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className='input'
               type="text"
               value={referralcontact}
               onChange={(e) => setreferralcontact(e.target.value)}
             />
 
-            <label className='font-bold'>Cell: </label>
+            <label className='label'>Cell: </label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className='input'
               type="text"
               value={referralcell}
               onChange={(e) => setreferralcell(e.target.value)}
             />
           </div>
-          {errors.referralcell && <div className="text-red-500">{errors.referralcell}</div>}
-          {errors.referralcontact && <div className="text-red-500">{errors.referralcontact}</div>}
+          {errors.referralcell && <div className="error">{errors.referralcell}</div>}
+          {errors.referralcontact && <div className="error">{errors.referralcontact}</div>}
 
-
-
-          <div className='flex'>
-            <label className='font-bold'>Address: </label>
+          <div className='flex-row'>
+            <label className='label'>Address: </label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className='input'
               type="text"
               value={referraladdress}
               onChange={(e) => setreferraladdress(e.target.value)}
             />
-          </div>
-          {errors.referraladdress && <div className="text-red-500">{errors.referraladdress}</div>}
 
-          <div className='flex items-center flex-grow space-x-2 responsive-flex'>
+          </div>
+          {errors.referraladdress && <div className="error">{errors.referraladdress}</div>}
+
+          <div class="flex items-center flex-grow space-x-2 responsive-flex-project">
             <div className='flex'>
-              <label className='font-bold'>City: </label>
+              <label className='owner-label'>City: </label>
               <input
-                className='w-full border-b-2 border-black outline-none'
+                className='referal-input'
                 type="text"
                 value={referralcity}
                 onChange={(e) => setreferralcity(e.target.value)}
               />
             </div>
-            {errors.referralcity && <div className="text-red-500">{errors.referralcity}</div>}
+            {errors.referralcity && <div className="error">{errors.referralcity}</div>}
 
             <div className='flex items-center'>
-              <label className='font-bold'>State:  </label>
+              <label className='owner-label'>State:  </label>
               <div className='w-32 ml-2'>
                 <Multiselect
                   options={USStateOptions.options}
@@ -1602,60 +1593,59 @@ const Form = () => {
                   singleSelect={true}
                   selectedValues={sameprojectcustmer && state ? [{ name: state }] : referralstate ? [{ name: referralstate }] : undefined}
                   placeholder="State"
-                  className="w-full p-2 outline-none cursor-pointer"
+                  className="input"
                 />
               </div>
             </div>
-            {errors.referralstate && <div className="text-red-500">{errors.referralstate}</div>}
+            {errors.referralstate && <div className="error">{errors.referralstate}</div>}
 
             <div className='flex flex-grow space-x-2 text-center'>
-              <label className='font-bold'>Zip : </label>
-              <input className='w-full border-b-2 border-black outline-none' type="text" value={referralzip}
+              <label className='label'>Zip : </label>
+              <input className='input' type="text" value={referralzip}
                 onChange={(e) => { setreferralzip(e.target.value); handleZipChange(e, 'referral') }} />
             </div>
-            {zipError.referral && <p className='text-red-500'>{zipError.referral}</p>}
-            {errors.referralzip && <div className="text-red-500">{errors.referralzip}</div>}
+            {zipError.referral && <p className='error'>{zipError.referral}</p>}
+            {errors.referralzip && <div className="error">{errors.referralzip}</div>}
           </div>
 
           <div className='flex'>
-            <label className='font-bold'>Phone: </label>
+            <label className='label'>Phone: </label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className='input'
               type="text"
               value={referralphone}
               onChange={(e) => setreferralphone(e.target.value)}
             />
-            <label className='font-bold'>E-mail: </label>
+            <label className='label'>E-mail: </label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className='input'
               type="email"
               value={referralemail}
               onChange={(e) => setreferralemail(e.target.value)}
             />
           </div>
-          {errors.referralphone && <div className="text-red-500">{errors.referralphone}</div>}
-          {errors.referralemail && <div className="text-red-500">{errors.referralemail}</div>}
+          {errors.referralphone && <div className="error">{errors.referralphone}</div>}
+          {errors.referralemail && <div className="error">{errors.referralemail}</div>}
 
           <br />
           <input
             type="checkbox"
-            id="sameaddress"
+            id="sameaddress-project"
             name="sameaddress"
             className="checkbox"
             value="sameaddress"
             checked={samerefferalproject}
             onChange={handleCheckboxChangerefferalproject}
-
             disabled={
               !(samerefferalproject || samerefferalcustomer || samerefferalowner) &&
               (referraladdress !== '' || referralcity !== '' || referralstate !== '' || referralzip !== '' || referralphone !== '' || referralcontact !== '' || referralemail !== '')
             }
           />
-          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Project</label><br />
+          <label htmlFor="sameaddress-project" className='checkbox-label'>Same contact - Project</label><br />
 
           <input
             type="checkbox"
-            id="sameaddress"
+            id="sameaddress-customer"
             name="sameaddress"
             value="sameaddress"
             className="checkbox"
@@ -1666,10 +1656,11 @@ const Form = () => {
               (referraladdress !== '' || referralcity !== '' || referralstate !== '' || referralzip !== '' || referralphone !== '' || referralcontact !== '' || referralemail !== '')
             }
           />
-          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Customer</label><br />
+          <label htmlFor="sameaddress-customer" className='checkbox-label'>Same contact - Customer</label><br />
+
           <input
             type="checkbox"
-            id="sameaddress"
+            id="sameaddress-owner"
             name="sameaddress"
             value="sameaddress"
             className="checkbox"
@@ -1680,400 +1671,360 @@ const Form = () => {
               (referraladdress !== '' || referralcity !== '' || referralstate !== '' || referralzip !== '' || referralphone !== '' || referralcontact !== '' || referralemail !== '')
             }
           />
-          <label htmlFor="sameaddress" className='checkbox-label'>Same contact - Owner</label><br />
+          <label htmlFor="sameaddress-owner" className='checkbox-label'>Same contact - Owner</label><br />
         </div>
+      </section >
 
+      <section className='contact-div'>
+        <div className='contact-form'>
+          <h1 className='section-title'>ADDITIONAL CONTACTS</h1>
 
-      </section>
-      <section className='flex mt-5'>
-        <div className='w-1/2 p-3 mr-3 border-2 rounded-md'>
-          <h1 className='mb-2 font-extrabold border-b-2'>ADDITIONAL CONTACTS</h1>
-
-          {/* First Additional Contact */}
-          <div className='mt-5'>
-            <div className='flex'>
-              <label className='font-bold'>Name : </label>
-              <input className='w-full border-b-2 border-black outline-none' type="text" value={acname1}
-                onChange={(e) => setacname1(e.target.value)} />
-              <label className='font-bold'>Company : </label>
-              <input className='w-full border-b-2 border-black outline-none' type="text" value={accmpname1}
-                onChange={(e) => setaccmpname1(e.target.value)} />
+          <div className='contact-section'>
+            <div className='input-group'>
+              <label className='label'>Name:</label>
+              <input className='input' type="text" value={acname1} onChange={(e) => setacname1(e.target.value)} />
+              <label className='label'>Company:</label>
+              <input className='input' type="text" value={accmpname1} onChange={(e) => setaccmpname1(e.target.value)} />
             </div>
-            {errors.acname1 && <p className='text-red-500'>{errors.acname1}</p>}
-            {errors.accmpname1 && <p className='text-red-500'>{errors.accmpname1}</p>}
-            <div className='flex'>
-              <label className='font-bold'>Phone : </label>
-              <input className='w-full border-b-2 border-black outline-none' type="text" value={acphone1}
-                onChange={(e) => setacphone1(e.target.value)} />
-              <label className='font-bold'>E-mail : </label>
-              <input className='w-full border-b-2 border-black outline-none' type="email" value={acemail1}
-                onChange={(e) => setacemail1(e.target.value)} />
-            </div>
-            {errors.acphone1 && <p className='text-red-500'>{errors.acphone1}</p>}
-            {errors.acemail1 && <p className='text-red-500'>{errors.acemail1}</p>}
+            {errors.acname1 && <p className='error'>{errors.acname1}</p>}
+            {errors.accmpname1 && <p className='error'>{errors.accmpname1}</p>}
 
-            {/* Testing Company Checkbox */}
-            <div className='mt-3'>
+            <div className='input-group'>
+              <label className='label'>Phone:</label>
+              <input className='input' type="text" value={acphone1} onChange={(e) => setacphone1(e.target.value)} />
+              <label className='label'>E-mail:</label>
+              <input className='input' type="email" value={acemail1} onChange={(e) => setacemail1(e.target.value)} />
+            </div>
+            {errors.acphone1 && <p className='error'>{errors.acphone1}</p>}
+            {errors.acemail1 && <p className='error'>{errors.acemail1}</p>}
+
+            <div className='checkbox-group'>
               <input
                 type="checkbox"
                 id="testingCompany1"
                 name="testingCompany1"
                 className="contact-checkbox"
                 value="testingCompany1"
-                checked={isTestingCompany1}
-                onChange={(e) => {
-                  setIsTestingCompany1(e.target.checked)
-
-                  if (e.target.checked) {
-                    setErrors((prevErrors) => {
-                      const { testingCompany1, ...restErrors } = prevErrors;
-                      return restErrors;
-                    });
-                  }
-                }
-                }
+                checked={company1}
+                onChange={(e) => handleFormChange('company1', e.target.checked)}
               />
-
-              <label htmlFor="testingCompany1" className='ml-2'>Testing Company</label>
+              <label htmlFor="testingCompany1" className='checkbox-label'>Testing Company</label>
             </div>
-            {errors.testingCompany1 && <p className='text-red-500'>{errors.testingCompany1}</p>}
+            {errors.testingCompany1 && <p className='error'>{errors.testingCompany1}</p>}
           </div>
 
-          <div className='mt-5'>
-            <div className='flex'>
-              <label className='font-bold'>Name : </label>
-              <input className='w-full border-b-2 border-black outline-none' type="text" value={acname2}
-                onChange={(e) => setacname2(e.target.value)} />
-              <label className='font-bold'>Company : </label>
-              <input className='w-full border-b-2 border-black outline-none' type="text" value={accmpname2}
-                onChange={(e) => setaccmpname2(e.target.value)} />
-            </div>
-            {errors.acname2 && <p className='text-red-500'>{errors.acname2}</p>}
-            {errors.accmpname2 && <p className='text-red-500'>{errors.accmpname2}</p>}
-            <div className='flex'>
-              <label className='font-bold'>Phone : </label>
-              <input className='w-full border-b-2 border-black outline-none' type="text" value={acphone2}
-                onChange={(e) => setacphone2(e.target.value)} />
-              <label className='font-bold'>E-mail : </label>
-              <input className='w-full border-b-2 border-black outline-none' type="email" value={acemail2}
-                onChange={(e) => setacemail2(e.target.value)} />
-            </div>
-            {errors.acphone2 && <p className='text-red-500'>{errors.acphone2}</p>}
-            {errors.acemail2 && <p className='text-red-500'>{errors.acemail2}</p>}
+          {/* Repeat the same structure for additional contacts (acname2, accmpname2, acphone2, acemail2) */}
 
-            {/* Testing Company Checkbox */}
-            <div className='mt-3'>
+          <div className='contact-section'>
+            <div className='input-group'>
+              <label className='label'>Name:</label>
+              <input className='input' type="text" value={acname2} onChange={(e) => setacname2(e.target.value)} />
+              <label className='label'>Company:</label>
+              <input className='input' type="text" value={accmpname2} onChange={(e) => setaccmpname2(e.target.value)} />
+            </div>
+            {errors.acname2 && <p className='error'>{errors.acname2}</p>}
+            {errors.accmpname2 && <p className='error'>{errors.accmpname2}</p>}
+
+            <div className='input-group'>
+              <label className='label'>Phone:</label>
+              <input className='input' type="text" value={acphone2} onChange={(e) => setacphone2(e.target.value)} />
+              <label className='label'>E-mail:</label>
+              <input className='input' type="email" value={acemail2} onChange={(e) => setacemail2(e.target.value)} />
+            </div>
+            {errors.acphone2 && <p className='error'>{errors.acphone2}</p>}
+            {errors.acemail2 && <p className='error'>{errors.acemail2}</p>}
+
+            <div className='checkbox-group'>
               <input
                 type="checkbox"
                 id="testingCompany2"
                 name="testingCompany2"
                 className="contact-checkbox"
                 value="testingCompany2"
-                checked={isTestingCompany2}
-                onChange={(e) => {
-                  setIsTestingCompany2(e.target.checked)
-                  if (e.target.checked) {
-                    setErrors((prevErrors) => {
-                      const { testingCompany2, ...restErrors } = prevErrors;
-                      return restErrors;
-                    });
-                  }
-                }}
+                checked={company2}
+                onChange={(e) => handleFormChange('company2', e.target.checked)}
               />
-              <label htmlFor="testingCompany2" className='ml-2'>Testing Company</label>
+              <label htmlFor="testingCompany2" className='checkbox-label'>Testing Company 2</label>
             </div>
-            {errors.testingCompany2 && <p className='text-red-500'>{errors.testingCompany2}</p>}
+            {errors.testingCompany2 && <p className='error'>{errors.testingCompany2}</p>}
           </div>
 
-          <div className='mt-5'>
-            <div className='flex'>
-              <label className='font-bold'>Name : </label>
-              <input className='w-full border-b-2 border-black outline-none' type="text" value={acname3}
-                onChange={(e) => setacname3(e.target.value)} />
-              <label className='font-bold'>Company : </label>
-              <input className='w-full border-b-2 border-black outline-none' type="text" value={accmpname3}
-                onChange={(e) => setaccmpname3(e.target.value)} />
+          {/* Repeat for acname3, accmpname3, acphone3, acemail3 */}
+          <div className='contact-section'>
+            <div className='input-group'>
+              <label className='label'>Name:</label>
+              <input className='input' type="text" value={acname3} onChange={(e) => setacname3(e.target.value)} />
+              <label className='label'>Company:</label>
+              <input className='input' type="text" value={accmpname3} onChange={(e) => setaccmpname3(e.target.value)} />
             </div>
-            {errors.acname3 && <p className='text-red-500'>{errors.acname3}</p>}
-            {errors.accmpname3 && <p className='text-red-500'>{errors.accmpname3}</p>}
+            {errors.acname3 && <p className='error'>{errors.acname3}</p>}
+            {errors.accmpname3 && <p className='error'>{errors.accmpname3}</p>}
 
-            <div className='flex'>
-              <label className='font-bold'>Phone : </label>
-              <input className='w-full border-b-2 border-black outline-none' type="text" value={acphone3}
-                onChange={(e) => setacphone3(e.target.value)} />
-              <label className='font-bold'>E-mail : </label>
-              <input className='w-full border-b-2 border-black outline-none' type="email" value={acemail3}
-                onChange={(e) => setacemail3(e.target.value)} />
+            <div className='input-group'>
+              <label className='label'>Phone:</label>
+              <input className='input' type="text" value={acphone3} onChange={(e) => setacphone3(e.target.value)} />
+              <label className='label'>E-mail:</label>
+              <input className='input' type="email" value={acemail3} onChange={(e) => setacemail3(e.target.value)} />
             </div>
-            {errors.acphone3 && <p className='text-red-500'>{errors.acphone3}</p>}
-            {errors.acemail3 && <p className='text-red-500'>{errors.acemail3}</p>}
+            {errors.acphone3 && <p className='error'>{errors.acphone3}</p>}
+            {errors.acemail3 && <p className='error'>{errors.acemail3}</p>}
 
-            {/* Testing Company Checkbox */}
-            <div className='mt-3'>
+            <div className='checkbox-group'>
               <input
                 type="checkbox"
-                id="testingCompany2"
-                name="testingCompany2"
+                id="testingCompany3"
+                name="testingCompany3"
                 className="contact-checkbox"
                 value="testingCompany3"
-                checked={isTestingCompany3}
-                onChange={(e) => {
-                  setIsTestingCompany3(e.target.checked)
-                  if (e.target.checked) {
-                    setErrors((prevErrors) => {
-                      const { testingCompany3, ...restErrors } = prevErrors;
-                      return restErrors;
-                    });
-                  }
-                }}
+                checked={company3}
+                onChange={(e) => handleFormChange('company3', e.target.checked)}
               />
-              <label htmlFor="testingCompany3" className='ml-2'>Testing Company</label>
+              <label htmlFor="testingCompany3" className='checkbox-label'>Testing Company 3</label>
             </div>
-            {errors.testingCompany3 && <p className='text-red-500'>{errors.testingCompany3}</p>}
+            {errors.testingCompany3 && <p className='error'>{errors.testingCompany3}</p>}
           </div>
-
         </div>
-
-        <div className='w-1/2 p-3 ml-3 border-2 rounded-md'>
-          <h1 className='mb-2 font-extrabold border-b-2'>SCOPE OF WORK</h1>
+        <div className='scope-of-work-container'>
+          <h1 className='scope-title'>SCOPE OF WORK</h1>
           <div>
-            <textarea className='w-full p-2 border-2 rounded-md outline-none' name="" id="" rows="8" value={scopework}
-              onChange={(e) => setscopework(e.target.value)}></textarea>
+            <textarea
+              className='scope-textarea'
+              name=""
+              id=""
+              rows="13"
+              value={scopework}
+              onChange={(e) => setscopework(e.target.value)}
+            ></textarea>
           </div>
-          {errors.scopework && <span className="text-red-500">{errors.scopework}</span>}
+          {errors.scopework && <span className="error-message">{errors.scopework}</span>}
         </div>
       </section>
 
-      <section className='flex mt-5 '>
-        <div className="md:w-[25%] sm:w-[50%] mx-3 p-3 border-2 rounded-md">
-          <h1 className='mb-2 font-extrabold border-b-2'>CUSTOMER TYPE</h1>
+
+      <section className='mt-5 customer-type-section '>
+
+        <div className="container-first">
+          <h1>CUSTOMER TYPE</h1>
           <Multiselect
             options={CustTypeOptions.options}
             displayValue="name"
             onSelect={(selectedList) => setCustomerTypes(selectedList)}
             onRemove={(selectedList) => setCustomerTypes(selectedList)}
             placeholder="Select Customer Types"
-            className={`w-full ${errors.customerTypes ? 'border-red-500' : 'border-black'}`}
+            className={`multiselect ${errors.customerTypes ? 'error' : ''}`}
           />
-
-          {errors.customerTypes && <div className="text-red-500">{errors.customerTypes}</div>}
+          {errors.customerTypes && <div className="error-message">{errors.customerTypes}</div>}
         </div>
 
-        <div className="w-full md:w-[25%] mr-3 p-3 border-2 rounded-md">
-          <h1 className='mb-2 font-extrabold border-b-2'>JOB AND WORK TYPE</h1>
+        <div className="container-left">
+          <h1>JOB AND WORK TYPE</h1>
           <Multiselect
             options={JobAndWorkType.options}
             displayValue="name"
             onSelect={(selectedList) => setJobAndWorkTypes(selectedList)}
             onRemove={(selectedList) => setJobAndWorkTypes(selectedList)}
             placeholder="Select Job and Work Types"
-            className={`w-full ${errors.jobAndWorkTypes ? 'border-red-500' : 'border-black'}`}
+            className={`multiselect ${errors.jobAndWorkTypes ? 'error' : ''}`}
           />
-
-          {errors.jobAndWorkTypes && <div className="text-red-500">{errors.jobAndWorkTypes}</div>}
+          {errors.jobAndWorkTypes && <div className="error-message">{errors.jobAndWorkTypes}</div>}
         </div>
 
-        <div className="md:w-[25%] sm:w-[50%] mx-3 p-3 border-2 rounded-md">
-          <h1 className='mb-2 font-extrabold border-b-2'>AGENCY INFORMATION</h1>
+
+        <div className="container-right">
+          <h1>AGENCY INFORMATION</h1>
 
           <div className='flex'>
-            <label className='font-bold'>EPA ID #</label>
+            <label className='label'>EPA ID #</label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className='input'
               type="text"
               value={epaId}
               onChange={(e) => setEpaId(e.target.value)}
             />
           </div>
-          {errors.epaId && <div className="text-red-500">{errors.epaId}</div>}
+          {errors.epaId && <div className="error-message">{errors.epaId}</div>}
 
           <div className='flex'>
-            <label className='font-bold'>Haz.Manifest:</label>
+            <label className='label'>Haz.Manifest:</label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className='input'
               type="text"
               value={hazManifest}
               onChange={(e) => setHazManifest(e.target.value)}
             />
           </div>
-          {errors.hazManifest && <div className="text-red-500">{errors.hazManifest}</div>}
+          {errors.hazManifest && <div className="error-message">{errors.hazManifest}</div>}
 
           <div className='flex'>
-            <label className='font-bold'>Non-Haz. Man.:</label>
+            <label className='label'>Non-Haz. Man.:</label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className='input'
               type="text"
               value={nonHazManifest}
               onChange={(e) => setNonHazManifest(e.target.value)}
             />
           </div>
-          {errors.nonHazManifest && <div className="text-red-500">{errors.nonHazManifest}</div>}
-
+          {errors.nonHazManifest && <div className="error-message">{errors.nonHazManifest}</div>}
 
           <div className='flex'>
-            <label className='font-bold'>Non-Haz. Man.&lt;1%:</label>
+            <label className='label'>Non-Haz. Man.&lt;1%:</label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className='input'
               type="text"
               value={nonHazManLT1}
               onChange={(e) => setNonHazManLT1(e.target.value)}
             />
           </div>
-          {errors.nonHazManLT1 && <div className="text-red-500">{errors.nonHazManLT1}</div>}
-
+          {errors.nonHazManLT1 && <div className="error-message">{errors.nonHazManLT1}</div>}
 
           <div className='flex'>
-            <label className='font-bold'>Trash:</label>
+            <label className='label'>Trash:</label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className='input'
               type="text"
               value={trash}
               onChange={(e) => setTrash(e.target.value)}
             />
           </div>
-          {errors.trash && <div className="text-red-500">{errors.trash}</div>}
-
+          {errors.trash && <div className="error-message">{errors.trash}</div>}
 
           <div className='flex'>
-            <label className='font-bold'>Project type:</label>
+            <label className='label'>Project type:</label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className='input'
               type="text"
               value={projectType}
               onChange={(e) => setProjectType(e.target.value)}
             />
           </div>
-          {errors.projectType && <div className="text-red-500">{errors.projectType}</div>}
-
+          {errors.projectType && <div className="error-message">{errors.projectType}</div>}
 
           <div className='flex'>
-            <label className='font-bold'>Building size:</label>
+            <label className='label'>Building size:</label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className='input'
               type="text"
               value={buildingSize}
               onChange={(e) => setBuildingSize(e.target.value)}
             />
           </div>
-          {errors.buildingSize && <div className="text-red-500">{errors.buildingSize}</div>}
-
+          {errors.buildingSize && <div className="error-message">{errors.buildingSize}</div>}
 
           <div className='flex'>
-            <label className='font-bold'>Number of floors:</label>
+            <label className='label'>Number of floors:</label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className='input'
               type="text"
               value={numberOfFloors}
               onChange={(e) => setNumberOfFloors(e.target.value)}
             />
           </div>
-          {errors.numberOfFloors && <div className="text-red-500">{errors.numberOfFloors}</div>}
-
+          {errors.numberOfFloors && <div className="error-message">{errors.numberOfFloors}</div>}
 
           <div className='flex'>
-            <label className='font-bold'>Building age:</label>
+            <label className='label'>Building age:</label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className='input'
               type="text"
               value={buildingAge}
               onChange={(e) => setBuildingAge(e.target.value)}
             />
           </div>
-          {errors.buildingAge && <div className="text-red-500">{errors.buildingAge}</div>}
-
+          {errors.buildingAge && <div className="error-message">{errors.buildingAge}</div>}
 
           <div className='flex'>
-            <label className='font-bold'>No. of dwelling units:</label>
+            <label className='label'>No. of dwelling units:</label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className='input'
               type="text"
               value={numDwellingUnits}
               onChange={(e) => setNumDwellingUnits(e.target.value)}
             />
           </div>
-          {errors.numDwellingUnits && <div className="text-red-500">{errors.numDwellingUnits}</div>}
-
+          {errors.numDwellingUnits && <div className="error-message">{errors.numDwellingUnits}</div>}
 
           <div className='flex'>
-            <label className='font-bold'>Present/Prior use:</label>
+            <label className='label'>Present/Prior use:</label>
             <input
-              className='w-full border-b-2 border-black outline-none'
+              className='input'
               type="text"
               value={priorUse}
               onChange={(e) => setPriorUse(e.target.value)}
             />
           </div>
-          {errors.priorUse && <div className="text-red-500">{errors.priorUse}</div>}
+          {errors.priorUse && <div className="error-message">{errors.priorUse}</div>}
 
-
-          <div className='flex'>
-            <label className='p-2 font-bold'>Procedure:</label>
+          <div className='flex-Procedure'>
+            <label className='label'>Procedure:</label>
             <div>
               <Multiselect
                 options={UsProcedure.options}
                 displayValue="name"
                 singleSelect={true}
                 placeholder="Select a Procedure"
-                className='w-full p-2 outline-none cursor-pointer'
+                className='multiselect'
                 onSelect={agencyinfoselect}
               />
-
             </div>
-            {errors.procedure && <div className="text-red-500">{errors.procedure}</div>}
+            {errors.procedure && <div className="error-message">{errors.procedure}</div>}
           </div>
 
           <div className='flex'>
-            <label className='font-bold'>Survey : </label>
+            <label className='label'>Survey:</label>
             <div>
-              <input className='ml-4' type="radio" name="survey" id="yes" value="Yes" onChange={(e) => setSurvey(e.target.value)} /> <label className='font-bold'>Yes</label>
-              <input className='ml-4' type="radio" name="survey" id="no" value="No" onChange={(e) => setSurvey(e.target.value)} /> <label className='font-bold'>NO</label>
+              <input className='radio-label' type="radio" name="survey" id="yes" value="Yes" onChange={(e) => setSurvey(e.target.value)} />
+              <label className='label'>Yes</label>
+              <input className='radio-label' type="radio" name="survey" id="no" value="No" onChange={(e) => setSurvey(e.target.value)} />
+              <label className='label'>NO</label>
             </div>
           </div>
         </div>
 
 
-        <div className="md:w-[25%] sm:w-[50%] ml-3 p-3 border-2 rounded-md">
-          <div className='flex flex-col p-3 border-2 rounded-md'>
-            <label className='font-bold'>Contract Amount:</label>
+        <div className="container-last">
+          <div className='input-container'>
+            <label className='label'>Contract Amount:</label>
             <div className='flex'>
               $<input
-                className='w-full border-b-2 border-black outline-none'
+                className='input'
                 type="text"
                 value={contractAmount}
                 onChange={(e) => setContractAmount(e.target.value)}
               />
             </div>
-            {errors.contractAmount && <div className="text-red-500">{errors.contractAmount}</div>}
+            {errors.contractAmount && <div className="error-message">{errors.contractAmount}</div>}
           </div>
 
-          <div className='flex flex-col p-3 mt-3 border-2 rounded-md'>
-            <h1 className='mb-2 font-extrabold border-b-2'>LOCK BOX COMBO</h1>
+          <div className='mt-3 input-container'>
+            <h1 className='heading'>LOCK BOX COMBO</h1>
             <div>
               <textarea
-                className='w-full p-2 border-2 rounded-md outline-none'
+                className='textarea'
                 rows="4"
                 value={lockBoxCombo}
                 onChange={(e) => setLockBoxCombo(e.target.value)}
               ></textarea>
             </div>
-            {errors.lockBoxCombo && <div className="text-red-500">{errors.lockBoxCombo}</div>}
+            {errors.lockBoxCombo && <div className="error-message">{errors.lockBoxCombo}</div>}
           </div>
 
-          <div className='flex flex-col p-3 mt-3 border-2 rounded-md'>
-            <h1 className='mb-2 font-extrabold border-b-2'>Special instructions or additional notes:</h1>
+          <div className='mt-3 input-container'>
+            <h1 className='heading'>Special instructions or additional notes:</h1>
             <div>
               <textarea
-                className='w-full p-2 border-2 rounded-md outline-none'
+                className='textarea'
                 rows="4"
                 value={specialInstructions}
                 onChange={(e) => setSpecialInstructions(e.target.value)}
               ></textarea>
             </div>
-            {errors.specialInstructions && <div className="text-red-500">{errors.specialInstructions}</div>}
+            {errors.specialInstructions && <div className="error-message">{errors.specialInstructions}</div>}
           </div>
         </div>
 
+
       </section>
+
       <button
         onClick={handleSave}
         className='float-right px-5 py-2 m-6 text-white bg-blue-500 rounded-lg hover:bg-gray-800 active:bg-gray-900 focus:outline-none'
