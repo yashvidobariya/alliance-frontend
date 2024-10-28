@@ -14,6 +14,8 @@ const Form = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [time, setTime] = useState('');
   const [estimator, setestimator] = useState('');
+  const [estimator2, setestimator2] = useState('');
+  const [estimator3, setestimator3] = useState('');
   const [proposal, setproposal] = useState('');
   // =======project=======
   const [jobName, setJobName] = useState('');
@@ -180,10 +182,15 @@ const Form = () => {
     }
   };
 
-
+  const handleEstimatorChange = (e, estimatorType) => {
+    if (estimatorType === 'estimator1') setestimator(e.target.value);
+    if (estimatorType === 'estimator2') setestimator2(e.target.value);
+    if (estimatorType === 'estimator3') setestimator3(e.target.value);
+  };
 
   const validation = () => {
     let newErrors = {};
+    const totalSplit = Number(estimator2) + Number(estimator3);
 
     // if (acname1 || accmpname1 || acphone1 || acemail1) {
     //   if (!isTestingCompany1) {
@@ -362,7 +369,9 @@ const Form = () => {
     // if (!referralcell) {
     //   newErrors.referralcell = 'Cell is required';
     // }
-
+    if (totalSplit !== 100) {
+      newErrors.split = 'Estimator 2 and Estimator 3 must add up to 100.';
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -372,6 +381,8 @@ const Form = () => {
     if (validation()) {
       const data = {
         estimator: estimator,
+        estimator2: estimator2,
+        estimator3: estimator3,
         proposal: proposal,
         job_walkDate: selectedDate,
         job_walkTime: time,
@@ -447,6 +458,7 @@ const Form = () => {
         lock_box_combo: lockBoxCombo,
         instruction_notes: specialInstructions
       };
+      console.log("data", data);
 
       try {
         const response = await fetch(Formdata, {
@@ -549,7 +561,7 @@ const Form = () => {
           templetedata.job_and_work_type = templetedata.job_and_work_type.map(item => item.name).join(',');
         }
         emailjs
-          .send('service_lhw3x9j', 'template_g5rvd78', templetedata, 'B7IK4pR4P8ucQ8AFf')
+          .send('service_i7fswl4', 'template_1e6inol', templetedata, 'H13j29Q1_S8tOEECv')
           .then(
             (response) => {
               console.log('SUCCESS!', response.status, response.text);
@@ -1106,10 +1118,20 @@ const Form = () => {
       <div className="form-container">
         <div>
           <div className="input-group">
-            <label className="label">Estimator: </label>
-            <input className="input" type="text" value={estimator} onChange={(e) => setestimator(e.target.value)} />
+            <label className="label">Estimator 1: </label>
+            <input className="input" type="text" value={estimator} onChange={(e) => handleEstimatorChange(e, 'estimator1')} />
+          </div>
+          <div className="input-group">
+            <label className="label">Estimator 2: </label>
+            <input className="input" type="text" value={estimator2} onChange={(e) => handleEstimatorChange(e, 'estimator2')} />
+          </div>
+          <div className="input-group">
+            <label className="label">Estimator 3: </label>
+            <input className="input" type="text" value={estimator3} onChange={(e) => handleEstimatorChange(e, 'estimator3')} />
           </div>
           {errors.estimator && <p className="error-message">{errors.estimator}</p>}
+          {errors.split && <p className="error-message">{errors.split}</p>}
+
 
           <div className="input-group">
             <label className="label">Proposal#: </label>

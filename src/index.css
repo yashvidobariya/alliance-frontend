@@ -485,7 +485,8 @@ code {
   margin-top: 1.25rem;
 }
 
-.input-group {
+.input-group,
+.form-estimator {
   display: flex;
 }
 
@@ -676,7 +677,6 @@ h1 {
     max-width: 50%;
   }
 }
-
 
 .flex-col {
   flex-direction: column;
