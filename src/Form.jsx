@@ -14,6 +14,7 @@ const Form = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [time, setTime] = useState('');
   const [estimator, setestimator] = useState('');
+  const [estimator1, setestimator1] = useState('');
   const [estimator2, setestimator2] = useState('');
   const [estimator3, setestimator3] = useState('');
   const [proposal, setproposal] = useState('');
@@ -183,7 +184,8 @@ const Form = () => {
   };
 
   const handleEstimatorChange = (e, estimatorType) => {
-    if (estimatorType === 'estimator1') setestimator(e.target.value);
+    if (estimatorType === 'estimator') setestimator(e.target.value);
+    if (estimatorType === 'estimator1') setestimator1(e.target.value);
     if (estimatorType === 'estimator2') setestimator2(e.target.value);
     if (estimatorType === 'estimator3') setestimator3(e.target.value);
   };
@@ -369,9 +371,9 @@ const Form = () => {
     // if (!referralcell) {
     //   newErrors.referralcell = 'Cell is required';
     // }
-    if (totalSplit !== 100) {
-      newErrors.split = 'Estimator 2 and Estimator 3 must add up to 100.';
-    }
+    // if (totalSplit !== 100) {
+    //   newErrors.split = 'Estimator 2 and Estimator 3 must add up to 100.';
+    // }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -381,6 +383,7 @@ const Form = () => {
     if (validation()) {
       const data = {
         estimator: estimator,
+        estimator1: estimator1,
         estimator2: estimator2,
         estimator3: estimator3,
         proposal: proposal,
@@ -479,6 +482,9 @@ const Form = () => {
 
         const templetedata = {
           estimator: estimator,
+          estimator1: estimator1,
+          estimator2: estimator2,
+          estimator3: estimator3,
           proposal: proposal,
           job_walkDate: selectedDate,
           job_walkTime: time,
@@ -1023,7 +1029,6 @@ const Form = () => {
     const zip = e.target.value;
     console.log("zip", zip);
 
-    // Set ZIP value based on type
     switch (type) {
       case 'project':
         setZip(zip);
@@ -1118,15 +1123,19 @@ const Form = () => {
       <div className="form-container">
         <div>
           <div className="input-group">
-            <label className="label">Estimator 1: </label>
-            <input className="input" type="text" value={estimator} onChange={(e) => handleEstimatorChange(e, 'estimator1')} />
+            <label className="label">Estimator: </label>
+            <input className="input" type="text" value={estimator} onChange={(e) => handleEstimatorChange(e, 'estimator')} />
           </div>
           <div className="input-group">
-            <label className="label">Estimator 2: </label>
+            <label className="label">Estimator 1 Percentage: </label>
+            <input className="input" type="text" value={estimator1} onChange={(e) => handleEstimatorChange(e, 'estimator1')} />
+          </div>
+          <div className="input-group">
+            <label className="label">Estimator 2 Percentage: </label>
             <input className="input" type="text" value={estimator2} onChange={(e) => handleEstimatorChange(e, 'estimator2')} />
           </div>
           <div className="input-group">
-            <label className="label">Estimator 3: </label>
+            <label className="label">Estimator 3 Percentage: </label>
             <input className="input" type="text" value={estimator3} onChange={(e) => handleEstimatorChange(e, 'estimator3')} />
           </div>
           {errors.estimator && <p className="error-message">{errors.estimator}</p>}
