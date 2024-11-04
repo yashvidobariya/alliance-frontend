@@ -1123,21 +1123,21 @@ const Form = () => {
       <div className="form-container">
         <div>
           <div className="input-group">
-            <label className="label">Estimator: </label>
+            <label className="label">Estimator 1: </label>
             <input className="input" type="text" value={estimator} onChange={(e) => handleEstimatorChange(e, 'estimator')} />
           </div>
           <div className="input-group">
-            <label className="label">Estimator 1 Percentage: </label>
+            <label className="label">Estimator 2: </label>
             <input className="input" type="text" value={estimator1} onChange={(e) => handleEstimatorChange(e, 'estimator1')} />
           </div>
           <div className="input-group">
-            <label className="label">Estimator 2 Percentage: </label>
+            <label className="label">Estimator 3: </label>
             <input className="input" type="text" value={estimator2} onChange={(e) => handleEstimatorChange(e, 'estimator2')} />
           </div>
-          <div className="input-group">
+          {/* <div className="input-group">
             <label className="label">Estimator 3 Percentage: </label>
             <input className="input" type="text" value={estimator3} onChange={(e) => handleEstimatorChange(e, 'estimator3')} />
-          </div>
+          </div> */}
           {errors.estimator && <p className="error-message">{errors.estimator}</p>}
           {errors.split && <p className="error-message">{errors.split}</p>}
 
