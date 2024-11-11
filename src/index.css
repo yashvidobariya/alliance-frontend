@@ -514,13 +514,26 @@ code {
   margin-left: 0.5rem;
 }
 
-
-.scope-of-work-container {
+.scope-work {
   flex: 1;
-  height: 410px;
   padding: 0.75rem;
   border: 2px solid rgb(216, 212, 212);
   border-radius: 0.375rem;
+}
+
+.scope-of-work-container {
+  flex: 1;
+  /* height: 410px; */
+  gap: 10px;
+  height: max-content;
+  display: flex;
+}
+
+.additional-info {
+  padding: 0.75rem;
+  border: 2px solid rgb(216, 212, 212);
+  border-radius: 0.375rem;
+  width: 50%;
 }
 
 .scope-title {
@@ -742,7 +755,8 @@ h1 {
   .customer-type-section,
   .project-section,
   .owner-section,
-  .contact-div {
+  .contact-div,
+  .scope-of-work-container {
     gap: 40px;
     margin-top: 20px;
     flex-direction: column;
@@ -755,7 +769,8 @@ h1 {
   .container-project,
   .container-customer,
   .owner-container,
-  .container-refferal {
+  .container-refferal,
+  .additional-info {
     width: 100%;
     max-width: 100%;
     gap: 20px;
@@ -784,5 +799,11 @@ h1 {
 
   .multiSelectContainer {
     margin: 0 !important;
+  }
+}
+
+@media (max-width: 1600px) {
+  .scope-of-work-container {
+    flex-direction: column;
   }
 }

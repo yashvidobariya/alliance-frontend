@@ -464,19 +464,19 @@ const Form = () => {
       console.log("data", data);
 
       try {
-        const response = await fetch(Formdata, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data),
-        });
-        if (!response.ok) {
-          alert("Form data not submitted");
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const result = await response.json();
-        console.log('Saved Customer Data:', result);
+        // const response = await fetch(Formdata, {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json'
+        //   },
+        //   body: JSON.stringify(data),
+        // });
+        // if (!response.ok) {
+        //   alert("Form data not submitted");
+        //   throw new Error(`HTTP error! status: ${response.status}`);
+        // }
+        // const result = await response.json();
+        //  console.log('Saved Customer Data:', result);
         console.log('Saved Customer Data:', data);
         alert("Form data submitted");
 
@@ -1815,246 +1815,253 @@ const Form = () => {
             {errors.testingCompany3 && <p className='error'>{errors.testingCompany3}</p>}
           </div>
         </div>
-        <div className='scope-of-work-container'>
-          <h1 className='scope-title'>SCOPE OF WORK</h1>
-          <div>
-            <textarea
-              className='scope-textarea'
-              name=""
-              id=""
-              rows="13"
-              value={scopework}
-              onChange={(e) => setscopework(e.target.value)}
-            ></textarea>
+
+        <div className="additional-info">
+          <h1 className='scope-title'>ADDITIONAL INFORMATION</h1>
+          <div className='scope-of-work-container'>
+            <div className="scope-work">
+              <div className="additional-section">
+                <h1 className='scope-title'>SCOPE OF WORK</h1>
+                <div>
+                  <textarea
+                    className='scope-textarea'
+                    name=""
+                    id=""
+                    rows="auto"
+                    value={scopework}
+                    onChange={(e) => setscopework(e.target.value)}
+                  ></textarea>
+                </div>
+                {errors.scopework && <span className="error-message">{errors.scopework}</span>}
+              </div>
+
+              <div className="additional-section">
+                <h1>CUSTOMER TYPE</h1>
+                <Multiselect
+                  options={CustTypeOptions.options}
+                  displayValue="name"
+                  onSelect={(selectedList) => setCustomerTypes(selectedList)}
+                  onRemove={(selectedList) => setCustomerTypes(selectedList)}
+                  placeholder="Select Customer Types"
+                  className={`multiselect ${errors.customerTypes ? 'error' : ''}`}
+                />
+                {errors.customerTypes && <div className="error-message">{errors.customerTypes}</div>}
+              </div>
+
+
+              <div className="additional-section">
+                <h1>JOB AND WORK TYPE</h1>
+                <Multiselect
+                  options={JobAndWorkType.options}
+                  displayValue="name"
+                  onSelect={(selectedList) => setJobAndWorkTypes(selectedList)}
+                  onRemove={(selectedList) => setJobAndWorkTypes(selectedList)}
+                  placeholder="Select Job and Work Types"
+                  className={`multiselect ${errors.jobAndWorkTypes ? 'error' : ''}`}
+                />
+                {errors.jobAndWorkTypes && <div className="error-message">{errors.jobAndWorkTypes}</div>}
+              </div>
+
+
+            </div>
+
+            <div className="scope-work">
+              <h1>AGENCY INFORMATION</h1>
+
+              <div className='flex'>
+                <label className='label'>EPA ID #</label>
+                <input
+                  className='input'
+                  type="text"
+                  value={epaId}
+                  onChange={(e) => setEpaId(e.target.value)}
+                />
+              </div>
+              {errors.epaId && <div className="error-message">{errors.epaId}</div>}
+
+              <div className='flex'>
+                <label className='label'>Haz.Manifest:</label>
+                <input
+                  className='input'
+                  type="text"
+                  value={hazManifest}
+                  onChange={(e) => setHazManifest(e.target.value)}
+                />
+              </div>
+              {errors.hazManifest && <div className="error-message">{errors.hazManifest}</div>}
+
+              <div className='flex'>
+                <label className='label'>Non-Haz. Man.:</label>
+                <input
+                  className='input'
+                  type="text"
+                  value={nonHazManifest}
+                  onChange={(e) => setNonHazManifest(e.target.value)}
+                />
+              </div>
+              {errors.nonHazManifest && <div className="error-message">{errors.nonHazManifest}</div>}
+
+              <div className='flex'>
+                <label className='label'>Non-Haz. Man.&lt;1%:</label>
+                <input
+                  className='input'
+                  type="text"
+                  value={nonHazManLT1}
+                  onChange={(e) => setNonHazManLT1(e.target.value)}
+                />
+              </div>
+              {errors.nonHazManLT1 && <div className="error-message">{errors.nonHazManLT1}</div>}
+
+              <div className='flex'>
+                <label className='label'>Trash:</label>
+                <input
+                  className='input'
+                  type="text"
+                  value={trash}
+                  onChange={(e) => setTrash(e.target.value)}
+                />
+              </div>
+              {errors.trash && <div className="error-message">{errors.trash}</div>}
+
+              <div className='flex'>
+                <label className='label'>Project type:</label>
+                <input
+                  className='input'
+                  type="text"
+                  value={projectType}
+                  onChange={(e) => setProjectType(e.target.value)}
+                />
+              </div>
+              {errors.projectType && <div className="error-message">{errors.projectType}</div>}
+
+              <div className='flex'>
+                <label className='label'>Building size:</label>
+                <input
+                  className='input'
+                  type="text"
+                  value={buildingSize}
+                  onChange={(e) => setBuildingSize(e.target.value)}
+                />
+              </div>
+              {errors.buildingSize && <div className="error-message">{errors.buildingSize}</div>}
+
+              <div className='flex'>
+                <label className='label'>Number of floors:</label>
+                <input
+                  className='input'
+                  type="text"
+                  value={numberOfFloors}
+                  onChange={(e) => setNumberOfFloors(e.target.value)}
+                />
+              </div>
+              {errors.numberOfFloors && <div className="error-message">{errors.numberOfFloors}</div>}
+
+              <div className='flex'>
+                <label className='label'>Building age:</label>
+                <input
+                  className='input'
+                  type="text"
+                  value={buildingAge}
+                  onChange={(e) => setBuildingAge(e.target.value)}
+                />
+              </div>
+              {errors.buildingAge && <div className="error-message">{errors.buildingAge}</div>}
+
+              <div className='flex'>
+                <label className='label'>No. of dwelling units:</label>
+                <input
+                  className='input'
+                  type="text"
+                  value={numDwellingUnits}
+                  onChange={(e) => setNumDwellingUnits(e.target.value)}
+                />
+              </div>
+              {errors.numDwellingUnits && <div className="error-message">{errors.numDwellingUnits}</div>}
+
+              <div className='flex'>
+                <label className='label'>Present/Prior use:</label>
+                <input
+                  className='input'
+                  type="text"
+                  value={priorUse}
+                  onChange={(e) => setPriorUse(e.target.value)}
+                />
+              </div>
+              {errors.priorUse && <div className="error-message">{errors.priorUse}</div>}
+
+              <div className='flex-Procedure'>
+                <label className='label'>Procedure:</label>
+                <div>
+                  <Multiselect
+                    options={UsProcedure.options}
+                    displayValue="name"
+                    singleSelect={true}
+                    placeholder="Select a Procedure"
+                    className='multiselect'
+                    onSelect={agencyinfoselect}
+                  />
+                </div>
+                {errors.procedure && <div className="error-message">{errors.procedure}</div>}
+              </div>
+
+              <div className='flex'>
+                <label className='label'>Survey:</label>
+                <div>
+                  <input className='radio-label' type="radio" name="survey" id="yes" value="Yes" onChange={(e) => setSurvey(e.target.value)} />
+                  <label className='label'>Yes</label>
+                  <input className='radio-label' type="radio" name="survey" id="no" value="No" onChange={(e) => setSurvey(e.target.value)} />
+                  <label className='label'>NO</label>
+                </div>
+              </div>
+            </div>
+
+
+            <div className="scope-work">
+              <div className='input-container'>
+                <label className='label'>Contract Amount:</label>
+                <div className='flex'>
+                  $<input
+                    className='input'
+                    type="text"
+                    value={contractAmount}
+                    onChange={(e) => setContractAmount(e.target.value)}
+                  />
+                </div>
+                {errors.contractAmount && <div className="error-message">{errors.contractAmount}</div>}
+              </div>
+
+              <div className='mt-3 input-container'>
+                <h1 className='heading'>LOCK BOX COMBO</h1>
+                <div>
+                  <textarea
+                    className='textarea'
+                    rows="auto"
+                    value={lockBoxCombo}
+                    onChange={(e) => setLockBoxCombo(e.target.value)}
+                  ></textarea>
+                </div>
+                {errors.lockBoxCombo && <div className="error-message">{errors.lockBoxCombo}</div>}
+              </div>
+
+              <div className='mt-3 input-container'>
+                <h1 className='heading'>Special instructions or additional notes:</h1>
+                <div>
+                  <textarea
+                    className='textarea'
+                    rows="auto"
+                    value={specialInstructions}
+                    onChange={(e) => setSpecialInstructions(e.target.value)}
+                  ></textarea>
+                </div>
+                {errors.specialInstructions && <div className="error-message">{errors.specialInstructions}</div>}
+              </div>
+            </div>
           </div>
-          {errors.scopework && <span className="error-message">{errors.scopework}</span>}
         </div>
+
+
       </section>
 
-
-      <section className='mt-5 customer-type-section '>
-
-        <div className="container-first">
-          <h1>CUSTOMER TYPE</h1>
-          <Multiselect
-            options={CustTypeOptions.options}
-            displayValue="name"
-            onSelect={(selectedList) => setCustomerTypes(selectedList)}
-            onRemove={(selectedList) => setCustomerTypes(selectedList)}
-            placeholder="Select Customer Types"
-            className={`multiselect ${errors.customerTypes ? 'error' : ''}`}
-          />
-          {errors.customerTypes && <div className="error-message">{errors.customerTypes}</div>}
-        </div>
-
-        <div className="container-left">
-          <h1>JOB AND WORK TYPE</h1>
-          <Multiselect
-            options={JobAndWorkType.options}
-            displayValue="name"
-            onSelect={(selectedList) => setJobAndWorkTypes(selectedList)}
-            onRemove={(selectedList) => setJobAndWorkTypes(selectedList)}
-            placeholder="Select Job and Work Types"
-            className={`multiselect ${errors.jobAndWorkTypes ? 'error' : ''}`}
-          />
-          {errors.jobAndWorkTypes && <div className="error-message">{errors.jobAndWorkTypes}</div>}
-        </div>
-
-
-        <div className="container-right">
-          <h1>AGENCY INFORMATION</h1>
-
-          <div className='flex'>
-            <label className='label'>EPA ID #</label>
-            <input
-              className='input'
-              type="text"
-              value={epaId}
-              onChange={(e) => setEpaId(e.target.value)}
-            />
-          </div>
-          {errors.epaId && <div className="error-message">{errors.epaId}</div>}
-
-          <div className='flex'>
-            <label className='label'>Haz.Manifest:</label>
-            <input
-              className='input'
-              type="text"
-              value={hazManifest}
-              onChange={(e) => setHazManifest(e.target.value)}
-            />
-          </div>
-          {errors.hazManifest && <div className="error-message">{errors.hazManifest}</div>}
-
-          <div className='flex'>
-            <label className='label'>Non-Haz. Man.:</label>
-            <input
-              className='input'
-              type="text"
-              value={nonHazManifest}
-              onChange={(e) => setNonHazManifest(e.target.value)}
-            />
-          </div>
-          {errors.nonHazManifest && <div className="error-message">{errors.nonHazManifest}</div>}
-
-          <div className='flex'>
-            <label className='label'>Non-Haz. Man.&lt;1%:</label>
-            <input
-              className='input'
-              type="text"
-              value={nonHazManLT1}
-              onChange={(e) => setNonHazManLT1(e.target.value)}
-            />
-          </div>
-          {errors.nonHazManLT1 && <div className="error-message">{errors.nonHazManLT1}</div>}
-
-          <div className='flex'>
-            <label className='label'>Trash:</label>
-            <input
-              className='input'
-              type="text"
-              value={trash}
-              onChange={(e) => setTrash(e.target.value)}
-            />
-          </div>
-          {errors.trash && <div className="error-message">{errors.trash}</div>}
-
-          <div className='flex'>
-            <label className='label'>Project type:</label>
-            <input
-              className='input'
-              type="text"
-              value={projectType}
-              onChange={(e) => setProjectType(e.target.value)}
-            />
-          </div>
-          {errors.projectType && <div className="error-message">{errors.projectType}</div>}
-
-          <div className='flex'>
-            <label className='label'>Building size:</label>
-            <input
-              className='input'
-              type="text"
-              value={buildingSize}
-              onChange={(e) => setBuildingSize(e.target.value)}
-            />
-          </div>
-          {errors.buildingSize && <div className="error-message">{errors.buildingSize}</div>}
-
-          <div className='flex'>
-            <label className='label'>Number of floors:</label>
-            <input
-              className='input'
-              type="text"
-              value={numberOfFloors}
-              onChange={(e) => setNumberOfFloors(e.target.value)}
-            />
-          </div>
-          {errors.numberOfFloors && <div className="error-message">{errors.numberOfFloors}</div>}
-
-          <div className='flex'>
-            <label className='label'>Building age:</label>
-            <input
-              className='input'
-              type="text"
-              value={buildingAge}
-              onChange={(e) => setBuildingAge(e.target.value)}
-            />
-          </div>
-          {errors.buildingAge && <div className="error-message">{errors.buildingAge}</div>}
-
-          <div className='flex'>
-            <label className='label'>No. of dwelling units:</label>
-            <input
-              className='input'
-              type="text"
-              value={numDwellingUnits}
-              onChange={(e) => setNumDwellingUnits(e.target.value)}
-            />
-          </div>
-          {errors.numDwellingUnits && <div className="error-message">{errors.numDwellingUnits}</div>}
-
-          <div className='flex'>
-            <label className='label'>Present/Prior use:</label>
-            <input
-              className='input'
-              type="text"
-              value={priorUse}
-              onChange={(e) => setPriorUse(e.target.value)}
-            />
-          </div>
-          {errors.priorUse && <div className="error-message">{errors.priorUse}</div>}
-
-          <div className='flex-Procedure'>
-            <label className='label'>Procedure:</label>
-            <div>
-              <Multiselect
-                options={UsProcedure.options}
-                displayValue="name"
-                singleSelect={true}
-                placeholder="Select a Procedure"
-                className='multiselect'
-                onSelect={agencyinfoselect}
-              />
-            </div>
-            {errors.procedure && <div className="error-message">{errors.procedure}</div>}
-          </div>
-
-          <div className='flex'>
-            <label className='label'>Survey:</label>
-            <div>
-              <input className='radio-label' type="radio" name="survey" id="yes" value="Yes" onChange={(e) => setSurvey(e.target.value)} />
-              <label className='label'>Yes</label>
-              <input className='radio-label' type="radio" name="survey" id="no" value="No" onChange={(e) => setSurvey(e.target.value)} />
-              <label className='label'>NO</label>
-            </div>
-          </div>
-        </div>
-
-
-        <div className="container-last">
-          <div className='input-container'>
-            <label className='label'>Contract Amount:</label>
-            <div className='flex'>
-              $<input
-                className='input'
-                type="text"
-                value={contractAmount}
-                onChange={(e) => setContractAmount(e.target.value)}
-              />
-            </div>
-            {errors.contractAmount && <div className="error-message">{errors.contractAmount}</div>}
-          </div>
-
-          <div className='mt-3 input-container'>
-            <h1 className='heading'>LOCK BOX COMBO</h1>
-            <div>
-              <textarea
-                className='textarea'
-                rows="4"
-                value={lockBoxCombo}
-                onChange={(e) => setLockBoxCombo(e.target.value)}
-              ></textarea>
-            </div>
-            {errors.lockBoxCombo && <div className="error-message">{errors.lockBoxCombo}</div>}
-          </div>
-
-          <div className='mt-3 input-container'>
-            <h1 className='heading'>Special instructions or additional notes:</h1>
-            <div>
-              <textarea
-                className='textarea'
-                rows="4"
-                value={specialInstructions}
-                onChange={(e) => setSpecialInstructions(e.target.value)}
-              ></textarea>
-            </div>
-            {errors.specialInstructions && <div className="error-message">{errors.specialInstructions}</div>}
-          </div>
-        </div>
-
-
-      </section>
 
       <button
         onClick={handleSave}
